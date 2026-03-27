@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DriverLink — Alpha Access</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0b0f1a;--green:#00ff88;--green-d:#00cc6a;--bg:#0b0f1a;--surf:#111827;--brd:#1e293b;--txt:#e2e8f0;--txt2:#94a3b8;--txt3:#475569}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:rgba(0,255,136,.25);color:#fff}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,#0d2137 0%,#0b0f1a 70%)}
+.hero::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 30h60M30 0v60' stroke='%2300ff88' stroke-width='.2' opacity='.04'/%3E%3C/svg%3E")}
+.hero>*{position:relative;z-index:1}
+
+.alpha-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(0,255,136,.06);border:1px solid rgba(0,255,136,.2);color:var(--green);padding:.4rem 1rem;border-radius:99px;font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:1.5rem;animation:fadeUp .6s ease}
+.alpha-badge i{font-size:.6rem;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;line-height:1.08;max-width:700px;letter-spacing:-.02em;margin-bottom:1rem;animation:fadeUp .6s ease .1s both}
+h1 .glow{color:var(--green);text-shadow:0 0 30px rgba(0,255,136,.3)}
+.sub{font-size:1.05rem;color:var(--txt2);max-width:540px;margin-bottom:2rem;animation:fadeUp .6s ease .2s both}
+
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;max-width:700px;width:100%;margin-bottom:2.5rem;animation:fadeUp .6s ease .3s both}
+.feat{background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:1.25rem;text-align:center;transition:all .2s}
+.feat:hover{transform:translateY(-3px);border-color:rgba(0,255,136,.15);box-shadow:0 4px 16px rgba(0,0,0,.4)}
+.feat-icon{font-size:1.5rem;color:var(--green);margin-bottom:.5rem;filter:drop-shadow(0 0 8px rgba(0,255,136,.2))}
+.feat h3{font-size:.9rem;font-weight:700;color:#f8fafc;margin-bottom:.25rem}
+.feat p{font-size:.78rem;color:var(--txt2)}
+
+.form-wrap{background:var(--surf);border:1px solid var(--brd);border-radius:16px;padding:2rem;max-width:440px;width:100%;box-shadow:0 12px 32px rgba(0,0,0,.5);animation:fadeUp .6s ease .4s both}
+.form-wrap h2{font-size:1.2rem;font-weight:800;color:#f8fafc;margin-bottom:.25rem;text-align:center}
+.form-wrap .form-sub{font-size:.82rem;color:var(--txt2);text-align:center;margin-bottom:1.5rem}
+.fg{margin-bottom:1rem}
+.fg label{display:block;font-size:.8rem;font-weight:600;color:#cbd5e1;margin-bottom:.3rem}
+.fg input,.fg select{width:100%;padding:.6rem .85rem;border:2px solid var(--brd);border-radius:8px;font-family:inherit;font-size:.88rem;color:var(--txt);background:rgba(255,255,255,.03);transition:border-color .15s}
+.fg input:focus,.fg select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(0,255,136,.08)}
+.fg select option{background:#1e293b;color:var(--txt)}
+.btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:.7rem;border:none;border-radius:8px;font-size:.95rem;font-weight:700;font-family:inherit;cursor:pointer;transition:all .15s}
+.btn-g{background:var(--green);color:#0b0f1a}.btn-g:hover{background:#00ffaa;transform:translateY(-1px);box-shadow:0 0 20px rgba(0,255,136,.3)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.spots{font-size:.78rem;color:var(--txt3);text-align:center;margin-top:.75rem}
+.spots strong{color:#ff4757}
+
+.success{display:none;text-align:center;padding:1rem}
+.success .check{width:64px;height:64px;border-radius:50%;background:rgba(0,255,136,.1);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 1rem;box-shadow:0 0 30px rgba(0,255,136,.2)}
+.success h3{font-size:1.1rem;font-weight:800;color:#f8fafc;margin-bottom:.3rem}
+.success p{font-size:.88rem;color:var(--txt2)}
+
+.trust{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-top:2rem;animation:fadeUp .6s ease .5s both}
+.trust-item{font-size:.75rem;color:var(--txt3);display:flex;align-items:center;gap:.3rem}
+.trust-item i{color:var(--green)}
+
+.footer{text-align:center;padding:2rem 1rem;font-size:.75rem;color:var(--txt3);border-top:1px solid var(--brd)}
+.footer strong{color:var(--green)}
+
+@media(max-width:500px){.features{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="alpha-badge"><i class="fas fa-circle"></i> Alpha Access — Invite Only</div>
+  <h1>The Only Platform Built For <span class="glow">Specialty Hauling</span></h1>
+  <p class="sub">Tanker. Hazmat. Chemical. Fuel. Propane. DriverLink connects specialty drivers with companies that need them. No more general load boards. No more guessing.</p>
+
+  <div class="features">
+    <div class="feat">
+      <div class="feat-icon"><i class="fas fa-arrows-left-right"></i></div>
+      <h3>Swipe to Match</h3>
+      <p>Companies and drivers find each other instantly. Like it? Match. Move on? Swipe.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><i class="fas fa-chart-bar"></i></div>
+      <h3>Know Your Worth</h3>
+      <p>Salary benchmarking by specialty, endorsements, and experience. Real numbers.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon"><i class="fas fa-satellite-dish"></i></div>
+      <h3>Fleet Tracker</h3>
+      <p>Track every trailer in your fleet. Categories, inspections, lease expiry. One dashboard.</p>
+    </div>
+  </div>
+
+  <div class="form-wrap" id="form-section">
+    <h2>Request Alpha Access</h2>
+    <p class="form-sub">50 spots. Once they're gone, you'll wait for public launch.</p>
+    <form id="alpha-form" onsubmit="handleSubmit(event)">
+      <div class="fg">
+        <label>Full Name</label>
+        <input type="text" id="f-name" placeholder="Your name" required>
+      </div>
+      <div class="fg">
+        <label>Email</label>
+        <input type="email" id="f-email" placeholder="you@example.com" required>
+      </div>
+      <div class="fg">
+        <label>Phone (optional)</label>
+        <input type="tel" id="f-phone" placeholder="(555) 555-5555">
+      </div>
+      <div class="fg">
+        <label>I am a...</label>
+        <select id="f-role" required>
+          <option value="">Select one</option>
+          <option value="driver">Driver — looking for specialty gigs</option>
+          <option value="fleet-owner">Fleet Owner — need qualified drivers</option>
+          <option value="both">Both — I drive and manage a fleet</option>
+          <option value="other">Other / Just curious</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>What specialty? (optional)</label>
+        <input type="text" id="f-spec" placeholder="Fuel, Chemical, Propane, Hazmat, etc.">
+      </div>
+      <button type="submit" class="btn btn-g" id="submit-btn"><i class="fas fa-rocket"></i> Request Alpha Access</button>
+      <div class="spots"><strong id="spots-left">47</strong> of 50 spots remaining</div>
+    </form>
+
+    <div class="success" id="success-msg">
+      <div class="check"><i class="fas fa-check"></i></div>
+      <h3>You're in, driver. 10-4.</h3>
+      <p>We'll send you access within 24 hours. Watch your inbox.</p>
+    </div>
+  </div>
+
+  <div class="trust">
+    <div class="trust-item"><i class="fas fa-lock"></i> No spam. Ever.</div>
+    <div class="trust-item"><i class="fas fa-shield-halved"></i> Your data stays local</div>
+    <div class="trust-item"><i class="fas fa-bolt"></i> Free during alpha</div>
+  </div>
+</section>
+
+<div class="footer">
+  <strong>DriverLink</strong> — Freight moves faster here.<br>
+  Built by drivers, for drivers. No corporate BS.
+</div>
+
+<script>
+// Spots counter animation
+var spotsEl = document.getElementById('spots-left');
+var saved = JSON.parse(localStorage.getItem('dl-alpha-signups') || '[]');
+var spotsUsed = saved.length;
+spotsEl.textContent = Math.max(0, 50 - spotsUsed);
+
+function handleSubmit(e) {
+  e.preventDefault();
+  var name = document.getElementById('f-name').value.trim();
+  var email = document.getElementById('f-email').value.trim();
+  var phone = document.getElementById('f-phone').value.trim();
+  var role = document.getElementById('f-role').value;
+  var spec = document.getElementById('f-spec').value.trim();
+
+  if (!name || !email || !role) return;
+
+  var entry = {
+    name: name,
+    email: email,
+    phone: phone,
+    role: role,
+    specialty: spec,
+    timestamp: new Date().toISOString()
+  };
+
+  var existing = JSON.parse(localStorage.getItem('dl-alpha-signups') || '[]');
+  existing.push(entry);
+  localStorage.setItem('dl-alpha-signups', JSON.stringify(existing));
+
+  // Show success
+  document.getElementById('alpha-form').style.display = 'none';
+  document.getElementById('success-msg').style.display = 'block';
+  spotsEl.textContent = Math.max(0, 50 - existing.length);
+}
+</script>
+</body>
+</html>

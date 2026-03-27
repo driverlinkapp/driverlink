@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>DriverLink — The Professional Network for Specialty Hauling</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0b0f1a;--navy-l:#151b2e;--green:#00ff88;--green-d:#00cc6a;--green-bg:rgba(0,255,136,.06);
+  --red:#ff4757;--amber:#ffa502;--blue:#3b82f6;--purple:#a855f7;
+  --chrome:#c0c0c0;--exhaust:#374151;--rust:#b45309;
+  --bg:#0b0f1a;--surf:#111827;--brd:#1e293b;--txt:#e2e8f0;--txt2:#94a3b8;--txt3:#475569;
+  --glow:0 0 20px rgba(0,255,136,.15);--glow-amber:0 0 15px rgba(255,165,2,.12);
+  --nav-h:56px;--r:12px;
+  --sh:0 1px 3px rgba(0,0,0,.3);--sh-md:0 4px 16px rgba(0,0,0,.4);--sh-lg:0 12px 32px rgba(0,0,0,.5);
+  --accent-gradient:linear-gradient(135deg,#00ff88,#00cc6a,#3b82f6);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(0,255,136,.25);color:#fff}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(11,15,26,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#fff;z-index:900;border-bottom:1px solid rgba(0,255,136,.08)}
+.nav-inner{max-width:1200px;margin:0 auto;height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 1rem}
+.nav-brand{display:flex;align-items:center;gap:.4rem;font-size:1.15rem;font-weight:800;cursor:pointer}
+.nav-brand i{color:var(--green);font-size:1.1rem;filter:drop-shadow(0 0 6px rgba(0,255,136,.4))}
+.nav-brand small{display:block;font-size:.55rem;font-weight:600;color:var(--green);letter-spacing:.06em;margin-top:1px;text-transform:uppercase}
+.nav-tabs{display:flex;gap:2px;background:rgba(255,255,255,.04);border-radius:8px;padding:3px;border:1px solid rgba(255,255,255,.05)}
+.nav-tab{padding:.35rem .7rem;border-radius:6px;font-size:.78rem;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;color:rgba(255,255,255,.5)}
+.nav-tab:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-tab.on{background:var(--green);color:#0b0f1a;font-weight:700;box-shadow:0 0 12px rgba(0,255,136,.3)}
+.hamburger{display:none;background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer}
+@media(max-width:700px){
+  .nav-tabs{display:none;position:absolute;top:var(--nav-h);left:0;right:0;background:rgba(11,15,26,.98);flex-direction:column;padding:.5rem;border-radius:0;border:none;border-bottom:1px solid var(--brd)}
+  .nav-tabs.open{display:flex}
+  .hamburger{display:block}
+}
+
+/* SHARED */
+.container{max-width:1100px;margin:0 auto;padding:0 1rem}
+.screen{display:none;padding-top:var(--nav-h);min-height:100vh}
+.screen.on{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.55rem 1.1rem;border:2px solid transparent;border-radius:8px;font-size:.85rem;font-weight:600;font-family:inherit;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn-g{background:var(--green);color:#0b0f1a;font-weight:700}.btn-g:hover{background:#00ffaa;transform:translateY(-1px);box-shadow:0 0 20px rgba(0,255,136,.3)}
+.btn-o{background:transparent;color:var(--txt);border-color:var(--brd)}.btn-o:hover{border-color:var(--green);color:var(--green)}
+.btn-ghost{background:rgba(255,255,255,.06);color:#fff;border-color:rgba(255,255,255,.12)}.btn-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(0,255,136,.3)}
+.btn-btc{background:linear-gradient(135deg,#f7931a,#e8820f);color:#fff;border:none}.btn-btc:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(247,147,26,.3)}
+.btn-sm{padding:.35rem .7rem;font-size:.78rem}
+.btn-lg{padding:.7rem 1.6rem;font-size:.95rem}
+.badge{display:inline-flex;align-items:center;gap:.25rem;padding:.15rem .5rem;border-radius:99px;font-size:.68rem;font-weight:600}
+.badge-g{background:rgba(0,255,136,.1);color:var(--green)}.badge-b{background:rgba(59,130,246,.1);color:var(--blue)}.badge-a{background:rgba(255,165,2,.1);color:var(--amber)}.badge-p{background:rgba(168,85,247,.1);color:var(--purple)}
+.badge-chrome{background:rgba(192,192,192,.08);color:#6b7280}
+
+/* HERO */
+.hero{background:radial-gradient(ellipse at 50% 0%,#0d2137 0%,#0b0f1a 70%);color:#fff;text-align:center;padding:clamp(3rem,8vh,5rem) 1rem clamp(2.5rem,7vh,4.5rem);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 30h60M30 0v60' stroke='%2300ff88' stroke-width='.2' opacity='.04'/%3E%3C/svg%3E");pointer-events:none}
+.hero::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(0,255,136,.03) 0%,transparent 50%);animation:heroGlow 8s ease-in-out infinite alternate;pointer-events:none}
+@keyframes heroGlow{0%{transform:translate(0,0)}100%{transform:translate(2%,3%)}}
+.hero h1{font-size:clamp(1.8rem,5vw,3.2rem);font-weight:900;line-height:1.08;max-width:720px;margin:0 auto .5rem;position:relative;letter-spacing:-.02em}
+.hero h1 .glow-word{color:var(--green);text-shadow:0 0 30px rgba(0,255,136,.3)}
+.hero-sub{color:rgba(255,255,255,.7);max-width:540px;margin:0 auto .4rem;font-size:.95rem;position:relative}
+.hero-tag{color:var(--green);font-weight:700;font-size:1rem;margin-bottom:.5rem;position:relative;text-shadow:0 0 20px rgba(0,255,136,.2)}
+.hero-quote{font-style:italic;color:rgba(255,255,255,.35);font-size:.82rem;margin-bottom:1.5rem;position:relative;max-width:480px;margin-left:auto;margin-right:auto}
+.hero-quote strong{color:rgba(255,255,255,.55)}
+.hero-btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;position:relative}
+.hero-social-proof{margin-top:1.5rem;display:flex;align-items:center;justify-content:center;gap:.5rem;position:relative;padding:.5rem 1rem;background:rgba(0,255,136,.04);border:1px solid rgba(0,255,136,.08);border-radius:99px}
+.pulse-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;box-shadow:0 0 8px rgba(0,255,136,.4)}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+.hero-social-proof span{font-size:.8rem;color:rgba(255,255,255,.5)}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;padding:2rem 0}
+.stat{text-align:center;padding:1rem;background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:var(--r)}.stat-n{font-size:1.8rem;font-weight:800;color:var(--green);text-shadow:0 0 20px rgba(0,255,136,.2)}.stat-l{font-size:.78rem;color:var(--txt2)}
+
+/* SECTIONS */
+.sec{padding:clamp(2.5rem,6vh,4rem) 0}.sec-alt{background:rgba(255,255,255,.015);border-top:1px solid var(--brd);border-bottom:1px solid var(--brd)}
+.sec-title{font-size:clamp(1.3rem,3vw,1.7rem);font-weight:800;text-align:center;color:#f8fafc;margin-bottom:.3rem}
+.sec-subtitle{text-align:center;font-size:.88rem;color:var(--txt2);margin-bottom:2rem;max-width:600px;margin-left:auto;margin-right:auto}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+.grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.25rem}
+.card-f{text-align:center;padding:1.25rem;border-radius:var(--r);background:var(--surf);border:1px solid var(--brd);box-shadow:var(--sh);transition:all .2s}
+.card-f:hover{transform:translateY(-3px);box-shadow:var(--sh-md);border-color:rgba(0,255,136,.15)}
+.card-f .ic{font-size:1.6rem;color:var(--green);margin-bottom:.5rem;filter:drop-shadow(0 0 8px rgba(0,255,136,.2))}
+.card-f h3{font-size:.9rem;color:#f8fafc;margin-bottom:.3rem}
+.card-f p{font-size:.8rem;color:var(--txt2)}
+
+/* CB RADIO BANNER */
+.cb-banner{background:linear-gradient(90deg,rgba(255,165,2,.04),rgba(255,165,2,.02));border:1px solid rgba(255,165,2,.12);border-radius:var(--r);padding:.75rem 1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:.6rem;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.cb-banner::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--amber)}
+.cb-banner:hover{border-color:rgba(255,165,2,.3);background:rgba(255,165,2,.06)}
+.cb-icon{color:var(--amber);font-size:1.1rem;flex-shrink:0;animation:cbPulse 3s ease-in-out infinite}
+@keyframes cbPulse{0%,100%{opacity:1}50%{opacity:.4}}
+.cb-text{flex:1;font-size:.82rem;color:var(--txt2);font-family:'Courier New',monospace}
+.cb-text strong{color:var(--green)}
+.cb-tag{font-size:.65rem;color:var(--amber);background:rgba(255,165,2,.08);padding:.15rem .4rem;border-radius:4px;flex-shrink:0;border:1px solid rgba(255,165,2,.15)}
+
+/* TRUCKER CORNER */
+.corner{max-width:560px;margin:0 auto;padding:1.5rem 1rem}
+.trivia-card{background:var(--surf);border-radius:var(--r);padding:1.25rem;color:#fff;margin-bottom:1rem;border:1px solid var(--brd)}
+.trivia-card .tc-head{display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--amber)}
+.trivia-q{font-size:1rem;font-weight:700;margin-bottom:1rem;line-height:1.4;color:#f8fafc}
+.trivia-opts{display:flex;flex-direction:column;gap:.5rem}
+.trivia-opt{padding:.6rem .85rem;border:2px solid var(--brd);border-radius:8px;font-size:.85rem;cursor:pointer;transition:all .2s;background:rgba(255,255,255,.02);color:var(--txt)}
+.trivia-opt:hover{border-color:rgba(0,255,136,.3);background:rgba(0,255,136,.04)}
+.trivia-opt.correct{border-color:var(--green);background:rgba(0,255,136,.1);color:var(--green);box-shadow:0 0 12px rgba(0,255,136,.1)}
+.trivia-opt.wrong{border-color:var(--red);background:rgba(255,71,87,.08);color:var(--red);opacity:.6}
+.trivia-result{margin-top:.75rem;padding:.6rem;border-radius:8px;font-size:.82rem;display:none}
+.humor-card{background:var(--surf);border-radius:var(--r);padding:1.25rem;box-shadow:var(--sh);border:1px solid var(--brd);margin-bottom:1rem}
+.humor-card .hc-cat{font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--amber);margin-bottom:.4rem}
+.humor-card .hc-text{font-size:.95rem;color:#f8fafc;font-weight:500;line-height:1.5}
+.humor-card .hc-attr{font-size:.75rem;color:var(--txt3);margin-top:.4rem;font-style:italic}
+
+/* GEAR SECTION */
+.gear-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+.gear-card{display:flex;gap:.85rem;padding:1rem;background:var(--surf);border-radius:var(--r);border:1px solid var(--brd);box-shadow:var(--sh);transition:all .2s}
+.gear-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:rgba(0,255,136,.12)}
+.gear-icon{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,#151b2e,#1e293b);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;border:1px solid var(--brd)}
+.gear-info h4{font-size:.88rem;font-weight:700;color:#f8fafc;margin-bottom:.15rem}
+.gear-info p{font-size:.78rem;color:var(--txt2);line-height:1.4}
+.gear-info .gear-why{font-size:.7rem;color:var(--green);font-weight:600;margin-top:.3rem}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;max-width:900px;margin:0 auto}
+.price-card{background:var(--surf);border-radius:var(--r);border:2px solid var(--brd);padding:1.5rem;text-align:center;transition:all .2s;position:relative}
+.price-card:hover{transform:translateY(-3px);box-shadow:var(--sh-md);border-color:rgba(0,255,136,.15)}
+.price-card.pop{border-color:var(--green);box-shadow:0 0 30px rgba(0,255,136,.08)}
+.price-card.pop::before{content:'MOST POPULAR';position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--green);color:#0b0f1a;font-size:.65rem;font-weight:700;padding:.2rem .7rem;border-radius:99px;letter-spacing:.03em;box-shadow:0 0 12px rgba(0,255,136,.3)}
+.price-name{font-size:1rem;font-weight:700;color:#f8fafc;margin-bottom:.25rem}
+.price-amt{font-size:2rem;font-weight:900;color:var(--green);margin-bottom:.15rem;text-shadow:0 0 20px rgba(0,255,136,.15)}
+.price-amt small{font-size:.85rem;font-weight:500;color:var(--txt2)}
+.price-desc{font-size:.82rem;color:var(--txt2);margin-bottom:1rem}
+.price-list{text-align:left;margin-bottom:1.25rem}
+.price-item{display:flex;align-items:flex-start;gap:.4rem;font-size:.82rem;color:var(--txt);padding:.3rem 0}
+.price-item i{color:var(--green);margin-top:3px;flex-shrink:0}
+.btc-badge{display:inline-flex;align-items:center;gap:.3rem;background:rgba(247,147,26,.06);border:1px solid rgba(247,147,26,.15);border-radius:99px;padding:.3rem .65rem;font-size:.72rem;font-weight:600;color:#f7931a;margin-top:.5rem}
+.btc-badge i{font-size:.8rem}
+
+/* FOOTER */
+.footer{background:#080b14;color:rgba(255,255,255,.4);text-align:center;padding:2rem 1rem;font-size:.8rem;border-top:1px solid var(--brd)}
+.footer strong{color:var(--green)}
+.footer-links{display:flex;gap:1rem;justify-content:center;margin-bottom:.5rem;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,.35);text-decoration:none;font-size:.75rem;transition:color .15s}
+.footer-links a:hover{color:var(--green)}
+
+/* ===== SALARY BENCHMARKING ===== */
+.bench{max-width:560px;margin:0 auto;padding:1.5rem 1rem}
+.bench-card{background:var(--surf);border-radius:var(--r);padding:1.5rem;box-shadow:var(--sh-md);border:1px solid var(--brd);margin-bottom:1.25rem}
+.bench-card h3{font-size:1rem;font-weight:700;color:#f8fafc;margin-bottom:1rem}
+.fg{margin-bottom:1rem}
+.fg label{display:block;font-size:.8rem;font-weight:600;color:#cbd5e1;margin-bottom:.3rem}
+.fg select,.fg input{width:100%;padding:.5rem .65rem;border:2px solid var(--brd);border-radius:8px;font-family:inherit;font-size:.85rem;color:var(--txt);background:rgba(255,255,255,.03);transition:border-color .15s}
+.fg select:focus,.fg input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(0,255,136,.08)}
+.fg select option{background:#1e293b;color:var(--txt)}
+.check-row{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{padding:.35rem .65rem;border-radius:99px;font-size:.75rem;font-weight:500;border:2px solid var(--brd);cursor:pointer;transition:all .2s;background:transparent;color:var(--txt2)}
+.chip:hover{border-color:rgba(0,255,136,.3)}
+.chip.on{border-color:var(--green);background:rgba(0,255,136,.08);color:var(--green);box-shadow:0 0 10px rgba(0,255,136,.1)}
+.result-box{background:linear-gradient(135deg,#0d1520,#111827);border-radius:var(--r);padding:1.5rem;color:#fff;text-align:center;margin-top:1rem;border:1px solid var(--brd)}
+.result-box .big{font-size:2.2rem;font-weight:900;color:var(--green);margin:.5rem 0;text-shadow:0 0 30px rgba(0,255,136,.25)}
+.result-box .sub{font-size:.85rem;color:rgba(255,255,255,.6)}
+.bar-chart{margin-top:1rem}
+.bar-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;font-size:.75rem}
+.bar-label{width:70px;text-align:right;color:rgba(255,255,255,.5);flex-shrink:0}
+.bar-track{flex:1;height:18px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.bar-val{width:55px;font-weight:600;flex-shrink:0}
+
+/* ===== DRIVER PROFILE ===== */
+.profile{max-width:560px;margin:0 auto;padding:1.5rem 1rem}
+.profile-head{background:var(--surf);border-radius:var(--r);padding:1.5rem;box-shadow:var(--sh-md);border:1px solid var(--brd);text-align:center;margin-bottom:1rem}
+.avatar-lg{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--green),#3b82f6);color:#0b0f1a;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;margin:0 auto .75rem;box-shadow:0 0 20px rgba(0,255,136,.2)}
+.profile-name{font-size:1.15rem;font-weight:700;color:#f8fafc}
+.profile-title{font-size:.82rem;color:var(--txt2);margin-bottom:.5rem}
+.profile-badges{display:flex;gap:.35rem;justify-content:center;flex-wrap:wrap;margin-bottom:.75rem}
+.status-pill{display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .7rem;border-radius:99px;font-size:.75rem;font-weight:600}
+.status-active{background:rgba(0,255,136,.08);color:var(--green)}
+.status-open{background:rgba(255,165,2,.08);color:var(--amber)}
+.status-passive{background:rgba(100,116,139,.08);color:var(--txt2)}
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.75rem}
+.ps{text-align:center;padding:.5rem;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid var(--brd)}
+.ps-n{font-size:1.1rem;font-weight:800;color:var(--green)}.ps-l{font-size:.65rem;color:var(--txt2)}
+.profile-section{background:var(--surf);border-radius:var(--r);padding:1.25rem;box-shadow:var(--sh);border:1px solid var(--brd);margin-bottom:.75rem}
+.profile-section h4{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--txt3);margin-bottom:.6rem}
+.info-row{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--brd);font-size:.85rem}
+.info-row:last-child{border:none}
+.info-label{color:var(--txt2)}.info-val{font-weight:600;color:#f8fafc}
+.exp-item{padding:.6rem 0;border-bottom:1px solid var(--brd)}
+.exp-item:last-child{border:none}
+.exp-company{font-weight:600;color:#f8fafc;font-size:.88rem}
+.exp-role{font-size:.8rem;color:var(--txt2)}
+.exp-dates{font-size:.72rem;color:var(--txt3)}
+
+/* PROFILE VIEWS TRACKER */
+.pv-item{display:flex;align-items:center;gap:.65rem;padding:.55rem 0;border-bottom:1px solid var(--brd)}
+.pv-item:last-child{border:none}
+.pv-logo{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#fff;flex-shrink:0}
+.pv-info{flex:1;min-width:0}
+.pv-name{font-size:.82rem;font-weight:600;color:#f8fafc}
+.pv-detail{font-size:.72rem;color:var(--txt2)}
+.pv-time{font-size:.68rem;color:var(--txt3);text-align:right;flex-shrink:0}
+.pv-new{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px rgba(0,255,136,.4);margin-right:.3rem;vertical-align:middle}
+.pv-bar-wrap{display:flex;align-items:center;gap:.4rem;margin-bottom:.3rem}
+.pv-bar-label{font-size:.68rem;color:var(--txt3);width:30px;text-align:right;flex-shrink:0}
+.pv-bar-track{flex:1;height:14px;background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden}
+.pv-bar-fill{height:100%;border-radius:4px;background:var(--green);transition:width 1s cubic-bezier(.4,0,.2,1)}
+.pv-bar-val{font-size:.68rem;color:var(--txt2);width:20px;flex-shrink:0}
+
+/* RANK BADGES */
+.rank-badge{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .6rem;border-radius:6px;font-size:.72rem;font-weight:700}
+.rank-convoy{background:linear-gradient(135deg,#f59e0b,#d97706);color:#0b0f1a}
+.rank-captain{background:linear-gradient(135deg,#a855f7,#8b5cf6);color:#fff;box-shadow:0 0 10px rgba(168,85,247,.3)}
+.rank-legend{background:linear-gradient(135deg,#ff4757,#ff6b6b);color:#fff;box-shadow:0 0 12px rgba(255,71,87,.3);animation:legendPulse 3s ease-in-out infinite}
+@keyframes legendPulse{0%,100%{box-shadow:0 0 12px rgba(255,71,87,.3)}50%{box-shadow:0 0 20px rgba(255,71,87,.5)}}
+.rank-rookie{background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff}
+
+/* ===== SWIPE / DISCOVER ===== */
+.discover{max-width:480px;margin:0 auto;padding:1.5rem 1rem}
+.deck{position:relative;width:100%;height:480px;margin-bottom:.75rem}
+.scard{position:absolute;inset:0;background:var(--surf);border-radius:var(--r);box-shadow:var(--sh-md);border:1px solid var(--brd);padding:1.25rem;display:flex;flex-direction:column;cursor:grab;user-select:none;will-change:transform;opacity:0;pointer-events:none}
+.scard:active{cursor:grabbing}
+.scard[data-p="0"]{opacity:1;pointer-events:auto;z-index:3}
+.scard[data-p="1"]{opacity:.7;pointer-events:none;z-index:2;transform:scale(.97) translateY(6px)}
+.scard[data-p="2"]{opacity:.3;pointer-events:none;z-index:1;transform:scale(.94) translateY(12px)}
+.scard-head{display:flex;gap:.6rem;align-items:flex-start;margin-bottom:.75rem}
+.scard-logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,#151b2e,var(--green));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;flex-shrink:0;box-shadow:0 0 12px rgba(0,255,136,.15)}
+.scard-title{font-size:1rem;font-weight:700;color:#f8fafc}
+.scard-rating{font-size:.75rem;color:var(--txt2);display:flex;align-items:center;gap:.25rem}
+.scard-rating .stars{color:var(--amber)}
+.scard-body{flex:1;overflow-y:auto}
+.scard-row{margin-bottom:.75rem}
+.scard-lbl{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--txt3);margin-bottom:.2rem}
+.scard-val{font-size:.9rem;font-weight:600;color:#f8fafc}
+.scard-sub{font-size:.82rem;color:var(--txt2)}
+.tags{display:flex;flex-wrap:wrap;gap:.3rem}
+.tag{display:inline-flex;align-items:center;gap:.2rem;padding:.15rem .45rem;border-radius:6px;font-size:.7rem;background:rgba(0,255,136,.06);color:var(--green);border:1px solid rgba(0,255,136,.1)}
+.tag i{font-size:.55rem}
+.scard-actions{display:flex;gap:.6rem;justify-content:center;margin-top:auto;padding-top:.5rem}
+.act{width:48px;height:48px;border-radius:50%;border:2px solid;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;background:var(--surf);transition:all .2s}
+.act-x{border-color:var(--red);color:var(--red)}.act-x:hover{background:var(--red);color:#fff;transform:scale(1.15);box-shadow:0 0 16px rgba(255,71,87,.3)}
+.act-h{border-color:var(--green);color:var(--green)}.act-h:hover{background:var(--green);color:#0b0f1a;transform:scale(1.15);box-shadow:0 0 16px rgba(0,255,136,.3)}
+.act-s{border-color:var(--blue);color:var(--blue)}.act-s:hover{background:var(--blue);color:#fff;transform:scale(1.15);box-shadow:0 0 16px rgba(59,130,246,.3)}
+.swipe-ind{position:absolute;top:50%;transform:translateY(-50%);font-size:1.2rem;font-weight:800;padding:.4rem 1rem;border-radius:8px;border:3px solid;opacity:0;pointer-events:none;z-index:10}
+.swipe-ind.left{left:12px;color:var(--red);border-color:var(--red);background:rgba(255,71,87,.06)}
+.swipe-ind.right{right:12px;color:var(--green);border-color:var(--green);background:rgba(0,255,136,.06)}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 1rem;text-align:center;color:var(--txt2)}
+.empty-state .ei{font-size:2.5rem;margin-bottom:.5rem;opacity:.4}
+
+/* ===== MATCHES ===== */
+.matches{max-width:600px;margin:0 auto;padding:1.5rem 1rem}
+.match{display:flex;gap:1rem;padding:1rem;background:var(--surf);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--brd);margin-bottom:.75rem;transition:all .2s}
+.match:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:rgba(0,255,136,.12)}
+.match-av{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,#151b2e,var(--green));color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;flex-shrink:0;box-shadow:0 0 10px rgba(0,255,136,.1)}
+.match-body{flex:1;min-width:0}
+.match-name{font-weight:700;color:#f8fafc;font-size:.9rem}
+.match-det{font-size:.78rem;color:var(--txt2);margin-bottom:.4rem}
+.match-bar{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--txt2);margin-bottom:.5rem}
+.mbar{flex:1;max-width:120px;height:4px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+.mbar-f{height:100%;background:var(--green);border-radius:99px;box-shadow:0 0 6px rgba(0,255,136,.3)}
+.match-btns{display:flex;gap:.4rem;flex-wrap:wrap}
+
+/* NOTIF */
+.notif{position:fixed;top:calc(var(--nav-h)+8px);right:8px;padding:.75rem 1.1rem;border-radius:var(--r);box-shadow:0 8px 32px rgba(0,255,136,.2);z-index:2000;max-width:320px;animation:nIn .3s ease,nOut .3s ease 3.2s forwards}
+.notif-match{background:linear-gradient(135deg,#00cc6a,#00ff88);color:#0b0f1a}
+.notif-t{font-weight:700;font-size:.85rem;margin-bottom:.15rem}
+.notif-m{font-size:.78rem;opacity:.85}
+@keyframes nIn{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:none}}
+@keyframes nOut{to{opacity:0;transform:translateX(100%)}}
+
+/* CONFETTI */
+.conf{position:fixed;width:7px;height:7px;border-radius:2px;pointer-events:none;z-index:1999;animation:cFall var(--d) ease-out forwards}
+@keyframes cFall{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--rot))}}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:1rem}
+.modal-bg.open{display:flex}
+.modal{background:#111827;border:1px solid var(--brd);border-radius:var(--r);padding:1.5rem;max-width:480px;width:100%;box-shadow:var(--sh-lg);animation:mIn .25s ease;max-height:90vh;overflow-y:auto}
+@keyframes mIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.modal-title{font-size:1.1rem;font-weight:700;color:#f8fafc}
+.modal-x{background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--txt2);padding:4px}
+.modal-x:hover{color:var(--green)}
+
+/* ALPHA WELCOME MODAL */
+.alpha-modal{background:rgba(17,24,39,.85);backdrop-filter:blur(10px);border:1px solid rgba(0,255,136,.15);border-radius:16px;padding:2rem;max-width:520px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.3);animation:alphaIn .35s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden}
+.alpha-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,136,.3),transparent)}
+@keyframes alphaIn{from{opacity:0;transform:translateY(20px) scale(.95)}to{opacity:1;transform:none}}
+.alpha-headline{font-size:1.4rem;font-weight:800;color:#f8fafc;margin-bottom:.5rem;background:linear-gradient(135deg,#f8fafc,#e2e8f0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.alpha-subtext{font-size:.95rem;color:#cbd5e1;margin-bottom:1.5rem;line-height:1.6}
+.alpha-badges{display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem}
+.alpha-badge{display:flex;align-items:flex-start;gap:.75rem;padding:.85rem;background:rgba(0,255,136,.05);border:1px solid rgba(0,255,136,.1);border-radius:10px;font-size:.9rem}
+.alpha-badge i{color:var(--green);margin-top:2px;flex-shrink:0}
+.alpha-badge-text{color:#cbd5e1;line-height:1.5}
+.alpha-btns{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.alpha-btn{padding:.9rem 1.25rem;border:1px solid var(--brd);border-radius:10px;background:transparent;color:#f8fafc;font-weight:600;cursor:pointer;font-size:.95rem;transition:all .2s}
+.alpha-btn.driver{border-color:var(--green);color:var(--green);box-shadow:0 0 12px rgba(0,255,136,.1)}
+.alpha-btn.driver:hover{background:rgba(0,255,136,.08);box-shadow:0 0 20px rgba(0,255,136,.2)}
+.alpha-btn.fleet{border-color:#3b82f6;color:#3b82f6;box-shadow:0 0 12px rgba(59,130,246,.1)}
+.alpha-btn.fleet:hover{background:rgba(59,130,246,.08);box-shadow:0 0 20px rgba(59,130,246,.2)}
+
+/* ALPHA FEEDBACK BUTTON */
+.alpha-feedback-btn{position:fixed;bottom:80px;right:16px;background:var(--green);color:#111827;padding:.65rem 1.1rem;border-radius:24px;border:none;cursor:pointer;font-size:.9rem;font-weight:700;display:flex;align-items:center;gap:.5rem;box-shadow:0 4px 16px rgba(0,255,136,.25);z-index:700;transition:all .2s;font-family:inherit}
+.alpha-feedback-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,255,136,.4)}
+.alpha-feedback-modal{background:#111827;border:1px solid var(--brd);border-radius:12px;padding:1.5rem;max-width:380px;width:100%;box-shadow:var(--sh-lg)}
+.alpha-feedback-modal .modal-title{margin-bottom:1.25rem}
+.alpha-feedback-textarea{width:100%;padding:.75rem;background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:8px;color:#f8fafc;font-family:inherit;font-size:.9rem;resize:vertical;min-height:100px;margin-bottom:1rem}
+.alpha-feedback-textarea::placeholder{color:var(--txt2)}
+.alpha-feedback-textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 12px rgba(0,255,136,.1)}
+.alpha-rating{display:flex;justify-content:center;gap:.75rem;margin-bottom:1.25rem}
+.alpha-star{font-size:1.5rem;cursor:pointer;color:#475569;transition:all .2s}
+.alpha-star:hover,.alpha-star.active{color:var(--green)}
+.alpha-submit{width:100%;padding:.75rem;background:var(--green);color:#111827;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.alpha-submit:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,255,136,.25)}
+.alpha-confirm{padding:1.5rem;text-align:center;color:#94a3b8}
+.alpha-confirm .confirm-msg{font-size:1.1rem;font-weight:700;color:var(--green);margin-bottom:.5rem}
+.alpha-confirm .confirm-sub{font-size:.9rem;color:var(--txt2)}
+
+/* CAREER PATHS */
+.careers{max-width:720px;margin:0 auto;padding:1.5rem 1rem}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+@media(max-width:600px){.compare-grid{grid-template-columns:1fr}}
+.compare-card{border-radius:var(--r);padding:1.25rem;text-align:center;border:2px solid}
+.compare-card.winner{border-color:var(--green);background:rgba(0,255,136,.03);box-shadow:0 0 20px rgba(0,255,136,.05)}
+.compare-card.loser{border-color:var(--brd);background:var(--surf)}
+.compare-card .cc-icon{font-size:2rem;margin-bottom:.5rem}
+.compare-card .cc-title{font-size:1rem;font-weight:700;margin-bottom:.75rem}
+.compare-card .cc-row{display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid var(--brd);font-size:.82rem}
+.compare-card .cc-row:last-child{border:none}
+.compare-card .cc-label{color:var(--txt2)}.compare-card .cc-val{font-weight:700;color:#f8fafc}
+.timeline{position:relative;padding-left:2rem;margin-bottom:1.5rem}
+.timeline::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--blue),var(--green),var(--amber),var(--purple),var(--red))}
+.tl-item{position:relative;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--brd)}
+.tl-item:last-child{border:none;margin-bottom:0;padding-bottom:0}
+.tl-dot{position:absolute;left:-2rem;top:2px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#fff;font-weight:700;z-index:1}
+.tl-dot.step1{background:var(--blue);box-shadow:0 0 8px rgba(59,130,246,.4)}.tl-dot.step2{background:var(--amber);box-shadow:0 0 8px rgba(255,165,2,.4)}.tl-dot.step3{background:var(--green);box-shadow:0 0 8px rgba(0,255,136,.4)}.tl-dot.step4{background:var(--purple);box-shadow:0 0 8px rgba(168,85,247,.4)}.tl-dot.step5{background:var(--red);box-shadow:0 0 8px rgba(255,71,87,.4)}
+.tl-title{font-size:.9rem;font-weight:700;color:#f8fafc;margin-bottom:.15rem}
+.tl-sub{font-size:.8rem;color:var(--txt2);line-height:1.4}
+.tl-money{display:inline-flex;align-items:center;gap:.25rem;font-size:.78rem;font-weight:700;color:var(--green);margin-top:.25rem;text-shadow:0 0 10px rgba(0,255,136,.2)}
+.path-card{background:var(--surf);border-radius:var(--r);padding:1.25rem;box-shadow:var(--sh);border:1px solid var(--brd);margin-bottom:1rem;transition:all .2s}
+.path-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:rgba(0,255,136,.1)}
+.path-head{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem}
+.path-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;flex-shrink:0}
+.path-name{font-size:1rem;font-weight:700;color:#f8fafc}
+.path-tag{font-size:.72rem;color:var(--txt2)}
+.path-details{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.6rem}
+.pd{text-align:center;padding:.4rem;background:rgba(255,255,255,.03);border-radius:6px;border:1px solid var(--brd)}
+.pd-n{font-size:.95rem;font-weight:800;color:var(--green)}.pd-l{font-size:.62rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.03em}
+.path-steps{font-size:.78rem;color:var(--txt2);line-height:1.5}
+.path-steps strong{color:#cbd5e1}
+
+/* SCARCITY BANNER */
+.scarcity{background:rgba(255,71,87,.04);border:1px solid rgba(255,71,87,.12);border-radius:8px;padding:.5rem .85rem;display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--txt);margin-bottom:1rem;position:relative;overflow:hidden}
+.scarcity::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--red)}
+.scarcity i{color:var(--red);font-size:.85rem;animation:scarcityPulse 2s ease-in-out infinite}
+@keyframes scarcityPulse{0%,100%{opacity:1}50%{opacity:.4}}
+.scarcity strong{color:var(--red)}
+
+/* ===== FLEET TRACKER (Enterprise Premium) ===== */
+.fleet-wrap{max-width:1200px;margin:0 auto;padding:1.5rem 1rem}
+.fleet-header{background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:var(--r);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem;border:1px solid #334155}
+.fleet-header-title{display:flex;align-items:center;gap:.75rem}
+.fleet-header-icon{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem}
+.fleet-header h2{font-size:1.2rem;font-weight:700;color:#f8fafc;margin:0}
+.fleet-header .fleet-sub{font-size:.75rem;color:#64748b}
+.fleet-meta{display:flex;align-items:center;gap:.75rem}
+.fleet-meta .fm-badge{font-size:.72rem;color:#64748b;background:#1e293b;border:1px solid #334155;border-radius:6px;padding:.25rem .6rem}
+.fleet-meta .fm-saved{font-size:.72rem;color:#10b981}
+.fleet-tabs{display:flex;gap:4px;padding:.5rem 0;overflow-x:auto;margin-bottom:1rem}
+.fleet-tab{padding:.45rem .85rem;border-radius:8px;border:1px solid transparent;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;color:var(--txt2);background:transparent}
+.fleet-tab:hover{color:#f8fafc;background:var(--bg)}
+.fleet-tab.ft-on{color:#fff}
+.fleet-tab .ft-count{margin-left:6px;border-radius:10px;padding:1px 7px;font-size:.7rem}
+.fleet-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;margin-bottom:1.25rem}
+.fleet-stat{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r);padding:1rem}
+.fleet-stat .fs-label{font-size:.72rem;color:var(--txt3);margin-bottom:.2rem}
+.fleet-stat .fs-val{font-size:1.8rem;font-weight:700}
+.fleet-stat .fs-sub{font-size:.68rem;color:var(--txt3);margin-top:.2rem}
+.fleet-alert{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:var(--r);padding:.75rem 1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--txt)}
+.fleet-alert i{color:#ef4444}
+.fleet-alert strong{color:#ef4444}
+.fleet-toolbar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;align-items:center}
+.fleet-toolbar input{flex:1;min-width:180px;padding:.45rem .75rem .45rem 2rem;border:2px solid var(--brd);border-radius:8px;font-size:.82rem;font-family:inherit;color:var(--txt);transition:border-color .15s}
+.fleet-toolbar input:focus{outline:none;border-color:var(--green)}
+.fleet-toolbar select{padding:.45rem .6rem;border:2px solid var(--brd);border-radius:8px;font-size:.82rem;font-family:inherit;color:var(--txt)}
+.fleet-table-wrap{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r);overflow-x:auto;box-shadow:var(--sh)}
+.fleet-table{width:100%;border-collapse:collapse;min-width:700px}
+.fleet-table th{padding:.6rem .75rem;text-align:left;font-size:.68rem;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--brd);background:var(--bg)}
+.fleet-table td{padding:.5rem .75rem;font-size:.82rem;border-bottom:1px solid var(--brd)}
+.fleet-table tr:hover{background:var(--green-bg)}
+.fleet-table .ft-unit{font-weight:700;color:#f8fafc}
+.ft-status{display:inline-block;padding:.15rem .5rem;border-radius:6px;font-size:.72rem;font-weight:600}
+.ft-lease-badge{display:inline-block;padding:.1rem .4rem;border-radius:4px;font-size:.68rem;font-weight:600}
+.fleet-table .ft-actions{display:flex;gap:.3rem}
+.fleet-table .ft-actions button{background:none;border:none;color:var(--txt3);cursor:pointer;padding:3px;border-radius:4px;font-size:.78rem}
+.fleet-table .ft-actions button:hover{color:var(--red);background:rgba(239,68,68,.05)}
+.fleet-empty{text-align:center;padding:3rem 1rem;color:var(--txt2)}
+.fleet-empty i{font-size:2.5rem;opacity:.3;margin-bottom:.5rem;display:block}
+.fleet-cat-breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.75rem;margin-bottom:1.25rem}
+.fleet-cat-card{background:var(--surf);border-radius:var(--r);padding:1rem 1.15rem;border:1px solid var(--brd);cursor:pointer;transition:all .15s;box-shadow:var(--sh)}
+.fleet-cat-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
+.fleet-cat-card .fcc-name{font-size:.88rem;font-weight:600;margin-bottom:.1rem}
+.fleet-cat-card .fcc-sub{font-size:.7rem;color:var(--txt3)}
+.fleet-cat-card .fcc-count{font-size:1.6rem;font-weight:700;color:#f8fafc;margin-top:.3rem}
+.fleet-cat-card .fcc-flags{display:flex;gap:.4rem;margin-top:.5rem;flex-wrap:wrap}
+.fleet-cat-card .fcc-flags span{font-size:.68rem;padding:.1rem .4rem;border-radius:4px;font-weight:600}
+.fleet-gate{max-width:560px;margin:0 auto;text-align:center;padding:4rem 1rem}
+.fleet-gate i.gate-icon{font-size:3rem;color:var(--txt3);opacity:.4;display:block;margin-bottom:1rem}
+.fleet-gate h3{font-size:1.2rem;font-weight:800;color:var(--green);margin-bottom:.5rem;text-shadow:0 0 20px rgba(0,255,136,.15)}
+.fleet-gate p{font-size:.88rem;color:var(--txt2);margin-bottom:1.5rem;max-width:440px;margin-left:auto;margin-right:auto}
+/* Success Story */
+.story-card{background:rgba(0,255,136,.03);border:1px solid rgba(0,255,136,.15);border-radius:var(--r);padding:1.5rem;margin:1.5rem 0;position:relative;box-shadow:0 0 30px rgba(0,255,136,.04)}
+.story-card::before{content:'SUCCESS STORY';position:absolute;top:-10px;left:1rem;background:var(--green);color:#0b0f1a;font-size:.65rem;font-weight:700;padding:.15rem .6rem;border-radius:4px;letter-spacing:.03em;box-shadow:0 0 10px rgba(0,255,136,.2)}
+.story-card .story-quote{font-size:.95rem;color:#e2e8f0;line-height:1.6;font-style:italic;margin-bottom:.75rem}
+.story-card .story-attr{font-size:.8rem;color:var(--green);font-weight:600}
+.story-card .story-detail{font-size:.82rem;color:var(--txt2);margin-top:.5rem;line-height:1.5}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-inner">
+  <div class="nav-brand" onclick="go('home')"><i class="fas fa-truck-moving"></i><div>DriverLink<small>Specialty Hauling Network</small></div></div>
+  <button class="hamburger" onclick="this.nextElementSibling.classList.toggle('open')"><i class="fas fa-bars"></i></button>
+  <div class="nav-tabs" id="tabs">
+    <div class="nav-tab on" data-s="home" onclick="go('home')">Home</div>
+    <div class="nav-tab" data-s="benchmark" onclick="go('benchmark')"><i class="fas fa-chart-bar"></i> My Worth</div>
+    <div class="nav-tab" data-s="profile" onclick="go('profile')"><i class="fas fa-id-card"></i> Profile</div>
+    <div class="nav-tab" data-s="discover" onclick="go('discover')"><i class="fas fa-fire"></i> Discover</div>
+    <div class="nav-tab" data-s="matches" onclick="go('matches')"><i class="fas fa-heart"></i> Matches</div>
+    <div class="nav-tab" data-s="corner" onclick="go('corner')"><i class="fas fa-coffee"></i> Pit Stop</div>
+    <div class="nav-tab" data-s="careers" onclick="go('careers')"><i class="fas fa-graduation-cap"></i> Careers</div>
+    <div class="nav-tab" data-s="pricing" onclick="go('pricing')"><i class="fas fa-tag"></i> Pricing</div>
+    <div class="nav-tab" data-s="fleet" onclick="go('fleet')"><i class="fas fa-satellite-dish"></i> Fleet</div>
+  </div>
+</div></nav>
+
+<!-- ===== HOME ===== -->
+<div id="home" class="screen on">
+  <div class="hero">
+    <h1>The Only Platform Built For <span class="glow-word">Specialty Hauling</span>.</h1>
+    <p class="hero-sub">THE ONLY PLATFORM BUILT FOR SPECIALTY HAULERS. Know your worth. Find your fit. The professional network by drivers, for drivers. Tanker, hazmat, chemical, propane.</p>
+    <div class="hero-tag">Free for drivers. Always will be. Period.</div>
+    <div class="hero-quote" id="hero-quote"></div>
+    <div class="hero-btns">
+      <button class="btn btn-g btn-lg" onclick="go('benchmark')"><i class="fas fa-chart-bar"></i> See What You're Worth</button>
+      <button class="btn btn-ghost btn-lg" onclick="go('pricing')"><i class="fas fa-building"></i> I'm Hiring Drivers</button>
+    </div>
+    <div class="hero-social-proof">
+      <div class="pulse-dot"></div>
+      <span id="social-proof">2,847 drivers checked their worth this week</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat"><div class="stat-n">$8K+</div><div class="stat-l">Avg. cost to replace one driver</div></div>
+      <div class="stat"><div class="stat-n">90%</div><div class="stat-l">Annual turnover at large carriers</div></div>
+      <div class="stat"><div class="stat-n">20-30%</div><div class="stat-l">HAZMAT pay premium</div></div>
+      <div class="stat"><div class="stat-n">2 min</div><div class="stat-l">Signup from the cab</div></div>
+    </div>
+  </div>
+
+  <!-- CB Radio Banner -->
+  <div class="container">
+    <div class="cb-banner" onclick="go('corner')">
+      <div class="cb-icon"><i class="fas fa-broadcast-tower"></i></div>
+      <div class="cb-text"><strong>BREAKER 1-9:</strong> <span id="cb-msg">New trivia in the Pit Stop. Think you know your rig specs?</span></div>
+      <div class="cb-tag">CB CH.19</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="container">
+      <h2 class="sec-title">Three Modes. Your Call.</h2>
+      <p class="sec-subtitle">You're the captain of your own rig. Set it and forget it, or hunt when you're ready.</p>
+      <div class="grid-3">
+        <div class="card-f"><div class="ic"><i class="fas fa-user-shield"></i></div><h3>Passive Mode</h3><p>Not looking. Keep your profile as a living resume. Show your boss what you're worth at raise time. "Here's what drivers like me earn."</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-door-open"></i></div><h3>Open to Offers</h3><p>Not searching, but if the money's right and the home time works... companies can reach out. You don't lift a finger.</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-bolt"></i></div><h3>Active Mode</h3><p>Hammer down. Swipe through companies, match instantly, start talking today. Like Tinder, but it actually improves your life.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec sec-alt">
+    <div class="container">
+      <h2 class="sec-title">Built for Specialty Hauling</h2>
+      <p class="sec-subtitle">Not another generic job board. We speak DOT 407, MC 306, and HAZMAT.</p>
+      <div class="grid-4">
+        <div class="card-f"><div class="ic"><i class="fas fa-gas-pump"></i></div><h3>Fuel Hauling</h3><p>$55K-$97K/yr</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-flask"></i></div><h3>Chemical</h3><p>$65K-$105K/yr</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-fire-flame-simple"></i></div><h3>Propane/LPG</h3><p>$54K-$75K/yr</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-truck-ramp-box"></i></div><h3>Redi-Mix</h3><p>$60K-$84K/yr</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-mound"></i></div><h3>Sand/Aggregate</h3><p>$50K-$65K/yr</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-biohazard"></i></div><h3>HAZMAT Tanker</h3><p>$80K-$105K/yr</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="container">
+      <h2 class="sec-title">Why Drivers Stick Around</h2>
+      <p class="sec-subtitle">We're not here to waste your time. No spam, no bait-and-switch, no recruiter nonsense.</p>
+      <div class="grid-3">
+        <div class="card-f"><div class="ic"><i class="fas fa-dollar-sign"></i></div><h3>Know Your Worth</h3><p>See what drivers with your exact certs earn. Walk into your boss's office with receipts, not guesses.</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-eye"></i></div><h3>Transparent Pay</h3><p>Every listing shows real salary range. If a company won't post it, they're not on here. Simple.</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-star"></i></div><h3>Reputation Matters</h3><p>Your safety record, certs, and years on the road earn you a Driver Score. Higher score = better offers.</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-map-marker-alt"></i></div><h3>Willing to Relocate?</h3><p>Set your radius. Companies in other states find you when the money's right. No cold calls.</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-shield-alt"></i></div><h3>Verified Companies</h3><p>Real reviews from real drivers. CSA scores posted. Know what you're walking into before you shake hands.</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-mobile-alt"></i></div><h3>Built for the Cab</h3><p>Big buttons. Works on your phone. Update your profile at the fuel island. Runs on bad signal.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GEAR DRIVERS ACTUALLY USE -->
+  <div class="sec sec-alt">
+    <div class="container">
+      <h2 class="sec-title">Gear That Earns Its Spot in the Cab</h2>
+      <p class="sec-subtitle">Stuff drivers actually use. Not affiliate junk. Real tools recommended by the community.</p>
+      <div class="gear-grid">
+        <div class="gear-card">
+          <div class="gear-icon"><i class="fas fa-video"></i></div>
+          <div class="gear-info"><h4>Dash Cam (Dual-Facing)</h4><p>Protects you from false claims. Front + cab cam. "Wasn't me, here's the footage."</p><div class="gear-why">92% of drivers say it's saved them at least once</div></div>
+        </div>
+        <div class="gear-card">
+          <div class="gear-icon"><i class="fas fa-headset"></i></div>
+          <div class="gear-info"><h4>BlueParrot B550-XT</h4><p>Noise-canceling Bluetooth. Dispatch can actually hear you over the Cummins. 24hr battery.</p><div class="gear-why">Most-owned headset among tank drivers</div></div>
+        </div>
+        <div class="gear-card">
+          <div class="gear-icon"><i class="fas fa-satellite-dish"></i></div>
+          <div class="gear-info"><h4>Truck GPS (Rand McNally)</h4><p>Routes for your actual weight and HAZMAT class. Google Maps doesn't know your truck is 80,000 lbs.</p><div class="gear-why">Avoids low bridges, restricted routes</div></div>
+        </div>
+        <div class="gear-card">
+          <div class="gear-icon"><i class="fas fa-temperature-low"></i></div>
+          <div class="gear-info"><h4>12V Portable Fridge</h4><p>Cold drinks, real food. Stop spending $15/meal at the truck stop. Pays for itself in 2 weeks.</p><div class="gear-why">Drivers save avg. $3,800/yr on food</div></div>
+        </div>
+        <div class="gear-card">
+          <div class="gear-icon"><i class="fas fa-mug-hot"></i></div>
+          <div class="gear-info"><h4>12V Coffee Maker</h4><p>Fresh coffee at 4am without leaving the cab. Because truck stop coffee is a war crime.</p><div class="gear-why">Top-rated driver comfort item since 2020</div></div>
+        </div>
+        <div class="gear-card">
+          <div class="gear-icon"><i class="fas fa-chair"></i></div>
+          <div class="gear-info"><h4>Gel Seat Cushion</h4><p>Your back at 25 vs your back at 45. This is the difference. Purple or ComfiLife recommended.</p><div class="gear-why">Reduces fatigue on 10+ hour shifts</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer"><div class="container">
+    <div class="footer-links">
+      <a href="#" onclick="go('pricing');return false">Pricing</a>
+      <a href="#" onclick="go('corner');return false">Pit Stop</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#">Privacy</a>
+    </div>
+    <strong>DriverLink</strong> &mdash; Built by drivers, for drivers. Powered by <i class="fab fa-bitcoin" style="color:#f7931a"></i> Square + Bitcoin.<br>&copy; 2026 DriverLink, Inc. &bull; "Courage is being scared to death and saddling up anyway."
+  </div></div>
+</div>
+
+<!-- ===== SALARY BENCHMARK ===== -->
+<div id="benchmark" class="screen">
+  <div class="bench">
+    <div class="scarcity">
+      <i class="fas fa-fire"></i>
+      <span><strong id="bench-count">347</strong> drivers checked their worth in the last 24 hours</span>
+    </div>
+    <div class="bench-card">
+      <h3><i class="fas fa-chart-bar" style="color:var(--green);margin-right:.3rem"></i> What Are You Worth?</h3>
+      <p style="font-size:.82rem;color:var(--txt2);margin-bottom:1rem">Takes 30 seconds. Your boss doesn't have to know. Yet.</p>
+      <div class="fg"><label>CDL Class</label><select id="b-cdl"><option>Class A</option><option>Class B</option></select></div>
+      <div class="fg"><label>Specialty</label><select id="b-spec"><option value="fuel">Fuel Hauling</option><option value="chem">Chemical Hauling</option><option value="propane">Propane/LPG</option><option value="redi">Redi-Mix Concrete</option><option value="sand">Sand/Aggregate</option><option value="hazmat">General HAZMAT Tanker</option></select></div>
+      <div class="fg"><label>Endorsements</label>
+        <div class="check-row" id="b-endorse">
+          <div class="chip" onclick="this.classList.toggle('on')">HAZMAT (H)</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Tanker (N)</div>
+          <div class="chip" onclick="this.classList.toggle('on')">X (Combo)</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Doubles/Triples</div>
+          <div class="chip" onclick="this.classList.toggle('on')">TWIC</div>
+        </div>
+      </div>
+      <div class="fg"><label>Years of Experience</label><input type="number" id="b-exp" value="8" min="0" max="50"></div>
+      <div class="fg"><label>State</label><select id="b-state"><option>Texas</option><option>California</option><option>Ohio</option><option>Pennsylvania</option><option>Georgia</option><option>Florida</option><option>Illinois</option><option>Louisiana</option><option>Oklahoma</option><option>North Dakota</option></select></div>
+      <div class="fg"><label>Your Current Annual Pay</label><input type="number" id="b-pay" placeholder="e.g. 72000" value="72000"></div>
+      <button class="btn btn-g" style="width:100%" onclick="runBenchmark()"><i class="fas fa-search-dollar"></i> Show Me The Money</button>
+    </div>
+    <div id="bench-result" style="display:none"></div>
+  </div>
+</div>
+
+<!-- ===== DRIVER PROFILE ===== -->
+<div id="profile" class="screen">
+  <div class="profile">
+    <div class="profile-head">
+      <div class="avatar-lg">ST</div>
+      <div class="profile-name">Seth Thompson</div>
+      <div class="profile-title">HAZMAT Tanker Driver &middot; Fuel Hauling</div>
+      <div class="profile-badges">
+        <span class="badge badge-g"><i class="fas fa-shield-alt"></i> Verified CDL</span>
+        <span class="badge badge-b"><i class="fas fa-award"></i> 12yr Veteran</span>
+        <span class="badge badge-p"><i class="fas fa-biohazard"></i> HAZMAT</span>
+        <span class="rank-badge rank-captain"><i class="fas fa-star"></i> Road Captain</span>
+      </div>
+      <div>
+        <span class="status-pill status-open"><i class="fas fa-circle" style="font-size:.4rem"></i> Open to Offers</span>
+      </div>
+      <div class="profile-stats">
+        <div class="ps"><div class="ps-n">4.8</div><div class="ps-l">Driver Score</div></div>
+        <div class="ps"><div class="ps-n">12</div><div class="ps-l">Yrs Exp</div></div>
+        <div class="ps"><div class="ps-n">0</div><div class="ps-l">Incidents</div></div>
+      </div>
+    </div>
+
+    <!-- WHO'S VIEWED YOUR PROFILE -->
+    <div class="profile-section" id="profile-views-section" style="border:1px solid rgba(0,255,136,.12);background:rgba(0,255,136,.02)">
+      <h4 style="display:flex;align-items:center;justify-content:space-between"><span><i class="fas fa-eye" style="color:var(--green);margin-right:.3rem"></i> Who's Viewed Your Profile</span><span id="view-count-badge" style="font-size:.72rem;font-weight:700;color:var(--green);background:rgba(0,255,136,.08);padding:.2rem .5rem;border-radius:99px;text-transform:none;letter-spacing:0">0 views</span></h4>
+      <div id="profile-views-list"></div>
+      <div id="profile-views-chart" style="margin-top:.75rem"></div>
+      <div style="text-align:center;margin-top:.5rem">
+        <span style="font-size:.72rem;color:var(--txt3)"><i class="fas fa-lock" style="margin-right:.2rem"></i> Upgrade to Pro to see all viewers</span>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <h4>Credentials</h4>
+      <div class="info-row"><span class="info-label">CDL</span><span class="info-val">Class A</span></div>
+      <div class="info-row"><span class="info-label">Endorsements</span><span class="info-val">HAZMAT, Tanker, X</span></div>
+      <div class="info-row"><span class="info-label">TWIC Card</span><span class="info-val">Active</span></div>
+      <div class="info-row"><span class="info-label">TX LPG Cert</span><span class="info-val">Active</span></div>
+      <div class="info-row"><span class="info-label">Driver Rank</span><span class="info-val"><span class="rank-badge rank-captain"><i class="fas fa-star"></i> Road Captain</span></span></div>
+    </div>
+    <div class="profile-section">
+      <h4>Equipment Experience</h4>
+      <div class="info-row"><span class="info-label">DOT 407</span><span class="info-val">8 years</span></div>
+      <div class="info-row"><span class="info-label">DOT 412</span><span class="info-val">4 years</span></div>
+      <div class="info-row"><span class="info-label">MC 306/312</span><span class="info-val">6 years</span></div>
+      <div class="info-row"><span class="info-label">Pneumatic</span><span class="info-val">3 years</span></div>
+    </div>
+    <div class="profile-section">
+      <h4>Preferences</h4>
+      <div class="info-row"><span class="info-label">Location</span><span class="info-val">Houston, TX</span></div>
+      <div class="info-row"><span class="info-label">Willing to Relocate</span><span class="info-val">TX, LA, OK (300mi)</span></div>
+      <div class="info-row"><span class="info-label">Home Time</span><span class="info-val">Daily / Weekly</span></div>
+      <div class="info-row"><span class="info-label">Target Pay</span><span class="info-val">$85K-$105K</span></div>
+    </div>
+    <div class="profile-section">
+      <h4>Employment History</h4>
+      <div class="exp-item"><div class="exp-company">Gulf Coast Fuel Transport</div><div class="exp-role">Senior Fuel Hauler &middot; DOT 407/MC 306</div><div class="exp-dates">2019 - Present &middot; 7 years</div></div>
+      <div class="exp-item"><div class="exp-company">Southern Chemical Carriers</div><div class="exp-role">Chemical Tanker Driver &middot; DOT 412</div><div class="exp-dates">2015 - 2019 &middot; 4 years</div></div>
+      <div class="exp-item"><div class="exp-company">Lone Star Propane</div><div class="exp-role">LPG Delivery Driver</div><div class="exp-dates">2014 - 2015 &middot; 1 year</div></div>
+    </div>
+    <div style="text-align:center;margin-top:.5rem">
+      <button class="btn btn-g" onclick="go('benchmark')"><i class="fas fa-chart-bar"></i> Check My Market Value</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DISCOVER (SWIPE) ===== -->
+<div id="discover" class="screen">
+  <div class="discover">
+    <div class="scarcity">
+      <i class="fas fa-bolt"></i>
+      <span><strong>7 companies</strong> actively hiring HAZMAT drivers in your area right now</span>
+    </div>
+    <div style="display:flex;gap:.4rem;margin-bottom:.75rem;justify-content:center">
+      <button class="btn btn-sm" id="mode-driver" onclick="setMode('driver')" style="background:var(--green);color:#fff">I'm a Driver</button>
+      <button class="btn btn-o btn-sm" id="mode-company" onclick="setMode('company')">I'm Hiring</button>
+    </div>
+    <div class="deck" id="deck">
+      <div class="swipe-ind left">PASS</div>
+      <div class="swipe-ind right">MATCH</div>
+    </div>
+    <div style="text-align:center;font-size:.72rem;color:var(--txt3)"><i class="fas fa-hand-pointer"></i> Swipe right = interested &bull; Swipe left = pass &bull; Or use the buttons</div>
+  </div>
+</div>
+
+<!-- ===== MATCHES ===== -->
+<div id="matches" class="screen">
+  <div class="matches">
+    <h2 style="font-size:1.3rem;font-weight:800;color:#f8fafc;margin-bottom:1rem"><i class="fas fa-handshake" style="color:var(--green)"></i> Your Matches</h2>
+    <div id="match-list"></div>
+  </div>
+</div>
+
+<!-- ===== PIT STOP (TRUCKER'S CORNER) ===== -->
+<div id="corner" class="screen">
+  <div class="corner">
+    <h2 style="font-size:1.3rem;font-weight:800;color:#f8fafc;margin-bottom:.3rem"><i class="fas fa-coffee" style="color:var(--amber)"></i> The Pit Stop</h2>
+    <p style="font-size:.82rem;color:var(--txt2);margin-bottom:1.25rem">Grab a coffee. Test your knowledge. Share with the crew.</p>
+
+    <!-- TRIVIA -->
+    <div class="trivia-card" id="trivia-card">
+      <div class="tc-head"><i class="fas fa-brain"></i> TRUCKER TRIVIA</div>
+      <div class="trivia-q" id="trivia-q"></div>
+      <div class="trivia-opts" id="trivia-opts"></div>
+      <div class="trivia-result" id="trivia-result"></div>
+      <button class="btn btn-ghost btn-sm" style="margin-top:.75rem;width:100%" id="trivia-next" onclick="loadTrivia()"><i class="fas fa-arrow-right"></i> Next Question</button>
+    </div>
+
+    <!-- HUMOR -->
+    <div id="humor-section"></div>
+
+    <!-- QUOTE OF THE DAY -->
+    <div class="trivia-card" style="border-color:rgba(245,158,11,.3)">
+      <div class="tc-head" style="color:var(--amber)"><i class="fas fa-quote-left"></i> WORDS FROM THE ROAD</div>
+      <div id="road-quote" style="font-size:.95rem;line-height:1.5;margin-bottom:.3rem"></div>
+      <div id="road-attr" style="font-size:.75rem;color:rgba(255,255,255,.5);font-style:italic"></div>
+    </div>
+
+    <!-- DRIVER RANK EXPLAINER -->
+    <div style="background:var(--surf);border-radius:var(--r);padding:1.25rem;box-shadow:var(--sh);border:1px solid var(--brd);margin-top:1rem">
+      <h4 style="font-size:.85rem;font-weight:700;color:#f8fafc;margin-bottom:.75rem"><i class="fas fa-trophy" style="color:var(--amber)"></i> Driver Rank System</h4>
+      <p style="font-size:.8rem;color:var(--txt2);margin-bottom:.75rem">Your rank is earned, not bought. Based on experience, safety record, endorsements, and profile completeness.</p>
+      <div style="display:flex;flex-direction:column;gap:.5rem">
+        <div style="display:flex;align-items:center;gap:.5rem"><span class="rank-badge rank-rookie"><i class="fas fa-seedling"></i> Greenhorn</span><span style="font-size:.78rem;color:var(--txt2)">0-2 years &middot; Just getting started</span></div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span class="badge badge-g"><i class="fas fa-truck"></i> Road Runner</span><span style="font-size:.78rem;color:var(--txt2)">3-6 years &middot; Proven and reliable</span></div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span class="rank-badge rank-convoy"><i class="fas fa-route"></i> Convoy Leader</span><span style="font-size:.78rem;color:var(--txt2)">7-12 years &middot; The one they call first</span></div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span class="rank-badge rank-captain"><i class="fas fa-star"></i> Road Captain</span><span style="font-size:.78rem;color:var(--txt2)">13-20 years &middot; Mentor material</span></div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span class="rank-badge rank-legend"><i class="fas fa-crown"></i> Highway Legend</span><span style="font-size:.78rem;color:var(--txt2)">20+ years &middot; The GOAT. Respect earned.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CAREER PATHS ===== -->
+<div id="careers" class="screen">
+  <div class="careers">
+    <h2 style="font-size:clamp(1.4rem,3.5vw,1.8rem);font-weight:900;color:#f8fafc;margin-bottom:.3rem;text-align:center">Skip the Debt. Drive the Economy.</h2>
+    <p style="text-align:center;font-size:.88rem;color:var(--txt2);margin-bottom:1.5rem;max-width:560px;margin:0 auto 1.5rem">College isn't the only path. Specialty hauling pays better than most degrees, starts faster, and costs a fraction of tuition. Here are the facts.</p>
+
+    <!-- THE COMPARISON -->
+    <h3 style="font-size:.85rem;font-weight:700;color:#f8fafc;text-align:center;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.04em"><i class="fas fa-scale-balanced" style="color:var(--amber)"></i> The Honest Comparison</h3>
+    <div class="compare-grid">
+      <div class="compare-card winner">
+        <div class="cc-icon"><i class="fas fa-truck-moving" style="color:var(--green)"></i></div>
+        <div class="cc-title" style="color:var(--green)">CDL + Specialty Hauling</div>
+        <div class="cc-row"><span class="cc-label">Training cost</span><span class="cc-val" style="color:var(--green)">$3,000 - $7,000</span></div>
+        <div class="cc-row"><span class="cc-label">Time to start earning</span><span class="cc-val" style="color:var(--green)">4 - 8 weeks</span></div>
+        <div class="cc-row"><span class="cc-label">Debt at start</span><span class="cc-val" style="color:var(--green)">$0 - $7,000</span></div>
+        <div class="cc-row"><span class="cc-label">Year 1 salary</span><span class="cc-val">$45K - $65K</span></div>
+        <div class="cc-row"><span class="cc-label">Year 3 salary</span><span class="cc-val">$65K - $90K</span></div>
+        <div class="cc-row"><span class="cc-label">Year 5 salary</span><span class="cc-val" style="color:var(--green)">$80K - $105K+</span></div>
+        <div class="cc-row"><span class="cc-label">Earned by age 23</span><span class="cc-val" style="color:var(--green)">~$275K total</span></div>
+      </div>
+      <div class="compare-card loser">
+        <div class="cc-icon"><i class="fas fa-graduation-cap" style="color:var(--txt3)"></i></div>
+        <div class="cc-title" style="color:var(--txt2)">4-Year College Degree</div>
+        <div class="cc-row"><span class="cc-label">Tuition cost</span><span class="cc-val" style="color:var(--red)">$80K - $160K</span></div>
+        <div class="cc-row"><span class="cc-label">Time to start earning</span><span class="cc-val" style="color:var(--red)">4 years</span></div>
+        <div class="cc-row"><span class="cc-label">Debt at start</span><span class="cc-val" style="color:var(--red)">$30K - $48K avg</span></div>
+        <div class="cc-row"><span class="cc-label">Year 1 salary</span><span class="cc-val">$45K - $67K</span></div>
+        <div class="cc-row"><span class="cc-label">Year 3 salary</span><span class="cc-val">$50K - $75K</span></div>
+        <div class="cc-row"><span class="cc-label">Year 5 salary</span><span class="cc-val">$55K - $85K</span></div>
+        <div class="cc-row"><span class="cc-label">Earned by age 23</span><span class="cc-val" style="color:var(--red)">~$67K (minus debt)</span></div>
+      </div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,var(--navy),var(--navy-l));border-radius:var(--r);padding:1.25rem;color:#fff;text-align:center;margin-bottom:2rem">
+      <div style="font-size:.85rem;opacity:.7;margin-bottom:.25rem">By age 23, a specialty hauler is ahead by approximately</div>
+      <div style="font-size:2rem;font-weight:900;color:var(--green)">$240,000+</div>
+      <div style="font-size:.82rem;opacity:.6;margin-top:.25rem">in total earnings vs. a college grad (accounting for tuition, debt, and 4 years of zero income)</div>
+    </div>
+
+    <!-- HOW TO GET STARTED -->
+    <h3 style="font-size:.85rem;font-weight:700;color:#f8fafc;text-align:center;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.04em"><i class="fas fa-road" style="color:var(--green)"></i> The Roadmap: Zero to $90K</h3>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot step1">1</div>
+        <div class="tl-title">Get Your CDL Permit</div>
+        <div class="tl-sub">Study the CDL manual, pass the written knowledge test at your DMV. Cost: ~$50-$100 in fees. Takes about 1-2 weeks of studying.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot step2">2</div>
+        <div class="tl-title">CDL Driving School (3-8 weeks)</div>
+        <div class="tl-sub">ELDT-certified training program. Classroom + behind-the-wheel. Most programs are 4 weeks full-time. Cost: $3,000-$7,000. Many carriers offer tuition reimbursement if you drive for them.</div>
+        <div class="tl-money"><i class="fas fa-lightbulb"></i> Pro tip: Some companies pay for your school entirely if you commit to 1 year</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot step3">3</div>
+        <div class="tl-title">Entry-Level Driving (Year 1)</div>
+        <div class="tl-sub">Start with general freight or local delivery to build experience and a clean record. Get your feet wet, learn the industry, earn while you learn.</div>
+        <div class="tl-money"><i class="fas fa-dollar-sign"></i> $45,000 - $55,000/yr</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot step4">4</div>
+        <div class="tl-title">Add Tanker + HAZMAT Endorsements (Year 1-2)</div>
+        <div class="tl-sub">Tanker (N) endorsement: written test, no ELDT required. HAZMAT (H): ELDT course (~$49-$69 online) + TSA background check ($85) + DMV fee. Get the X (combo) endorsement to unlock the highest-paying specialty hauling jobs.</div>
+        <div class="tl-money"><i class="fas fa-dollar-sign"></i> Total endorsement cost: $200-$400. Pay bump: +$10K-$20K/yr</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot step5">5</div>
+        <div class="tl-title">Specialty Hauling Career (Year 2+)</div>
+        <div class="tl-sub">With 1-2 years experience, Tanker + HAZMAT endorsements, and a clean record, you're now one of the most in-demand drivers in the country. Fuel hauling, chemical transport, propane delivery, HAZMAT tanker. Companies compete for you.</div>
+        <div class="tl-money"><i class="fas fa-dollar-sign"></i> $65,000 - $105,000+/yr</div>
+      </div>
+    </div>
+
+    <!-- SPECIALTY PATHS -->
+    <h3 style="font-size:.85rem;font-weight:700;color:#f8fafc;text-align:center;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.04em"><i class="fas fa-map-signs" style="color:var(--amber)"></i> Choose Your Specialty</h3>
+
+    <div class="path-card">
+      <div class="path-head">
+        <div class="path-icon" style="background:linear-gradient(135deg,#ef4444,#dc2626)"><i class="fas fa-gas-pump"></i></div>
+        <div><div class="path-name">Fuel Hauling</div><div class="path-tag">Gasoline, diesel, jet fuel delivery</div></div>
+      </div>
+      <div class="path-details">
+        <div class="pd"><div class="pd-n">$55K-$97K</div><div class="pd-l">Annual Pay</div></div>
+        <div class="pd"><div class="pd-n">Daily</div><div class="pd-l">Home Time</div></div>
+        <div class="pd"><div class="pd-n">H, N, X</div><div class="pd-l">Endorsements</div></div>
+      </div>
+      <div class="path-steps"><strong>What you'll need:</strong> CDL-A, HAZMAT (H) + Tanker (N) endorsements (or X combo). Most fuel companies want 1-2 years experience minimum. <strong>Equipment:</strong> DOT 407 and MC 306 tank trailers. <strong>The work:</strong> Local routes, loading at fuel terminals, delivering to gas stations and commercial accounts. Early mornings, home nightly. Steady, predictable work with overtime available.</div>
+    </div>
+
+    <div class="path-card">
+      <div class="path-head">
+        <div class="path-icon" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)"><i class="fas fa-flask"></i></div>
+        <div><div class="path-name">Chemical Hauling</div><div class="path-tag">Industrial chemicals, acids, solvents</div></div>
+      </div>
+      <div class="path-details">
+        <div class="pd"><div class="pd-n">$65K-$105K</div><div class="pd-l">Annual Pay</div></div>
+        <div class="pd"><div class="pd-n">Weekly</div><div class="pd-l">Home Time</div></div>
+        <div class="pd"><div class="pd-n">H, N, X, TWIC</div><div class="pd-l">Endorsements</div></div>
+      </div>
+      <div class="path-steps"><strong>What you'll need:</strong> CDL-A, X endorsement, TWIC card for port access. 2+ years experience preferred. <strong>Equipment:</strong> DOT 407, DOT 412, MC 312 stainless steel tanks. <strong>The work:</strong> Regional routes hauling industrial chemicals between plants, refineries, and ports. Highest pay in the tank world. Requires product knowledge and careful loading/unloading procedures. Premium pay for handling corrosives and hazardous materials.</div>
+    </div>
+
+    <div class="path-card">
+      <div class="path-head">
+        <div class="path-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706)"><i class="fas fa-fire-flame-simple"></i></div>
+        <div><div class="path-name">Propane / LPG</div><div class="path-tag">Residential and commercial propane delivery</div></div>
+      </div>
+      <div class="path-details">
+        <div class="pd"><div class="pd-n">$54K-$75K</div><div class="pd-l">Annual Pay</div></div>
+        <div class="pd"><div class="pd-n">Daily</div><div class="pd-l">Home Time</div></div>
+        <div class="pd"><div class="pd-n">H, N, LPG</div><div class="pd-l">Endorsements</div></div>
+      </div>
+      <div class="path-steps"><strong>What you'll need:</strong> CDL-A or B, HAZMAT + Tanker, state LPG certification. <strong>Equipment:</strong> Bobtail propane trucks, transport trailers. <strong>The work:</strong> Local delivery to homes and businesses. Busiest in winter (heating season). Great entry point into specialty hauling. Home every night, customer-facing role. Seasonal bonuses common during peak winter demand.</div>
+    </div>
+
+    <div class="path-card">
+      <div class="path-head">
+        <div class="path-icon" style="background:linear-gradient(135deg,#3b82f6,#2563eb)"><i class="fas fa-truck-ramp-box"></i></div>
+        <div><div class="path-name">Redi-Mix Concrete</div><div class="path-tag">Ready-mix concrete delivery to construction sites</div></div>
+      </div>
+      <div class="path-details">
+        <div class="pd"><div class="pd-n">$60K-$84K</div><div class="pd-l">Annual Pay</div></div>
+        <div class="pd"><div class="pd-n">Daily</div><div class="pd-l">Home Time</div></div>
+        <div class="pd"><div class="pd-n">CDL-A/B</div><div class="pd-l">Endorsements</div></div>
+      </div>
+      <div class="path-steps"><strong>What you'll need:</strong> CDL-A or B with air brake endorsement. Tanker endorsement helps. <strong>Equipment:</strong> Mixer trucks (front and rear discharge). <strong>The work:</strong> Local routes delivering concrete to construction sites. Physical work - you're pouring, not just driving. Daytime hours, home every night, overtime in building season. Good entry point - fewer endorsements required than HAZMAT routes.</div>
+    </div>
+
+    <div class="path-card">
+      <div class="path-head">
+        <div class="path-icon" style="background:linear-gradient(135deg,#78716c,#57534e)"><i class="fas fa-mound"></i></div>
+        <div><div class="path-name">Sand / Frac Sand</div><div class="path-tag">Sand and aggregate hauling for oil & gas, construction</div></div>
+      </div>
+      <div class="path-details">
+        <div class="pd"><div class="pd-n">$50K-$130K</div><div class="pd-l">Annual Pay</div></div>
+        <div class="pd"><div class="pd-n">Varies</div><div class="pd-l">Home Time</div></div>
+        <div class="pd"><div class="pd-n">CDL-A</div><div class="pd-l">Endorsements</div></div>
+      </div>
+      <div class="path-steps"><strong>What you'll need:</strong> CDL-A, pneumatic tank experience preferred. <strong>Equipment:</strong> Pneumatic tankers, end dumps, belly dumps. <strong>The work:</strong> Hauling frac sand to oil wells (Permian Basin pays highest - up to $130K), or aggregate to construction sites. Oil field work is rotational (14 days on / 7 off) with per diem and housing allowances. Construction sand is more local and seasonal. Huge earning potential if you're willing to travel.</div>
+    </div>
+
+    <!-- COST BREAKDOWN -->
+    <div style="background:var(--surf);border-radius:var(--r);padding:1.25rem;box-shadow:var(--sh);border:1px solid var(--brd);margin-top:1.5rem">
+      <h4 style="font-size:.88rem;font-weight:700;color:#f8fafc;margin-bottom:.75rem"><i class="fas fa-receipt" style="color:var(--green)"></i> Total Investment to Get Started</h4>
+      <div style="display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem">
+        <div style="display:flex;justify-content:space-between;font-size:.82rem;padding:.3rem 0;border-bottom:1px solid var(--brd)"><span style="color:var(--txt2)">CDL permit fees</span><span style="font-weight:700;color:#f8fafc">$50 - $100</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:.82rem;padding:.3rem 0;border-bottom:1px solid var(--brd)"><span style="color:var(--txt2)">CDL driving school (3-8 weeks)</span><span style="font-weight:700;color:#f8fafc">$3,000 - $7,000</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:.82rem;padding:.3rem 0;border-bottom:1px solid var(--brd)"><span style="color:var(--txt2)">DOT medical exam</span><span style="font-weight:700;color:#f8fafc">$100 - $200</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:.82rem;padding:.3rem 0;border-bottom:1px solid var(--brd)"><span style="color:var(--txt2)">HAZMAT ELDT course (online)</span><span style="font-weight:700;color:#f8fafc">$49 - $69</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:.82rem;padding:.3rem 0;border-bottom:1px solid var(--brd)"><span style="color:var(--txt2)">TSA background check (HAZMAT)</span><span style="font-weight:700;color:#f8fafc">$85</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:.82rem;padding:.3rem 0;border-bottom:1px solid var(--brd)"><span style="color:var(--txt2)">DMV endorsement fees</span><span style="font-weight:700;color:#f8fafc">$150 - $275</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:.88rem;padding:.5rem 0;font-weight:700"><span style="color:#f8fafc">TOTAL</span><span style="color:var(--green)">$3,434 - $7,729</span></div>
+      </div>
+      <p style="font-size:.78rem;color:var(--txt2);font-style:italic;text-align:center">Many carriers reimburse 100% of CDL school tuition. Some pay you during training. Ask about tuition reimbursement programs before you pay out of pocket.</p>
+    </div>
+
+    <!-- SUCCESS STORY -->
+    <div class="story-card">
+      <div class="story-quote">"I was 19, working at a gas station in Abilene, Texas. Saw a DriverLink broadcast from a family-owned fuel company in Iowa. They said they'd train me after I got my CDL. I thought, why not? Four weeks of CDL school, moved to Iowa, and they kept their word. Taught me everything &mdash; loading procedures, HAZMAT, DOT inspections, the works. Two years later I'm a certified fuel hauler making $78K with full benefits. No student debt. No cubicle. I own my truck and my future."</div>
+      <div class="story-attr"><i class="fas fa-user-circle" style="color:var(--green)"></i> Marcus R., 21 &mdash; Fuel Hauler, Iowa</div>
+      <div class="story-detail">Marcus found his company through a DriverLink nationwide hiring broadcast. A small family operation saw his profile, reached out, and offered to teach him the trade. That's the power of connecting drivers with companies who invest in people &mdash; not just resumes.</div>
+    </div>
+
+    <!-- CTA -->
+    <div style="text-align:center;margin-top:1.5rem;padding:1.5rem;background:linear-gradient(135deg,var(--navy),var(--navy-l));border-radius:var(--r);color:#fff">
+      <div style="font-size:1.1rem;font-weight:800;margin-bottom:.3rem">Ready to Start Your Career?</div>
+      <p style="font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:1rem">Create your DriverLink profile for free. Even before your CDL, start tracking what drivers earn and which companies are hiring in your area.</p>
+      <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-g" onclick="go('benchmark')"><i class="fas fa-chart-bar"></i> See What You Could Earn</button>
+        <button class="btn btn-ghost" onclick="go('discover')"><i class="fas fa-building"></i> Browse Companies</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PRICING ===== -->
+<div id="pricing" class="screen">
+  <div style="max-width:960px;margin:0 auto;padding:2rem 1rem">
+    <h2 style="font-size:clamp(1.5rem,3.5vw,2rem);font-weight:900;text-align:center;color:#f8fafc;margin-bottom:.3rem">Simple Pricing. Real Drivers.</h2>
+    <p style="text-align:center;font-size:.9rem;color:var(--txt2);margin-bottom:.5rem;max-width:560px;margin-left:auto;margin-right:auto">Drivers are always free. Companies pay to access the best specialty hauling talent in the country.</p>
+    <div style="text-align:center;margin-bottom:2rem">
+      <div class="btc-badge"><i class="fab fa-bitcoin"></i> Powered by Square &middot; Auto-convert to Bitcoin</div>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- STARTER -->
+      <div class="price-card">
+        <div class="price-name">Starter</div>
+        <div class="price-amt">$0<small>/mo</small></div>
+        <div class="price-desc">For small fleets testing the waters</div>
+        <div class="price-list">
+          <div class="price-item"><i class="fas fa-check"></i> Post 1 active job listing</div>
+          <div class="price-item"><i class="fas fa-check"></i> View driver profiles (limited)</div>
+          <div class="price-item"><i class="fas fa-check"></i> Local hiring broadcasts (free)</div>
+          <div class="price-item"><i class="fas fa-check"></i> Basic company profile</div>
+        </div>
+        <button class="btn btn-o" style="width:100%">Get Started Free</button>
+      </div>
+
+      <!-- PRO -->
+      <div class="price-card pop">
+        <div class="price-name">Pro Fleet</div>
+        <div class="price-amt">$299<small>/mo</small></div>
+        <div class="price-desc">For serious carriers who need drivers now</div>
+        <div class="price-list">
+          <div class="price-item"><i class="fas fa-check"></i> Unlimited job listings</div>
+          <div class="price-item"><i class="fas fa-check"></i> Full driver search + filters</div>
+          <div class="price-item"><i class="fas fa-check"></i> Regional hiring broadcasts ($75 ea)</div>
+          <div class="price-item"><i class="fas fa-check"></i> Direct driver messaging</div>
+          <div class="price-item"><i class="fas fa-check"></i> Verified company badge</div>
+          <div class="price-item"><i class="fas fa-check"></i> Analytics dashboard</div>
+        </div>
+        <button class="btn btn-g" style="width:100%">Start 14-Day Free Trial</button>
+      </div>
+
+      <!-- ENTERPRISE -->
+      <div class="price-card">
+        <div class="price-name">Enterprise</div>
+        <div class="price-amt">$999<small>/mo</small></div>
+        <div class="price-desc">National carriers and fleet operations</div>
+        <div class="price-list">
+          <div class="price-item"><i class="fas fa-check"></i> Everything in Pro</div>
+          <div class="price-item"><i class="fas fa-check"></i> National hiring broadcasts ($200 ea)</div>
+          <div class="price-item"><i class="fas fa-check"></i> Dedicated account manager</div>
+          <div class="price-item"><i class="fas fa-check"></i> API access for ATS integration</div>
+          <div class="price-item"><i class="fas fa-check"></i> Priority placement in driver feeds</div>
+          <div class="price-item"><i class="fas fa-check"></i> Bulk placement discounts</div>
+          <div class="price-item" style="color:var(--green);font-weight:700"><i class="fas fa-satellite-dish"></i> <strong>Fleet Tracker</strong> &mdash; Track every trailer, lease, inspection &amp; status</div>
+        </div>
+        <button class="btn btn-o" style="width:100%" onclick="go('fleet')"><i class="fas fa-satellite-dish"></i> Try Fleet Tracker Demo</button>
+      </div>
+    </div>
+
+    <!-- PER-HIRE FEES -->
+    <div style="max-width:700px;margin:2rem auto 0;background:var(--surf);border-radius:var(--r);padding:1.5rem;box-shadow:var(--sh);border:1px solid var(--brd)">
+      <h3 style="font-size:1rem;font-weight:700;color:#f8fafc;margin-bottom:.75rem;text-align:center">Per-Hire Placement Fees</h3>
+      <p style="font-size:.82rem;color:var(--txt2);text-align:center;margin-bottom:1rem">Only pay when you actually hire someone. Industry recruiters charge $8K-$12K. We charge this:</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;text-align:center">
+        <div style="padding:.75rem;background:var(--bg);border-radius:8px"><div style="font-size:1.2rem;font-weight:800;color:var(--green)">$500</div><div style="font-size:.78rem;color:var(--txt2)">Standard CDL Driver</div></div>
+        <div style="padding:.75rem;background:var(--bg);border-radius:8px"><div style="font-size:1.2rem;font-weight:800;color:var(--green)">$1,000</div><div style="font-size:.78rem;color:var(--txt2)">HAZMAT / Tanker Specialist</div></div>
+        <div style="padding:.75rem;background:var(--bg);border-radius:8px"><div style="font-size:1.2rem;font-weight:800;color:var(--green)">$2,000</div><div style="font-size:.78rem;color:var(--txt2)">Senior / Multi-Endorsed</div></div>
+      </div>
+    </div>
+
+    <!-- SQUARE + BITCOIN -->
+    <div style="max-width:700px;margin:1.5rem auto 0;background:linear-gradient(135deg,#1a1a1a,#2a2a2a);border-radius:var(--r);padding:1.5rem;color:#fff;border:1px solid #333">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
+        <div style="width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#f7931a,#e8820f);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0"><i class="fab fa-bitcoin"></i></div>
+        <div>
+          <div style="font-size:1rem;font-weight:700">Payments by Square + Bitcoin</div>
+          <div style="font-size:.78rem;color:rgba(255,255,255,.6)">0% processing fees on Bitcoin payments through 2026</div>
+        </div>
+      </div>
+      <p style="font-size:.85rem;color:rgba(255,255,255,.7);margin-bottom:1rem;line-height:1.5">All payments processed through Square. Companies pay with card or Bitcoin via Lightning Network. DriverLink auto-converts up to 50% of daily revenue into Bitcoin using Square's Bitcoin Conversions. Near-instant settlement, no middlemen.</p>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:.3rem;font-size:.78rem;color:rgba(255,255,255,.5)"><i class="fas fa-check" style="color:var(--green)"></i> Square POS integration</div>
+        <div style="display:flex;align-items:center;gap:.3rem;font-size:.78rem;color:rgba(255,255,255,.5)"><i class="fas fa-check" style="color:var(--green)"></i> Lightning Network</div>
+        <div style="display:flex;align-items:center;gap:.3rem;font-size:.78rem;color:rgba(255,255,255,.5)"><i class="fas fa-check" style="color:var(--green)"></i> Auto-convert to BTC</div>
+        <div style="display:flex;align-items:center;gap:.3rem;font-size:.78rem;color:rgba(255,255,255,.5)"><i class="fas fa-check" style="color:var(--green)"></i> 0% BTC processing fees</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FLEET TRACKER (Enterprise Premium) ===== -->
+<div id="fleet" class="screen">
+  <div class="fleet-wrap">
+    <!-- Premium Gate (shown initially, hidden in demo) -->
+    <div id="fleet-gate" style="display:none">
+      <div class="fleet-gate">
+        <i class="fas fa-satellite-dish gate-icon"></i>
+        <h3>Fleet Tracker &mdash; Enterprise Feature</h3>
+        <p>Track your entire trailer fleet in one mission control dashboard. Categories for Petroleum, Chemical, MC-331, Pneumatic, and Leased trailers. CSV import, status tracking, lease expiry alerts, and more.</p>
+        <div style="display:flex;flex-direction:column;gap:.5rem;max-width:320px;margin:0 auto">
+          <button class="btn btn-g" onclick="unlockFleet()"><i class="fas fa-lock-open"></i> Try Demo Mode</button>
+          <button class="btn btn-o" onclick="go('pricing')"><i class="fas fa-tag"></i> View Enterprise Pricing</button>
+        </div>
+        <p style="font-size:.75rem;color:var(--txt3);margin-top:1rem">Included with Enterprise plan ($999/mo). Demo loads sample data.</p>
+      </div>
+    </div>
+
+    <!-- Fleet Dashboard (shown in demo/enterprise) -->
+    <div id="fleet-app">
+      <div class="fleet-header">
+        <div class="fleet-header-title">
+          <div class="fleet-header-icon"><i class="fas fa-satellite-dish"></i></div>
+          <div>
+            <h2>Fleet Tracker</h2>
+            <div class="fleet-sub">Trailer Fleet Intelligence &middot; Enterprise</div>
+          </div>
+        </div>
+        <div class="fleet-meta">
+          <span class="fm-saved" id="fleet-saved" style="display:none"><i class="fas fa-check"></i> Saved</span>
+          <span class="fm-badge" id="fleet-count-badge">0 units tracked</span>
+          <span class="badge badge-p"><i class="fas fa-crown"></i> Enterprise</span>
+        </div>
+      </div>
+
+      <!-- Fleet Nav Tabs -->
+      <div class="fleet-tabs" id="fleet-tabs">
+        <div class="fleet-tab ft-on" data-ft="dashboard" onclick="fleetGo('dashboard')" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff"><i class="fas fa-chart-bar"></i> Dashboard</div>
+        <div class="fleet-tab" data-ft="petroleum" onclick="fleetGo('petroleum')"><i class="fas fa-gas-pump"></i> Petroleum <span class="ft-count" id="ftc-petroleum">0</span></div>
+        <div class="fleet-tab" data-ft="chemical" onclick="fleetGo('chemical')"><i class="fas fa-flask"></i> Chemical <span class="ft-count" id="ftc-chemical">0</span></div>
+        <div class="fleet-tab" data-ft="mc331" onclick="fleetGo('mc331')"><i class="fas fa-fire-flame-simple"></i> MC-331 <span class="ft-count" id="ftc-mc331">0</span></div>
+        <div class="fleet-tab" data-ft="pneumatic" onclick="fleetGo('pneumatic')"><i class="fas fa-mound"></i> Pneumatic <span class="ft-count" id="ftc-pneumatic">0</span></div>
+        <div class="fleet-tab" data-ft="leased" onclick="fleetGo('leased')"><i class="fas fa-file-contract"></i> Leased <span class="ft-count" id="ftc-leased">0</span></div>
+      </div>
+
+      <!-- Fleet Content Area -->
+      <div id="fleet-content"></div>
+
+      <!-- CSV Import Input (hidden) -->
+      <input type="file" id="fleet-csv-input" accept=".csv" style="display:none">
+    </div>
+  </div>
+</div>
+
+<!-- ===== SIGNUP MODAL ===== -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <div class="modal-head"><h2 class="modal-title" id="m-title">Quick Signup</h2><button class="modal-x" onclick="closeModal()">&times;</button></div>
+    <div id="m-body"></div>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+const COMPANIES = [
+  {id:1,name:"Gulf Coast Fuel Transport",r:4.6,rev:89,job:"Senior Fuel Hauler",payMin:78000,payMax:98000,home:"Daily",routes:"Houston Metro, TX Gulf Coast",perks:["Health/Dental/Vision","401(k) Match","$5K Sign-On","Fuel Discount"],badge:"Top Rated",logo:"GC",spec:"fuel",endorse:"HAZMAT, Tanker, X"},
+  {id:2,name:"Brenntag Chemical",r:4.4,rev:156,job:"Chemical Tanker Driver",payMin:82000,payMax:105000,home:"Weekly",routes:"TX, LA, OK Triangle",perks:["Health Insurance","401(k)","HAZMAT Premium","Safety Bonus"],badge:"Hiring Now",logo:"BC",spec:"chem",endorse:"HAZMAT, Tanker, X, TWIC"},
+  {id:3,name:"AmeriGas Partners",r:4.2,rev:234,job:"Propane Delivery Driver",payMin:58000,payMax:75000,home:"Daily",routes:"Regional, Southeast TX",perks:["Health Insurance","401(k)","Company Vehicle","Seasonal Bonus"],badge:null,logo:"AG",spec:"propane",endorse:"HAZMAT, Tanker"},
+  {id:4,name:"Martin Marietta",r:4.5,rev:178,job:"Redi-Mix Driver",payMin:62000,payMax:84000,home:"Daily",routes:"Dallas-Fort Worth Metro",perks:["Health/Dental","401(k)","Profit Sharing","CDL Training"],badge:"Excellent",logo:"MM",spec:"redi",endorse:"Air Brake, Tanker"},
+  {id:5,name:"Hi-Crush Partners",r:4.3,rev:67,job:"Frac Sand Hauler",payMin:75000,payMax:130000,home:"14/7 rotation",routes:"Permian Basin, TX",perks:["Health Insurance","Per Diem","Housing Allowance","Equipment Bonus"],badge:"High Pay",logo:"HC",spec:"sand",endorse:"CDL A, Pneumatic"},
+  {id:6,name:"Schneider Bulk",r:4.5,rev:412,job:"Bulk Chemical Driver",payMin:80000,payMax:100000,home:"Weekly",routes:"Midwest + Southeast Dedicated",perks:["Health/Dental/Vision","401(k) Match","Paid Training","Sign-On Bonus"],badge:"Top Rated",logo:"SB",spec:"chem",endorse:"HAZMAT, Tanker, X"},
+  {id:7,name:"Sunoco LP",r:4.1,rev:145,job:"Fuel Transport Driver",payMin:72000,payMax:92000,home:"Daily",routes:"PA, NJ, DE Tri-State",perks:["Health Insurance","401(k)","Fuel Card","Night Differential"],badge:null,logo:"SU",spec:"fuel",endorse:"HAZMAT, Tanker, X"},
+  {id:8,name:"Quality Carriers",r:4.3,rev:267,job:"Tank Truck Driver",payMin:76000,payMax:98000,home:"Varies",routes:"National, Dedicated Lanes",perks:["Health/Dental","401(k)","$8K Sign-On","Safety Awards"],badge:"Hiring Now",logo:"QC",spec:"chem",endorse:"HAZMAT, Tanker, X, TWIC"},
+];
+
+const DRIVERS = [
+  {id:1,name:"Michael Reeves",r:4.9,rev:32,cdl:"Class A",end:"HAZMAT, Tanker, X, TWIC",exp:18,spec:"Fuel + Chemical",avail:"Open to Offers",safety:4.9,badge:"Elite",av:"MR",equip:"DOT 407, 412, MC 306"},
+  {id:2,name:"Sarah Gutierrez",r:4.7,rev:21,cdl:"Class A",end:"HAZMAT, Tanker, X",exp:9,spec:"Fuel Hauling",avail:"Available Now",safety:4.8,badge:"Pro",av:"SG",equip:"DOT 407, MC 306, Pneumatic"},
+  {id:3,name:"James Okafor",r:4.6,rev:15,cdl:"Class A",end:"HAZMAT, Tanker, TWIC",exp:6,spec:"Chemical",avail:"2 Weeks",safety:4.7,badge:"Verified",av:"JO",equip:"DOT 412, MC 312"},
+  {id:4,name:"Lisa Tran",r:4.8,rev:28,cdl:"Class A",end:"HAZMAT, Tanker, X, LPG Cert",exp:14,spec:"Propane + Fuel",avail:"Open to Offers",safety:4.9,badge:"Elite",av:"LT",equip:"DOT 407, Bobtail LPG"},
+  {id:5,name:"David Kowalski",r:4.4,rev:11,cdl:"Class A",end:"Tanker, Air Brake",exp:5,spec:"Redi-Mix",avail:"Available Now",safety:4.5,badge:"Verified",av:"DK",equip:"Mixer trucks, DOT 407"},
+  {id:6,name:"Robert Chen",r:4.7,rev:24,cdl:"Class A",end:"HAZMAT, Tanker, X, Doubles",exp:16,spec:"Chemical + Fuel",avail:"Open to Offers",safety:4.8,badge:"Elite",av:"RC",equip:"DOT 407, 412, MC 306/312, Pneumatic"},
+];
+
+const SALARY = {
+  fuel:   {p10:55000,p25:65000,p50:78000,p75:89000,p90:97000},
+  chem:   {p10:65000,p25:75000,p50:88000,p75:98000,p90:105000},
+  propane:{p10:48000,p25:54000,p50:63000,p75:70000,p90:75000},
+  redi:   {p10:52000,p25:60000,p50:70000,p75:78000,p90:84000},
+  sand:   {p10:45000,p25:50000,p50:56000,p75:62000,p90:65000},
+  hazmat: {p10:70000,p25:80000,p50:92000,p75:100000,p90:105000},
+};
+
+// ===== TRUCKER TRIVIA =====
+const TRIVIA = [
+  {q:"What's the max gross weight for a standard 5-axle semi on interstate highways?",opts:["70,000 lbs","80,000 lbs","90,000 lbs","85,000 lbs"],ans:1,fact:"80,000 lbs is the federal limit. Some states allow more with permits, but that's the magic number every driver knows."},
+  {q:"What does '10-4' actually mean in CB radio code?",opts:["Affirmative / Message received","I need help","What's your location?","Goodbye"],ans:0,fact:"10-4 is the most famous CB code. It means 'message received' or 'affirmative.' Used by truckers since the CB radio boom of the 1970s."},
+  {q:"A DOT 407 tank trailer is designed to carry what?",opts:["Compressed gases","Low-pressure chemicals","Corrosive materials","General-purpose liquids"],ans:3,fact:"DOT 407 is the general-purpose workhorse. It handles most non-corrosive, non-compressed liquid chemicals. The most common tank you'll see on the road."},
+  {q:"What CB channel do truckers use as the unofficial road channel?",opts:["Channel 9","Channel 14","Channel 19","Channel 21"],ans:2,fact:"Channel 19 is THE trucker channel. Channel 9 is for emergencies. If you're not on 19, you're not hearing the road."},
+  {q:"What's the HAZMAT endorsement letter on a CDL?",opts:["T","X","H","Z"],ans:2,fact:"H is for HAZMAT. X is the combo (HAZMAT + Tanker). Having the X endorsement makes you significantly more valuable in the tank trailer world."},
+  {q:"How many hours can a driver legally drive in an 8-day period under HOS rules?",opts:["60 hours","70 hours","80 hours","55 hours"],ans:1,fact:"70 hours in 8 consecutive days (or 60 in 7 for carriers not operating every day). The 34-hour restart can reset your clock."},
+  {q:"What does TWIC stand for?",opts:["Transportation Worker Identification Card","Trucking Workforce International Certificate","Terminal Worker ID Clearance","Transport Warehouse Intel Credential"],ans:0,fact:"TWIC cards grant unescorted access to secure maritime facilities and vessels. Required for many chemical and fuel hauling jobs near ports."},
+  {q:"What year did Peterbilt build its first truck?",opts:["1929","1939","1949","1959"],ans:1,fact:"Peterbilt was founded in 1939 by T.A. Peterman in Tacoma, Washington. He bought the Fageol truck plant and the rest is trucking history."},
+  {q:"How much does a gallon of diesel weigh?",opts:["About 6 lbs","About 7 lbs","About 8 lbs","About 9 lbs"],ans:1,fact:"Diesel weighs approximately 7.1 lbs per gallon. Knowing your load weight per gallon is critical for tank haulers running near max GVW."},
+  {q:"What's the average cost for a company to replace a single truck driver?",opts:["$2,000-$4,000","$4,000-$6,000","$8,000-$12,000","$15,000-$20,000"],ans:2,fact:"$8K-$12K per driver, sometimes more. That's recruiting, training, lost productivity, and equipment downtime. That's why DriverLink exists."},
+];
+
+// ===== TRUCKER HUMOR =====
+const HUMOR = [
+  {cat:"DISPATCH LOGIC",text:"Dispatch: 'Can you pick up a load 200 miles away in 30 minutes?' Driver: 'Sure, let me just activate the warp drive on my Freightliner.'"},
+  {cat:"WEIGH STATION THERAPY",text:"The worst part about hitting a weigh station isn't the wait. It's pretending you're not nervous when you know you're legal."},
+  {cat:"REAL TALK",text:"My truck has more miles on it than some people's relationships have lasted in days."},
+  {cat:"DOT INSPECTION",text:"DOT inspector: 'When's the last time you checked your lights?' Me: 'Right now, apparently.'"},
+  {cat:"TRUCKER MATH",text:"If I leave at 4am, drive 11 hours, take a 30-minute break at hour 8, and my delivery window is 2pm... I needed to leave yesterday."},
+  {cat:"BACKING UP",text:"Nothing humbles a man faster than trying to blindside a 53-footer into a tight dock with six people watching."},
+  {cat:"SHIPPER REALITY",text:"'Your appointment is at 6am.' *arrives at 5:45am* 'We'll get to you in about 4 hours.'"},
+  {cat:"VETERAN WISDOM",text:"After 20 years of driving, the thing I'm most qualified to judge is every single truck stop bathroom in America."},
+];
+
+// ===== ROAD QUOTES =====
+const QUOTES = [
+  {text:"Courage is being scared to death and saddling up anyway.",attr:"John Wayne"},
+  {text:"A man's got to have a code, a creed to live by, no matter his job.",attr:"John Wayne"},
+  {text:"Tomorrow is the most important thing in life. Comes into us at midnight very clean.",attr:"John Wayne"},
+  {text:"I won't be wronged. I won't be insulted. I won't be laid a hand on.",attr:"John Wayne, The Shootist"},
+  {text:"Talk low, talk slow, and don't say too much.",attr:"John Wayne"},
+  {text:"The open road is the only place where you can be completely alone and completely connected at the same time.",attr:"A driver with 2 million miles"},
+  {text:"If you bought it, a trucker brought it. Remember that next time someone says 'it's just driving.'",attr:"Every driver, ever"},
+  {text:"Four wheels move the body. Eighteen wheels move the economy.",attr:"Unknown"},
+  {text:"A smooth sea never made a skilled captain. A flat highway never made a good driver.",attr:"Modified proverb"},
+  {text:"Nobody can give you freedom. Nobody can give you equality or justice. If you're a man, you take it.",attr:"Malcolm X (popular in trucker circles)"},
+];
+
+// ===== CB MESSAGES =====
+const CB_MSGS = [
+  "New trivia in the Pit Stop. Think you know your rig specs? Prove it.",
+  "HAZMAT drivers making $92K median. Check your worth on the benchmarker.",
+  "7 new companies posted this week. Chemical and fuel positions open.",
+  "Tank driver shortage hitting hard. Your endorsements are worth more than you think.",
+  "Road Captain rank unlocked by 14 drivers this month. Are you next?",
+];
+
+// ===== STATE =====
+const S = {mode:'driver', driverQ:[...COMPANIES], companyQ:[...DRIVERS], driverM:[], companyM:[], triviaIdx:0};
+
+// ===== NAV =====
+function go(s) {
+  document.querySelectorAll('.screen').forEach(el=>el.classList.remove('on'));
+  document.getElementById(s).classList.add('on');
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.toggle('on',t.dataset.s===s));
+  document.querySelector('.nav-tabs')?.classList.remove('open');
+  if(s==='discover') renderCards();
+  if(s==='matches') renderMatches();
+  if(s==='profile') renderProfileViews();
+  if(s==='corner') { loadTrivia(); loadHumor(); loadQuote(); }
+  window.scrollTo({top:0});
+}
+
+// ===== BENCHMARK =====
+function runBenchmark() {
+  const spec = document.getElementById('b-spec').value;
+  const exp = parseInt(document.getElementById('b-exp').value)||0;
+  const pay = parseInt(document.getElementById('b-pay').value)||0;
+  const chips = document.querySelectorAll('#b-endorse .chip.on');
+  const data = SALARY[spec];
+  if(!data) return;
+
+  const mult = 1 + Math.min(exp, 20) * 0.012;
+  const adj = k => Math.round(data[k] * mult / 1000) * 1000;
+  const p10=adj('p10'), p25=adj('p25'), p50=adj('p50'), p75=adj('p75'), p90=adj('p90');
+  const endorseCount = chips.length;
+  const endorseBonus = endorseCount * 0.02;
+  const finalP50 = Math.round(p50 * (1 + endorseBonus) / 1000) * 1000;
+
+  const under = pay < finalP50;
+  const diff = Math.abs(pay - finalP50);
+  const specName = document.getElementById('b-spec').selectedOptions[0].text;
+  const maxVal = p90 * 1.1;
+  const barW = v => Math.round((v/maxVal)*100);
+  const fmt = v => '$'+Math.round(v/1000)+'K';
+
+  // Loss aversion message
+  let lossMsg = '';
+  if(under && diff > 5000) {
+    lossMsg = '<div style="margin-top:.75rem;padding:.75rem;background:rgba(255,71,87,.06);border:1px solid rgba(255,71,87,.15);border-radius:8px;font-size:.85rem;color:#fca5a5;border-left:3px solid #ff4757"><i class="fas fa-exclamation-triangle" style="color:#ff4757"></i> You\'re leaving <strong style="color:#ff4757;font-size:1rem">$'+Math.round(diff/1000)+'K/yr on the table</strong>. Over 5 years that\'s <strong style="color:#ff4757;font-size:1rem">$'+Math.round(diff*5/1000)+'K</strong> you didn\'t earn. <br><span style="color:#00ff88;font-weight:700">Screenshot this. Bring it to your next review.</span></div>';
+  }
+
+  document.getElementById('bench-result').style.display='block';
+  document.getElementById('bench-result').innerHTML =
+    '<div class="result-box">'+
+    '<div style="font-size:.85rem;opacity:.8">Drivers like you in <strong>'+specName+'</strong> earn</div>'+
+    '<div class="big">'+fmt(finalP50)+'/yr</div>'+
+    '<div class="sub">median salary &middot; '+exp+' yrs exp &middot; '+endorseCount+' endorsement'+(endorseCount!==1?'s':'')+'</div>'+
+    '<div style="margin-top:1rem;font-size:.9rem;font-weight:600;color:'+(under?'#fbbf24':'#4ade80')+'">'+
+    (under?'You\'re earning <strong>'+fmt(diff)+'/yr below</strong> the median.':'You\'re earning <strong>'+fmt(diff)+'/yr above</strong> the median. Respect.')+
+    '</div>'+
+    lossMsg+
+    '<div class="bar-chart">'+
+    '<div class="bar-row"><div class="bar-label">10th</div><div class="bar-track"><div class="bar-fill" style="width:'+barW(p10)+'%;background:#64748b"></div></div><div class="bar-val">'+fmt(p10)+'</div></div>'+
+    '<div class="bar-row"><div class="bar-label">25th</div><div class="bar-track"><div class="bar-fill" style="width:'+barW(p25)+'%;background:#94a3b8"></div></div><div class="bar-val">'+fmt(p25)+'</div></div>'+
+    '<div class="bar-row"><div class="bar-label">Median</div><div class="bar-track"><div class="bar-fill" style="width:'+barW(finalP50)+'%;background:var(--green)"></div></div><div class="bar-val" style="color:var(--green)">'+fmt(finalP50)+'</div></div>'+
+    '<div class="bar-row"><div class="bar-label">75th</div><div class="bar-track"><div class="bar-fill" style="width:'+barW(p75)+'%;background:#94a3b8"></div></div><div class="bar-val">'+fmt(p75)+'</div></div>'+
+    '<div class="bar-row"><div class="bar-label">90th</div><div class="bar-track"><div class="bar-fill" style="width:'+barW(p90)+'%;background:#64748b"></div></div><div class="bar-val">'+fmt(p90)+'</div></div>'+
+    '<div class="bar-row"><div class="bar-label" style="color:var(--amber)">You</div><div class="bar-track"><div class="bar-fill" style="width:'+barW(pay)+'%;background:var(--amber)"></div></div><div class="bar-val" style="color:var(--amber)">'+fmt(pay)+'</div></div>'+
+    '</div>'+
+    '<div style="margin-top:1.25rem;display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap">'+
+    '<button class="btn btn-g btn-sm" onclick="go(\'discover\')"><i class="fas fa-fire"></i> See Who\'s Hiring</button>'+
+    '<button class="btn btn-ghost btn-sm" onclick="go(\'profile\')"><i class="fas fa-id-card"></i> Build My Profile</button>'+
+    '</div></div>';
+  document.getElementById('bench-result').scrollIntoView({behavior:'smooth'});
+}
+
+// ===== DISCOVER =====
+function setMode(m){
+  S.mode=m;
+  document.getElementById('mode-driver').className=m==='driver'?'btn btn-sm':'btn btn-o btn-sm';
+  document.getElementById('mode-driver').style.cssText=m==='driver'?'background:var(--green);color:#fff':'';
+  document.getElementById('mode-company').className=m==='company'?'btn btn-sm':'btn btn-o btn-sm';
+  document.getElementById('mode-company').style.cssText=m==='company'?'background:var(--green);color:#fff':'';
+  renderCards();
+}
+
+function renderCards(){
+  const deck=document.getElementById('deck');
+  deck.querySelectorAll('.scard,.empty-state').forEach(c=>c.remove());
+  const q = S.mode==='driver' ? S.driverQ : S.companyQ;
+  if(!q.length){
+    const e=document.createElement('div');e.className='empty-state';
+    e.innerHTML='<div class="ei">&#127881;</div><h3 style="color:#f8fafc;margin-bottom:.3rem">That\'s everyone, driver!</h3><p>Check back soon or hit your matches. 10-4.</p><button class="btn btn-g btn-sm" style="margin-top:.75rem" onclick="go(\'matches\')">View Matches</button>';
+    deck.appendChild(e);return;
+  }
+  q.slice(0,3).reverse().forEach(function(item,i){
+    var pos=Math.min(2,q.slice(0,3).length-1)-i;
+    var card=document.createElement('div');card.className='scard';card.dataset.p=pos;card.dataset.id=item.id;
+    card.innerHTML = S.mode==='driver' ? companyHTML(item) : driverHTML(item);
+    deck.appendChild(card);
+  });
+  var top=deck.querySelector('.scard[data-p="0"]');
+  if(top) initDrag(top);
+}
+
+function stars(r){return '<span class="stars">'+'&#9733;'.repeat(Math.floor(r))+'&#9734;'.repeat(5-Math.floor(r))+'</span>'}
+function kf(n){return '$'+(n/1000).toFixed(0)+'K'}
+
+function companyHTML(c){
+  return '<div class="scard-head"><div class="scard-logo">'+c.logo+'</div><div><div class="scard-title">'+c.name+'</div><div class="scard-rating">'+stars(c.r)+' '+c.r+' ('+c.rev+' reviews)</div>'+(c.badge?'<span class="badge badge-g" style="margin-top:3px">'+c.badge+'</span>':'')+'</div></div>'+
+  '<div class="scard-body">'+
+  '<div class="scard-row"><div class="scard-lbl">Position</div><div class="scard-val">'+c.job+'</div></div>'+
+  '<div class="scard-row"><div class="scard-lbl">Annual Pay</div><div class="scard-val" style="color:var(--green)">'+kf(c.payMin)+' - '+kf(c.payMax)+'</div></div>'+
+  '<div class="scard-row"><div class="scard-lbl">Home Time</div><div class="scard-sub">'+c.home+'</div></div>'+
+  '<div class="scard-row"><div class="scard-lbl">Routes</div><div class="scard-sub">'+c.routes+'</div></div>'+
+  '<div class="scard-row"><div class="scard-lbl">Required</div><div class="scard-sub">'+c.endorse+'</div></div>'+
+  '<div class="scard-row"><div class="scard-lbl">Benefits</div><div class="tags">'+c.perks.map(function(p){return '<span class="tag"><i class="fas fa-check"></i>'+p+'</span>'}).join('')+'</div></div>'+
+  '</div>'+
+  '<div class="scard-actions"><button class="act act-x" onclick="swipe(\'pass\')"><i class="fas fa-times"></i></button><button class="act act-s" onclick="swipe(\'super\')"><i class="fas fa-star"></i></button><button class="act act-h" onclick="swipe(\'like\')"><i class="fas fa-heart"></i></button></div>';
+}
+
+function driverHTML(d){
+  var rankName = d.exp>=20?'Highway Legend':d.exp>=13?'Road Captain':d.exp>=7?'Convoy Leader':d.exp>=3?'Road Runner':'Greenhorn';
+  var rankClass = d.exp>=20?'rank-legend':d.exp>=13?'rank-captain':d.exp>=7?'rank-convoy':d.exp>=3?'badge-g':'rank-rookie';
+  return '<div class="scard-head"><div class="scard-logo">'+d.av+'</div><div><div class="scard-title">'+d.name+'</div><div class="scard-rating">'+stars(d.r)+' '+d.r+' ('+d.rev+' reviews)</div><span class="rank-badge '+rankClass+'" style="margin-top:3px"><i class="fas fa-'+(d.exp>=20?'crown':d.exp>=13?'star':d.exp>=7?'route':'truck')+'"></i> '+rankName+'</span></div></div>'+
+  '<div class="scard-body">'+
+  '<div class="scard-row"><div class="scard-lbl">CDL &amp; Endorsements</div><div class="scard-val">'+d.cdl+'</div><div class="scard-sub">'+d.end+'</div></div>'+
+  '<div class="scard-row"><div class="scard-lbl">Experience</div><div class="scard-val">'+d.exp+' years &middot; '+d.spec+'</div></div>'+
+  '<div class="scard-row"><div class="scard-lbl">Equipment</div><div class="scard-sub">'+d.equip+'</div></div>'+
+  '<div class="scard-row"><div class="scard-lbl">Safety Score</div><div class="scard-sub">'+stars(d.safety)+' '+d.safety+'/5.0</div></div>'+
+  '<div class="scard-row"><div class="scard-lbl">Availability</div><div class="scard-sub" style="color:'+(d.avail.indexOf('Now')>=0?'var(--green)':d.avail.indexOf('Open')>=0?'#b45309':'var(--txt2)')+'"><i class="fas fa-circle" style="font-size:.4rem;vertical-align:middle"></i> '+d.avail+'</div></div>'+
+  '</div>'+
+  '<div class="scard-actions"><button class="act act-x" onclick="swipe(\'pass\')"><i class="fas fa-times"></i></button><button class="act act-s" onclick="swipe(\'super\')"><i class="fas fa-star"></i></button><button class="act act-h" onclick="swipe(\'like\')"><i class="fas fa-heart"></i></button></div>';
+}
+
+// ===== DRAG =====
+function initDrag(card){
+  var sx=0,dx=0,dragging=false;
+  var deck=card.closest('.deck'),li=deck.querySelector('.swipe-ind.left'),ri=deck.querySelector('.swipe-ind.right');
+  function onS(e){e.preventDefault();dragging=true;var pt=e.touches?e.touches[0]:e;sx=pt.clientX;dx=0}
+  function onM(e){if(!dragging)return;var pt=e.touches?e.touches[0]:e;dx=pt.clientX-sx;card.style.transform='translate('+dx+'px,'+dx*0.05+'px) rotate('+dx*0.06+'deg)';card.style.transition='none';li.style.opacity=dx<-30?Math.min(1,(-dx-30)/70):0;ri.style.opacity=dx>30?Math.min(1,(dx-30)/70):0}
+  function onE(){if(!dragging)return;dragging=false;li.style.opacity=0;ri.style.opacity=0;if(Math.abs(dx)>90){var dir=dx>0?'like':'pass';card.style.transition='transform .35s,opacity .35s';card.style.transform='translateX('+(dx>0?600:-600)+'px) rotate('+(dx>0?25:-25)+'deg)';card.style.opacity='0';setTimeout(function(){swipe(dir)},350)}else{card.style.transition='transform .25s';card.style.transform=''}}
+  card.addEventListener('mousedown',onS);card.addEventListener('touchstart',onS,{passive:false});
+  document.addEventListener('mousemove',onM);document.addEventListener('touchmove',onM,{passive:false});
+  document.addEventListener('mouseup',onE);document.addEventListener('touchend',onE);
+  card._cleanup=function(){document.removeEventListener('mousemove',onM);document.removeEventListener('touchmove',onM);document.removeEventListener('mouseup',onE);document.removeEventListener('touchend',onE)};
+}
+
+function swipe(action){
+  var q=S.mode==='driver'?S.driverQ:S.companyQ;
+  var m=S.mode==='driver'?S.driverM:S.companyM;
+  if(!q.length)return;
+  var item=q.shift();
+  var top=document.querySelector('.scard[data-p="0"]');
+  if(top&&top._cleanup)top._cleanup();
+  if(action==='like'||action==='super'){
+    if(m.indexOf(item.id)<0){
+      m.push(item.id);
+      var msgs = action==='super'
+        ? ['10-4! Super liked '+item.name+'!','That\'s a big 10-4, good buddy!','Hammer down! Super liked '+item.name+'!']
+        : ['Matched with '+item.name+'!','10-4! You and '+item.name+' connected!','Breaker breaker, '+item.name+' is a match!'];
+      notify(msgs[Math.floor(Math.random()*msgs.length)]);
+      confetti();
+    }
+  }
+  renderCards();
+}
+
+// ===== MATCHES =====
+function renderMatches(){
+  var h='';
+  S.driverM.forEach(function(id){var c=COMPANIES.find(function(x){return x.id===id});if(c)h+=matchHTML(c.logo,c.name,kf(c.payMin)+'-'+kf(c.payMax)+'/yr &middot; '+c.home+' &middot; '+c.spec,c.r)});
+  S.companyM.forEach(function(id){var d=DRIVERS.find(function(x){return x.id===id});if(d)h+=matchHTML(d.av,d.name,d.exp+'yr &middot; '+d.cdl+' &middot; '+d.end,d.r)});
+  if(!h)h='<div class="empty-state"><div class="ei"><i class="fas fa-route" style="opacity:.3"></i></div><h3 style="color:#f8fafc">No matches yet</h3><p>Start swiping to find your fit. The right gig is out there, driver.</p><button class="btn btn-g btn-sm" style="margin-top:.75rem" onclick="go(\'discover\')">Start Swiping</button></div>';
+  document.getElementById('match-list').innerHTML=h;
+}
+function matchHTML(logo,name,det,r){
+  var pct=Math.round(r/5*100);
+  return '<div class="match"><div class="match-av">'+logo+'</div><div class="match-body"><div class="match-name">'+name+'</div><div class="match-det">'+det+'</div><div class="match-bar"><span>Match:</span><div class="mbar"><div class="mbar-f" style="width:'+pct+'%"></div></div><span>'+pct+'%</span></div><div class="match-btns"><button class="btn btn-g btn-sm"><i class="fas fa-envelope"></i> Message</button><button class="btn btn-o btn-sm"><i class="fas fa-info-circle"></i> Details</button></div></div></div>';
+}
+
+// ===== TRIVIA =====
+function loadTrivia(){
+  var t = TRIVIA[S.triviaIdx % TRIVIA.length];
+  S.triviaIdx++;
+  document.getElementById('trivia-q').textContent = t.q;
+  var optsEl = document.getElementById('trivia-opts');
+  optsEl.innerHTML = t.opts.map(function(o,i){return '<div class="trivia-opt" data-i="'+i+'" onclick="checkTrivia(this,'+i+','+t.ans+')">'+o+'</div>'}).join('');
+  document.getElementById('trivia-result').style.display='none';
+  document.getElementById('trivia-result').innerHTML='';
+}
+function checkTrivia(el,picked,correct){
+  var opts = el.parentElement.querySelectorAll('.trivia-opt');
+  opts.forEach(function(o,i){
+    o.style.pointerEvents='none';
+    if(i===correct) o.classList.add('correct');
+    else if(i===picked && picked!==correct) o.classList.add('wrong');
+  });
+  var t = TRIVIA[(S.triviaIdx-1) % TRIVIA.length];
+  var resEl = document.getElementById('trivia-result');
+  resEl.style.display='block';
+  resEl.style.background = picked===correct ? 'rgba(0,255,136,.06)' : 'rgba(255,71,87,.06)';
+  resEl.style.color = picked===correct ? '#00ff88' : '#fca5a5';
+  resEl.style.border = picked===correct ? '1px solid rgba(0,255,136,.15)' : '1px solid rgba(255,71,87,.12)';
+  resEl.innerHTML = '<strong>'+(picked===correct?'Nailed it!':'Not quite, driver.')+'</strong> '+t.fact;
+}
+
+// ===== HUMOR =====
+function loadHumor(){
+  var section = document.getElementById('humor-section');
+  var h = '';
+  var shuffled = HUMOR.slice().sort(function(){return Math.random()-.5}).slice(0,3);
+  shuffled.forEach(function(joke){
+    h += '<div class="humor-card"><div class="hc-cat"><i class="fas fa-face-grin-tears"></i> '+joke.cat+'</div><div class="hc-text">'+joke.text+'</div></div>';
+  });
+  section.innerHTML = h;
+}
+
+// ===== QUOTE =====
+function loadQuote(){
+  var q = QUOTES[Math.floor(Math.random()*QUOTES.length)];
+  document.getElementById('road-quote').textContent = '"' + q.text + '"';
+  document.getElementById('road-attr').textContent = '- ' + q.attr;
+}
+
+// ===== NOTIFY + CONFETTI =====
+function notify(msg){var el=document.createElement('div');el.className='notif notif-match';el.innerHTML='<div class="notif-t"><i class="fas fa-broadcast-tower"></i> IT\'S A MATCH</div><div class="notif-m">'+msg+'</div>';document.body.appendChild(el);setTimeout(function(){el.remove()},4000)}
+function confetti(){var cols=['#00ff88','#3b82f6','#ffa502','#ff4757','#a855f7','#ec4899'];for(var i=0;i<35;i++){var el=document.createElement('div');el.className='conf';el.style.left=(35+Math.random()*30)+'vw';el.style.top=(25+Math.random()*20)+'vh';el.style.background=cols[Math.floor(Math.random()*cols.length)];el.style.setProperty('--dx',(Math.random()-.5)*280+'px');el.style.setProperty('--dy',(Math.random()*350+150)+'px');el.style.setProperty('--rot',(Math.random()*720-360)+'deg');el.style.setProperty('--d',(1.2+Math.random())+'s');el.style.width=(5+Math.random()*5)+'px';el.style.height=(5+Math.random()*5)+'px';document.body.appendChild(el);setTimeout(function(e){return function(){e.remove()}}(el),2500)}}
+
+// ===== KEYBOARD =====
+document.addEventListener('keydown',function(e){if(document.getElementById('discover').classList.contains('on')){if(e.key==='ArrowLeft')swipe('pass');if(e.key==='ArrowRight')swipe('like');if(e.key==='ArrowUp')swipe('super')}});
+
+// ===== MODAL =====
+document.getElementById('modal-bg').addEventListener('click',function(e){if(e.target===e.currentTarget)closeModal()});
+function closeModal(){document.getElementById('modal-bg').classList.remove('open')}
+
+// ===== HERO QUOTE ROTATION =====
+function rotateHeroQuote(){
+  var q = QUOTES[Math.floor(Math.random()*QUOTES.length)];
+  document.getElementById('hero-quote').innerHTML = '"'+q.text+'" &mdash; <strong>'+q.attr+'</strong>';
+}
+
+// ===== CB MESSAGE ROTATION =====
+function rotateCB(){
+  var msg = CB_MSGS[Math.floor(Math.random()*CB_MSGS.length)];
+  document.getElementById('cb-msg').textContent = msg;
+}
+
+// ===== SOCIAL PROOF ANIMATION =====
+function animateSocial(){
+  var nums = [2847,3102,2954,3211,2763,3089,2891];
+  var n = nums[Math.floor(Math.random()*nums.length)];
+  document.getElementById('social-proof').textContent = n.toLocaleString() + ' drivers checked their worth this week';
+}
+
+// ===== PROFILE VIEW TRACKER =====
+var PROFILE_VIEWERS = [
+  {name:'Gulf Coast Fuel Transport',logo:'GC',color:'#f59e0b',role:'Hiring Manager',time:'2 hours ago',isNew:true},
+  {name:'Brenntag Chemical',logo:'BC',color:'#3b82f6',role:'Fleet Recruiter',time:'5 hours ago',isNew:true},
+  {name:'Quality Carriers',logo:'QC',color:'#8b5cf6',role:'Regional Ops Manager',time:'Yesterday',isNew:false},
+  {name:'Schneider Bulk',logo:'SB',color:'#10b981',role:'Talent Acquisition',time:'Yesterday',isNew:false},
+  {name:'Sunoco LP',logo:'SU',color:'#ec4899',role:'Driver Recruiter',time:'2 days ago',isNew:false},
+  {name:'Hi-Crush Partners',logo:'HC',color:'#f97316',role:'Permian Basin Ops',time:'3 days ago',isNew:false},
+  {name:'Martin Marietta',logo:'MM',color:'#06b6d4',role:'HR Director',time:'4 days ago',isNew:false},
+  {name:'AmeriGas Partners',logo:'AG',color:'#eab308',role:'Southeast Recruiter',time:'5 days ago',isNew:false},
+];
+
+// Simulated weekly view data (last 7 days)
+var WEEKLY_VIEWS = [3, 5, 2, 7, 4, 8, 6];
+var DAY_LABELS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+function renderProfileViews(){
+  var listEl = document.getElementById('profile-views-list');
+  var chartEl = document.getElementById('profile-views-chart');
+  var countEl = document.getElementById('view-count-badge');
+  if(!listEl) return;
+
+  // Simulate slowly growing view count
+  var baseViews = parseInt(localStorage.getItem('dl-profile-views') || '47');
+  baseViews += Math.floor(Math.random()*3);
+  localStorage.setItem('dl-profile-views', baseViews);
+  var newViews = PROFILE_VIEWERS.filter(function(v){return v.isNew}).length;
+
+  countEl.innerHTML = baseViews + ' views this month' + (newViews > 0 ? ' <span style="color:#ff4757;margin-left:.2rem">(' + newViews + ' new)</span>' : '');
+
+  // Render viewer list (show 5, blur the rest for upgrade tease)
+  var h = '';
+  PROFILE_VIEWERS.slice(0, 5).forEach(function(v, i){
+    h += '<div class="pv-item">' +
+      '<div class="pv-logo" style="background:linear-gradient(135deg,' + v.color + ',' + v.color + 'cc)">' + v.logo + '</div>' +
+      '<div class="pv-info">' +
+        '<div class="pv-name">' + (v.isNew ? '<span class="pv-new"></span>' : '') + v.name + '</div>' +
+        '<div class="pv-detail">' + v.role + '</div>' +
+      '</div>' +
+      '<div class="pv-time">' + v.time + '</div>' +
+    '</div>';
+  });
+  // Blurred teaser rows
+  h += '<div style="position:relative;overflow:hidden;border-radius:6px;margin-top:.3rem">';
+  h += '<div style="filter:blur(4px);opacity:.4;pointer-events:none">';
+  PROFILE_VIEWERS.slice(5, 7).forEach(function(v){
+    h += '<div class="pv-item">' +
+      '<div class="pv-logo" style="background:' + v.color + '">' + v.logo + '</div>' +
+      '<div class="pv-info"><div class="pv-name">' + v.name + '</div><div class="pv-detail">' + v.role + '</div></div>' +
+      '<div class="pv-time">' + v.time + '</div></div>';
+  });
+  h += '</div>';
+  h += '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(11,15,26,.5)"><span style="font-size:.78rem;color:var(--green);font-weight:600;cursor:pointer" onclick="go(\'pricing\')"><i class="fas fa-lock" style="margin-right:.3rem"></i> +' + (PROFILE_VIEWERS.length - 5) + ' more viewers</span></div>';
+  h += '</div>';
+  listEl.innerHTML = h;
+
+  // Weekly views mini chart
+  var maxV = Math.max.apply(null, WEEKLY_VIEWS);
+  var ch = '<div style="font-size:.72rem;font-weight:600;color:var(--txt3);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em"><i class="fas fa-chart-line" style="color:var(--green);margin-right:.2rem"></i> Views This Week — ' + WEEKLY_VIEWS.reduce(function(a,b){return a+b},0) + ' total</div>';
+  WEEKLY_VIEWS.forEach(function(v, i){
+    var pct = maxV > 0 ? Math.round(v / maxV * 100) : 0;
+    var isToday = i === WEEKLY_VIEWS.length - 1;
+    ch += '<div class="pv-bar-wrap">' +
+      '<div class="pv-bar-label"' + (isToday ? ' style="color:var(--green);font-weight:600"' : '') + '>' + DAY_LABELS[i] + '</div>' +
+      '<div class="pv-bar-track"><div class="pv-bar-fill" style="width:' + pct + '%;' + (isToday ? 'background:var(--green);box-shadow:0 0 8px rgba(0,255,136,.3)' : 'background:rgba(0,255,136,.4)') + '"></div></div>' +
+      '<div class="pv-bar-val"' + (isToday ? ' style="color:var(--green);font-weight:600"' : '') + '>' + v + '</div>' +
+    '</div>';
+  });
+  chartEl.innerHTML = ch;
+}
+
+// Slowly add "new" viewers over time for dopamine hits
+setInterval(function(){
+  if(Math.random() < 0.3) {
+    var companies = ['TransAm Trucking','Kenan Advantage','Trimac','Ruan Transport','Targa Resources','NGL Energy'];
+    var logos = ['TA','KA','TR','RT','TG','NE'];
+    var colors = ['#f59e0b','#3b82f6','#a855f7','#10b981','#ec4899','#06b6d4'];
+    var roles = ['Recruiter','Fleet Manager','HR Director','Ops Manager','Talent Lead'];
+    var idx = Math.floor(Math.random()*companies.length);
+    var newViewer = {name:companies[idx],logo:logos[idx],color:colors[idx],role:roles[Math.floor(Math.random()*roles.length)],time:'Just now',isNew:true};
+    PROFILE_VIEWERS.unshift(newViewer);
+    if(PROFILE_VIEWERS.length > 12) PROFILE_VIEWERS.pop();
+    WEEKLY_VIEWS[WEEKLY_VIEWS.length-1]++;
+    // Only re-render if profile screen is visible
+    if(document.getElementById('profile').classList.contains('on')) renderProfileViews();
+    // Show a subtle notification
+    var tick=document.createElement('div');
+    tick.style.cssText='position:fixed;bottom:12px;right:12px;padding:.5rem .85rem;background:rgba(17,24,39,.92);backdrop-filter:blur(8px);border:1px solid rgba(0,255,136,.15);border-radius:8px;font-size:.75rem;color:#94a3b8;z-index:800;animation:tickIn .4s ease,tickOut .4s ease 3s forwards;display:flex;align-items:center;gap:.4rem';
+    tick.innerHTML='<i class="fas fa-eye" style="color:var(--green)"></i> <strong style="color:var(--green)">'+newViewer.name+'</strong> just viewed your profile';
+    document.body.appendChild(tick);
+    setTimeout(function(){tick.remove()},3800);
+  }
+}, 25000);
+
+// ===== VIRAL PSYCHOLOGY HOOKS =====
+// 1. LIVE ACTIVITY TICKER — Creates urgency and social proof
+var liveActivities = [
+  'A fuel hauler in Texas just checked their worth',
+  'Schneider Bulk matched with a driver in Ohio',
+  'A HAZMAT driver in PA unlocked Road Captain rank',
+  'Gulf Coast Fuel posted a new $92K position',
+  'Someone from Iowa just signed up',
+  'A chemical driver benchmarked at $98K/yr',
+  'Quality Carriers superliked a 16-year veteran',
+  'A Greenhorn in Georgia just earned Road Runner rank',
+  '3 new HAZMAT positions posted in the last hour',
+  'A propane driver in OK matched with AmeriGas'
+];
+function showLiveActivity(){
+  var existing=document.querySelector('.live-ticker');if(existing)existing.remove();
+  var msg=liveActivities[Math.floor(Math.random()*liveActivities.length)];
+  var el=document.createElement('div');
+  el.className='live-ticker';
+  el.innerHTML='<i class="fas fa-circle" style="font-size:.35rem;color:#00ff88;animation:pulse 1.5s infinite"></i> '+msg+' <span style="color:#475569;font-size:.68rem">&middot; just now</span>';
+  el.style.cssText='position:fixed;bottom:12px;left:12px;padding:.5rem .85rem;background:rgba(17,24,39,.92);backdrop-filter:blur(8px);border:1px solid rgba(0,255,136,.1);border-radius:8px;font-size:.75rem;color:#94a3b8;z-index:800;animation:tickIn .4s ease,tickOut .4s ease 4.5s forwards;max-width:380px;display:flex;align-items:center;gap:.4rem';
+  document.body.appendChild(el);
+  setTimeout(function(){el.remove()},5200);
+}
+// Show first one after 6s, then every 18-30s (variable interval = less predictable = more attention)
+setTimeout(showLiveActivity, 6000);
+setInterval(function(){setTimeout(showLiveActivity,Math.random()*12000)}, 22000);
+
+// 2. STREAK SYSTEM — Encourages daily return (endowed progress effect)
+var streak=parseInt(localStorage.getItem('dl-streak')||'0');
+var lastVisit=localStorage.getItem('dl-last-visit')||'';
+var today=new Date().toDateString();
+if(lastVisit===today){/*same day, keep streak*/}
+else if(lastVisit===new Date(Date.now()-86400000).toDateString()){streak++;localStorage.setItem('dl-streak',streak)}
+else if(lastVisit){streak=1;localStorage.setItem('dl-streak',streak)}
+else{streak=1;localStorage.setItem('dl-streak',streak)}
+localStorage.setItem('dl-last-visit',today);
+
+// 3. ANIMATED COUNTER (Odometer effect for key numbers)
+function countUp(el,target,duration){
+  var start=0,startTime=null;
+  function step(ts){if(!startTime)startTime=ts;var progress=Math.min((ts-startTime)/duration,1);el.textContent=Math.floor(progress*target).toLocaleString();if(progress<1)requestAnimationFrame(step)}
+  requestAnimationFrame(step);
+}
+
+// Inject CSS for live ticker
+var tickerStyle=document.createElement('style');
+tickerStyle.textContent='@keyframes tickIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}@keyframes tickOut{to{opacity:0;transform:translateY(20px)}}';
+document.head.appendChild(tickerStyle);
+
+// ===== ALPHA MODAL FUNCTIONS =====
+function showAlphaWelcome(){if(!localStorage.getItem('dl-alpha-seen')){document.getElementById('alphaWelcome').classList.add('open')}}
+function setAlphaRole(role){localStorage.setItem('dl-alpha-role',role);localStorage.setItem('dl-alpha-seen','true');document.getElementById('alphaWelcome').classList.remove('open')}
+function openFeedbackModal(){document.getElementById('alphaFeedbackModal').classList.add('open');document.getElementById('feedbackText').focus();document.getElementById('feedbackContent').style.display='block';document.getElementById('feedbackConfirm').style.display='none';currentRating=0;document.querySelectorAll('.alpha-star').forEach(function(s){s.classList.remove('active')})}
+function closeFeedbackModal(){document.getElementById('alphaFeedbackModal').classList.remove('open')}
+var currentRating=0;
+function setRating(rating){currentRating=rating;document.querySelectorAll('.alpha-star').forEach(function(s,i){s.classList.toggle('active',i<rating)})}
+function submitFeedback(){var text=document.getElementById('feedbackText').value;var feedback={text:text,rating:currentRating,timestamp:new Date().toISOString()};var feedbacks=JSON.parse(localStorage.getItem('dl-alpha-feedback')||'[]');feedbacks.push(feedback);localStorage.setItem('dl-alpha-feedback',JSON.stringify(feedbacks));document.getElementById('feedbackContent').style.display='none';document.getElementById('feedbackConfirm').style.display='block';setTimeout(function(){closeFeedbackModal()},2000)}
+document.addEventListener('click',function(e){if(e.target.id==='alphaWelcome'||e.target.id==='alphaFeedbackModal'){e.currentTarget.target.classList.remove('open')}});
+
+// ===== INIT =====
+showAlphaWelcome();
+rotateHeroQuote();
+setInterval(rotateHeroQuote, 12000);
+setInterval(rotateCB, 15000);
+setInterval(animateSocial, 20000);
+
+// Slowly increment bench counter for urgency
+setInterval(function(){
+  var el = document.getElementById('bench-count');
+  if(el) el.textContent = parseInt(el.textContent) + Math.floor(Math.random()*3);
+}, 8000);
+
+// ======================================================
+// ===== FLEET TRACKER (Vanilla JS conversion) ==========
+// ======================================================
+var FLEET_CATS = [
+  {id:'petroleum',label:'Petroleum',sub:'DOT 406/407',color:'#f59e0b',icon:'fa-gas-pump'},
+  {id:'chemical',label:'Stainless Chemical',sub:'Chemical Tankers',color:'#3b82f6',icon:'fa-flask'},
+  {id:'mc331',label:'MC-331',sub:'LPG / Propane',color:'#8b5cf6',icon:'fa-fire-flame-simple'},
+  {id:'pneumatic',label:'Vac Pneumatic',sub:'Dry Bulk',color:'#10b981',icon:'fa-mound'},
+  {id:'leased',label:'Leased Trailers',sub:'All Types',color:'#ec4899',icon:'fa-file-contract'}
+];
+var FLEET_STATUS = [
+  {value:'Active',color:'#10b981'},
+  {value:'Needs Inspection',color:'#f59e0b'},
+  {value:'Replace Soon',color:'#f97316'},
+  {value:'Retired',color:'#6b7280'}
+];
+var FLEET_BASE_COLS = ['unit','year','manufacturer','capacity','lastInspection','nextDue','status','notes'];
+var FLEET_LEASE_COLS = ['unit','year','manufacturer','capacity','leaseStart','leaseEnd','lastInspection','nextDue','status','notes'];
+var FLEET_COL_LABELS = {unit:'Unit #',year:'Year',manufacturer:'Manufacturer',capacity:'Capacity',lastInspection:'Last Inspection',nextDue:'Next Due',status:'Status',notes:'Notes',leaseStart:'Lease Start',leaseEnd:'Lease End'};
+var fleetData = {};
+var fleetTab = 'dashboard';
+var fleetSearch = '';
+var fleetFilter = 'All';
+var fleetEditCell = null;
+
+function fleetLoad(){
+  try{var d=localStorage.getItem('fleet-mc-data-v2');if(d)fleetData=JSON.parse(d)}catch(e){}
+}
+function fleetSave(){
+  try{localStorage.setItem('fleet-mc-data-v2',JSON.stringify(fleetData))}catch(e){}
+  var sv=document.getElementById('fleet-saved');if(sv){sv.style.display='inline';setTimeout(function(){sv.style.display='none'},1500)}
+}
+function fleetEmptyRow(cat){
+  var r={id:Date.now()+Math.random(),unit:'',year:'',manufacturer:'',capacity:'',lastInspection:'',nextDue:'',status:'Active',notes:''};
+  if(cat==='leased'){r.leaseStart='';r.leaseEnd=''}
+  return r;
+}
+function fleetLeaseStatus(end){
+  if(!end)return null;
+  var d=new Date(end),now=new Date(),diff=(d-now)/86400000;
+  if(diff<0)return{label:'Expired',color:'#ef4444'};
+  if(diff<=30)return{label:'≤30 days',color:'#f97316'};
+  if(diff<=90)return{label:'≤90 days',color:'#f59e0b'};
+  return{label:'OK',color:'#10b981'};
+}
+
+function fleetGo(tab){
+  fleetTab=tab;fleetSearch='';fleetFilter='All';fleetEditCell=null;
+  document.querySelectorAll('#fleet-tabs .fleet-tab').forEach(function(t){
+    var ft=t.dataset.ft;
+    if(ft===tab){t.classList.add('ft-on');
+      if(ft==='dashboard')t.style.cssText='background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff';
+      else{var cat=FLEET_CATS.find(function(c){return c.id===ft});t.style.cssText='background:'+cat.color+'18;color:'+cat.color+';border-color:'+cat.color+'40'}
+    }else{t.classList.remove('ft-on');t.style.cssText=''}
+  });
+  fleetRender();
+}
+
+function fleetAllRows(){
+  var rows=[];
+  FLEET_CATS.forEach(function(c){(fleetData[c.id]||[]).forEach(function(r){rows.push(Object.assign({},r,{_cat:c.id}))})});
+  return rows;
+}
+
+function fleetUpdateCounts(){
+  var total=0;
+  FLEET_CATS.forEach(function(c){var n=(fleetData[c.id]||[]).length;total+=n;var el=document.getElementById('ftc-'+c.id);if(el)el.textContent=n});
+  var badge=document.getElementById('fleet-count-badge');if(badge)badge.textContent=total+' units tracked';
+}
+
+function fleetRender(){
+  fleetUpdateCounts();
+  var el=document.getElementById('fleet-content');
+  if(fleetTab==='dashboard'){el.innerHTML=fleetDashboardHTML();return}
+  el.innerHTML=fleetCategoryHTML(fleetTab);
+  // attach events
+  var searchInput=document.getElementById('fleet-search');
+  if(searchInput)searchInput.addEventListener('input',function(e){fleetSearch=e.target.value;fleetRenderTable(fleetTab)});
+  var filterSelect=document.getElementById('fleet-filter-select');
+  if(filterSelect)filterSelect.addEventListener('change',function(e){fleetFilter=e.target.value;fleetRenderTable(fleetTab)});
+}
+
+function fleetDashboardHTML(){
+  var all=fleetAllRows();var total=all.length;
+  var statusHtml='';
+  FLEET_STATUS.forEach(function(s){
+    var cnt=all.filter(function(r){return r.status===s.value}).length;
+    var pct=total?Math.round(cnt/total*100):0;
+    statusHtml+='<div class="fleet-stat"><div class="fs-label">'+s.value+'</div><div class="fs-val" style="color:'+s.color+'">'+cnt+'</div><div class="fs-sub">'+pct+'% of fleet</div></div>';
+  });
+
+  var leasedRows=fleetData.leased||[];
+  var expired=leasedRows.filter(function(r){var s=fleetLeaseStatus(r.leaseEnd);return s&&s.label==='Expired'}).length;
+  var expiring=leasedRows.filter(function(r){var s=fleetLeaseStatus(r.leaseEnd);return s&&(s.label==='≤30 days'||s.label==='≤90 days')}).length;
+  var flagged=all.filter(function(r){return r.status==='Needs Inspection'||r.status==='Replace Soon'});
+
+  var alertHtml='';
+  if(flagged.length>0||expired>0){
+    alertHtml='<div class="fleet-alert"><i class="fas fa-exclamation-triangle"></i> <strong>Attention:</strong> ';
+    var parts=[];
+    if(flagged.length>0)parts.push(flagged.length+' unit'+(flagged.length>1?'s':'')+' flagged');
+    if(expired>0)parts.push(expired+' expired lease'+(expired>1?'s':''));
+    if(expiring>0)parts.push(expiring+' expiring soon');
+    alertHtml+=parts.join(' &middot; ')+'</div>';
+  }
+
+  var catHtml='';
+  FLEET_CATS.forEach(function(c){
+    var rows=fleetData[c.id]||[];var ni=rows.filter(function(r){return r.status==='Needs Inspection'}).length;
+    var rs=rows.filter(function(r){return r.status==='Replace Soon'}).length;
+    var flags='';
+    if(ni>0)flags+='<span style="background:'+c.color+'15;color:#f59e0b">'+ni+' inspect</span>';
+    if(rs>0)flags+='<span style="background:'+c.color+'15;color:#f97316">'+rs+' replace</span>';
+    if(c.id==='leased'){
+      if(expired>0)flags+='<span style="background:#ef444415;color:#ef4444">'+expired+' expired</span>';
+      if(expiring>0)flags+='<span style="background:#f59e0b15;color:#f59e0b">'+expiring+' expiring</span>';
+    }
+    catHtml+='<div class="fleet-cat-card" onclick="fleetGo(\''+c.id+'\')"><div class="fcc-name" style="color:'+c.color+'">'+c.label+'</div><div class="fcc-sub">'+c.sub+'</div><div class="fcc-count">'+rows.length+'</div>'+(flags?'<div class="fcc-flags">'+flags+'</div>':'')+'</div>';
+  });
+
+  // Flagged units table
+  var flagTable='';
+  if(flagged.length>0){
+    flagTable='<div style="margin-top:1.25rem"><h4 style="font-size:.88rem;font-weight:700;color:#f8fafc;margin-bottom:.5rem"><i class="fas fa-exclamation-triangle" style="color:#f59e0b"></i> Flagged Units</h4>';
+    flagTable+='<div class="fleet-table-wrap"><table class="fleet-table"><thead><tr><th>Category</th><th>Unit #</th><th>Year</th><th>Manufacturer</th><th>Status</th><th>Next Due</th></tr></thead><tbody>';
+    flagged.slice(0,15).forEach(function(r){
+      var cat=FLEET_CATS.find(function(c){return c.id===r._cat});
+      var st=FLEET_STATUS.find(function(s){return s.value===r.status});
+      flagTable+='<tr><td><span style="background:'+cat.color+'15;color:'+cat.color+';padding:2px 6px;border-radius:4px;font-size:.72rem;font-weight:600">'+cat.label+'</span></td><td class="ft-unit">'+r.unit+'</td><td>'+r.year+'</td><td>'+r.manufacturer+'</td><td><span class="ft-status" style="background:'+(st?st.color:'#64748b')+'18;color:'+(st?st.color:'#64748b')+'">'+r.status+'</span></td><td>'+(r.nextDue||'—')+'</td></tr>';
+    });
+    flagTable+='</tbody></table></div></div>';
+  }
+
+  var emptyMsg='';
+  if(total===0){
+    emptyMsg='<div class="fleet-empty"><i class="fas fa-truck"></i><h3 style="color:#f8fafc;margin-bottom:.3rem">No units tracked yet</h3><p>Select a category tab above to start adding trailers or importing CSV spreadsheets.</p></div>';
+  }
+
+  return alertHtml+
+    '<div class="fleet-summary"><div class="fleet-stat"><div class="fs-label">Total Fleet</div><div class="fs-val" style="color:#f8fafc">'+total+'</div><div class="fs-sub">units tracked</div></div>'+statusHtml+'</div>'+
+    '<h4 style="font-size:.88rem;font-weight:700;color:#f8fafc;margin-bottom:.5rem">Fleet by Category</h4>'+
+    '<div class="fleet-cat-breakdown">'+catHtml+'</div>'+
+    flagTable+emptyMsg;
+}
+
+function fleetCategoryHTML(cat){
+  var c=FLEET_CATS.find(function(x){return x.id===cat});
+  var rows=fleetData[cat]||[];
+  var cols=cat==='leased'?FLEET_LEASE_COLS:FLEET_BASE_COLS;
+
+  var leaseAlert='';
+  if(cat==='leased'){
+    var lr=fleetData.leased||[];
+    var exp=lr.filter(function(r){var s=fleetLeaseStatus(r.leaseEnd);return s&&s.label==='Expired'}).length;
+    var soon=lr.filter(function(r){var s=fleetLeaseStatus(r.leaseEnd);return s&&(s.label==='≤30 days'||s.label==='≤90 days')}).length;
+    if(exp+soon>0)leaseAlert='<div class="fleet-alert"><i class="fas fa-exclamation-triangle"></i> '+(exp>0?exp+' expired':'')+(exp>0&&soon>0?' &middot; ':'')+(soon>0?soon+' expiring within 90 days':'')+'</div>';
+  }
+
+  return '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem">'+
+    '<div><h3 style="font-size:1.1rem;font-weight:700;color:#f8fafc;margin:0">'+c.label+'</h3><div style="font-size:.78rem;color:var(--txt2)">'+c.sub+' &middot; '+rows.length+' units</div></div>'+
+    '<div style="display:flex;gap:.4rem;flex-wrap:wrap">'+
+    '<button class="btn btn-sm" style="background:'+c.color+';color:#fff" onclick="fleetAddRow(\''+cat+'\')"><i class="fas fa-plus"></i> Add Unit</button>'+
+    '<button class="btn btn-o btn-sm" onclick="fleetImport(\''+cat+'\')"><i class="fas fa-upload"></i> Import CSV</button>'+
+    '<button class="btn btn-o btn-sm" onclick="fleetExport(\''+cat+'\')"><i class="fas fa-download"></i> Export</button>'+
+    (rows.length>0?'<button class="btn btn-o btn-sm" style="color:var(--red)" onclick="fleetClear(\''+cat+'\')"><i class="fas fa-trash"></i> Clear</button>':'')+
+    '</div></div>'+leaseAlert+
+    '<div class="fleet-toolbar"><div style="position:relative;flex:1;min-width:180px"><i class="fas fa-search" style="position:absolute;left:8px;top:9px;color:var(--txt3);font-size:.78rem"></i><input type="text" id="fleet-search" placeholder="Search units..." style="padding-left:28px"></div>'+
+    '<select id="fleet-filter-select"><option value="All">All Status</option>'+FLEET_STATUS.map(function(s){return '<option value="'+s.value+'">'+s.value+'</option>'}).join('')+'</select></div>'+
+    '<div id="fleet-table-area">'+fleetTableHTML(cat)+'</div>';
+}
+
+function fleetRenderTable(cat){
+  var el=document.getElementById('fleet-table-area');
+  if(el)el.innerHTML=fleetTableHTML(cat);
+}
+
+function fleetTableHTML(cat){
+  var rows=fleetData[cat]||[];
+  var cols=cat==='leased'?FLEET_LEASE_COLS:FLEET_BASE_COLS;
+  var filtered=rows;
+  if(fleetSearch){var q=fleetSearch.toLowerCase();filtered=filtered.filter(function(r){return Object.values(r).some(function(v){return String(v).toLowerCase().indexOf(q)>=0})})}
+  if(fleetFilter!=='All')filtered=filtered.filter(function(r){return r.status===fleetFilter});
+
+  if(!filtered.length){
+    return '<div class="fleet-empty">'+(rows.length===0?'<i class="fas fa-truck"></i><p>No units yet. Click "Add Unit" or "Import CSV" to get started.</p>':'<p>No units match your search/filter.</p>')+'</div>';
+  }
+
+  var h='<div class="fleet-table-wrap"><table class="fleet-table"><thead><tr>';
+  cols.forEach(function(c){h+='<th>'+FLEET_COL_LABELS[c]+'</th>'});
+  if(cat==='leased')h+='<th>Lease Status</th>';
+  h+='<th></th></tr></thead><tbody>';
+
+  filtered.forEach(function(row){
+    h+='<tr>';
+    cols.forEach(function(c){
+      if(c==='status'){
+        var st=FLEET_STATUS.find(function(s){return s.value===row.status})||FLEET_STATUS[0];
+        h+='<td><select onchange="fleetUpdateField(\''+cat+'\','+row.id+',\'status\',this.value)" style="padding:3px 6px;background:'+st.color+'18;color:'+st.color+';border:1px solid transparent;border-radius:6px;font-size:.72rem;font-weight:600;cursor:pointer">';
+        FLEET_STATUS.forEach(function(s){h+='<option value="'+s.value+'"'+(s.value===row.status?' selected':'')+'>'+s.value+'</option>'});
+        h+='</select></td>';
+      } else {
+        var val=row[c]||'';
+        h+='<td><div onclick="fleetStartEdit(this,\''+cat+'\','+row.id+',\''+c+'\')" style="padding:3px 6px;border-radius:4px;cursor:text;min-height:22px;font-size:.82rem;color:'+(val?'var(--txt)':'var(--txt3)')+'"'+(c==='unit'?' class="ft-unit"':'')+'>'+( val||'—')+'</div></td>';
+      }
+    });
+    if(cat==='leased'){
+      var ls=fleetLeaseStatus(row.leaseEnd);
+      h+='<td>'+(ls?'<span class="ft-lease-badge" style="background:'+ls.color+'18;color:'+ls.color+'">'+ls.label+'</span>':'')+'</td>';
+    }
+    h+='<td><div class="ft-actions"><button onclick="fleetDeleteRow(\''+cat+'\','+row.id+')" title="Delete"><i class="fas fa-trash"></i></button></div></td>';
+    h+='</tr>';
+  });
+  h+='</tbody></table></div>';
+
+  // Status summary bar
+  if(rows.length>0){
+    h+='<div style="display:flex;gap:.5rem;margin-top:.75rem;flex-wrap:wrap">';
+    FLEET_STATUS.forEach(function(s){
+      var cnt=rows.filter(function(r){return r.status===s.value}).length;
+      if(cnt>0)h+='<span style="background:'+s.color+'12;color:'+s.color+';border-radius:6px;padding:3px 10px;font-size:.72rem;font-weight:600">'+s.value+': '+cnt+'</span>';
+    });
+    h+='</div>';
+  }
+  return h;
+}
+
+function fleetStartEdit(el,cat,id,key){
+  var row=(fleetData[cat]||[]).find(function(r){return r.id===id});
+  if(!row)return;
+  var val=row[key]||'';
+  var inp=document.createElement('input');
+  inp.value=val;
+  inp.style.cssText='width:100%;padding:3px 6px;border:2px solid var(--green);border-radius:4px;font-size:.82rem;font-family:inherit;color:var(--txt);outline:none;box-sizing:border-box;background:var(--surf)';
+  function finish(){fleetUpdateField(cat,id,key,inp.value);fleetRenderTable(cat)}
+  inp.addEventListener('blur',finish);
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter')finish();if(e.key==='Escape')fleetRenderTable(cat)});
+  el.innerHTML='';el.appendChild(inp);inp.focus();inp.select();
+}
+
+function fleetUpdateField(cat,id,key,val){
+  var rows=fleetData[cat]||[];
+  rows.forEach(function(r){if(r.id===id)r[key]=val});
+  fleetData[cat]=rows;fleetSave();fleetUpdateCounts();
+}
+
+function fleetAddRow(cat){
+  if(!fleetData[cat])fleetData[cat]=[];
+  fleetData[cat].push(fleetEmptyRow(cat));
+  fleetSave();fleetRender();
+}
+
+function fleetDeleteRow(cat,id){
+  if(!confirm('Delete this unit?'))return;
+  fleetData[cat]=(fleetData[cat]||[]).filter(function(r){return r.id!==id});
+  fleetSave();fleetRender();
+}
+
+function fleetClear(cat){
+  if(!confirm('Clear ALL rows in '+FLEET_CATS.find(function(c){return c.id===cat}).label+'?'))return;
+  fleetData[cat]=[];fleetSave();fleetRender();
+}
+
+function fleetExport(cat){
+  var rows=fleetData[cat]||[];if(!rows.length){alert('No data to export.');return}
+  var cols=cat==='leased'?FLEET_LEASE_COLS:FLEET_BASE_COLS;
+  var csv=[cols.map(function(c){return FLEET_COL_LABELS[c]}).join(',')];
+  rows.forEach(function(r){csv.push(cols.map(function(c){return '"'+String(r[c]||'').replace(/"/g,'""')+'"'}).join(','))});
+  var blob=new Blob([csv.join('\n')],{type:'text/csv'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='fleet_'+cat+'_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+}
+
+function fleetImport(cat){
+  var input=document.getElementById('fleet-csv-input');
+  input.dataset.cat=cat;input.click();
+}
+document.getElementById('fleet-csv-input').addEventListener('change',function(e){
+  var file=e.target.files[0];if(!file)return;
+  var cat=e.target.dataset.cat;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var text=ev.target.result;
+    var lines=text.split('\n').map(function(l){return l.trim()}).filter(Boolean);
+    if(lines.length<2)return;
+    var headers=lines[0].split(',').map(function(h){return h.replace(/^"|"$/g,'').trim()});
+    // Map columns
+    var colMap={};
+    var mapping={unit:'unit',unitno:'unit',unitnumber:'unit',trailer:'unit',year:'year',yr:'year',manufacturer:'manufacturer',mfg:'manufacturer',make:'manufacturer',capacity:'capacity',cap:'capacity',gallons:'capacity',lastinspection:'lastInspection',lastinsp:'lastInspection',inspdate:'lastInspection',nextdue:'nextDue',duedate:'nextDue',status:'status',condition:'status',notes:'notes',note:'notes',comments:'notes',leasestart:'leaseStart',startdate:'leaseStart',leaseend:'leaseEnd',enddate:'leaseEnd',leaseexpiry:'leaseEnd'};
+    headers.forEach(function(h,i){var k=h.toLowerCase().replace(/[^a-z0-9]/g,'');if(mapping[k])colMap[i]=mapping[k]});
+
+    var newRows=[];
+    for(var i=1;i<lines.length;i++){
+      var vals=lines[i].match(/(".*?"|[^,]+)/g);if(!vals)continue;
+      var row=fleetEmptyRow(cat);
+      Object.keys(colMap).forEach(function(idx){
+        var v=vals[parseInt(idx)];if(v)row[colMap[idx]]=v.replace(/^"|"$/g,'').trim();
+      });
+      if(row.unit)newRows.push(row);
+    }
+    if(newRows.length){
+      if(!fleetData[cat])fleetData[cat]=[];
+      fleetData[cat]=fleetData[cat].concat(newRows);
+      fleetSave();fleetRender();
+    }
+  };
+  reader.readAsText(file);
+  e.target.value='';
+});
+
+function unlockFleet(){
+  document.getElementById('fleet-gate').style.display='none';
+  document.getElementById('fleet-app').style.display='block';
+  // Load sample data for demo
+  if(!fleetData.petroleum||!fleetData.petroleum.length){
+    fleetData.petroleum=[
+      {id:1,unit:'PT-101',year:'2021',manufacturer:'Heil',capacity:'9200 gal',lastInspection:'2025-08-15',nextDue:'2026-08-15',status:'Active',notes:'Primary fuel runner'},
+      {id:2,unit:'PT-102',year:'2019',manufacturer:'Polar',capacity:'9000 gal',lastInspection:'2025-03-01',nextDue:'2026-03-01',status:'Needs Inspection',notes:'Due for 5-year test'},
+      {id:3,unit:'PT-103',year:'2022',manufacturer:'Tremcar',capacity:'9400 gal',lastInspection:'2026-01-20',nextDue:'2027-01-20',status:'Active',notes:''}
+    ];
+    fleetData.chemical=[
+      {id:4,unit:'CH-201',year:'2020',manufacturer:'Brenner Tank',capacity:'6500 gal',lastInspection:'2025-11-10',nextDue:'2026-11-10',status:'Active',notes:'Stainless - acids'},
+      {id:5,unit:'CH-202',year:'2017',manufacturer:'Heil',capacity:'6000 gal',lastInspection:'2025-06-01',nextDue:'2026-06-01',status:'Replace Soon',notes:'Liner showing wear'}
+    ];
+    fleetData.mc331=[
+      {id:6,unit:'LP-301',year:'2018',manufacturer:'Trinity',capacity:'11,600 gal',lastInspection:'2025-09-20',nextDue:'2026-09-20',status:'Active',notes:'LPG transport'},
+      {id:7,unit:'LP-302',year:'2016',manufacturer:'Mississippi Tank',capacity:'10,800 gal',lastInspection:'2025-04-15',nextDue:'2026-04-15',status:'Needs Inspection',notes:'Valve service needed'}
+    ];
+    fleetData.pneumatic=[
+      {id:8,unit:'PN-401',year:'2021',manufacturer:'Heil',capacity:'1680 cu ft',lastInspection:'2025-12-01',nextDue:'2026-12-01',status:'Active',notes:'Frac sand unit'},
+      {id:9,unit:'PN-402',year:'2019',manufacturer:'MAC',capacity:'1500 cu ft',lastInspection:'2025-07-10',nextDue:'2026-07-10',status:'Active',notes:'Cement runs'}
+    ];
+    fleetData.leased=[
+      {id:10,unit:'LS-501',year:'2022',manufacturer:'Polar',capacity:'9200 gal',lastInspection:'2025-10-01',nextDue:'2026-10-01',status:'Active',notes:'Leased from TIP',leaseStart:'2024-01-01',leaseEnd:'2026-06-30'},
+      {id:11,unit:'LS-502',year:'2020',manufacturer:'Heil',capacity:'6500 gal',lastInspection:'2025-08-15',nextDue:'2026-08-15',status:'Active',notes:'Leased from GATX',leaseStart:'2023-07-01',leaseEnd:'2026-01-31'}
+    ];
+    fleetSave();
+  }
+  fleetRender();
+}
+
+// Init fleet on page load
+fleetLoad();
+fleetUpdateCounts();
+// Auto-show the fleet app if data exists, otherwise show gate
+if(fleetAllRows().length>0){
+  document.getElementById('fleet-gate').style.display='none';
+  document.getElementById('fleet-app').style.display='block';
+}else{
+  document.getElementById('fleet-gate').style.display='block';
+  document.getElementById('fleet-app').style.display='none';
+}
+
+// Update nav go() to handle fleet tab
+var _origGo = go;
+go = function(s){
+  _origGo(s);
+  if(s==='fleet'){
+    if(fleetAllRows().length>0){
+      document.getElementById('fleet-gate').style.display='none';
+      document.getElementById('fleet-app').style.display='block';
+      fleetRender();
+    }
+  }
+};
+</script>
+
+<!-- ALPHA WELCOME MODAL -->
+<div class="modal-bg" id="alphaWelcome">
+  <div class="alpha-modal">
+    <h2 class="alpha-headline">Welcome to the DriverLink Alpha</h2>
+    <p class="alpha-subtext">You're one of 50 people seeing this. The first platform built for specialty haulers — tanker, hazmat, chemical, fuel.</p>
+    <div class="alpha-badges">
+      <div class="alpha-badge">
+        <i class="fas fa-hand-fist"></i>
+        <span class="alpha-badge-text">Swipe to match with companies</span>
+      </div>
+      <div class="alpha-badge">
+        <i class="fas fa-chart-line"></i>
+        <span class="alpha-badge-text">Check your salary vs the market</span>
+      </div>
+      <div class="alpha-badge">
+        <i class="fas fa-satellite-dish"></i>
+        <span class="alpha-badge-text">Track your fleet (Enterprise demo)</span>
+      </div>
+    </div>
+    <div class="alpha-btns">
+      <button class="alpha-btn driver" onclick="setAlphaRole('driver')"><i class="fas fa-truck"></i> I'm a Driver</button>
+      <button class="alpha-btn fleet" onclick="setAlphaRole('fleet')"><i class="fas fa-building"></i> I'm a Fleet Owner</button>
+    </div>
+  </div>
+</div>
+
+<!-- ALPHA FEEDBACK MODAL -->
+<div class="modal-bg" id="alphaFeedbackModal">
+  <div class="alpha-modal">
+    <div class="modal-head">
+      <h2 class="modal-title">How's the platform?</h2>
+      <button class="modal-x" onclick="closeFeedbackModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="feedbackContent">
+      <textarea class="alpha-feedback-textarea" id="feedbackText" placeholder="What could we improve? What do you love?"></textarea>
+      <div class="alpha-rating" id="ratingStars">
+        <span class="alpha-star" onclick="setRating(1)"><i class="fas fa-star"></i></span>
+        <span class="alpha-star" onclick="setRating(2)"><i class="fas fa-star"></i></span>
+        <span class="alpha-star" onclick="setRating(3)"><i class="fas fa-star"></i></span>
+        <span class="alpha-star" onclick="setRating(4)"><i class="fas fa-star"></i></span>
+        <span class="alpha-star" onclick="setRating(5)"><i class="fas fa-star"></i></span>
+      </div>
+      <button class="alpha-submit" onclick="submitFeedback()">Send Feedback</button>
+    </div>
+    <div id="feedbackConfirm" style="display:none">
+      <div class="alpha-confirm">
+        <div class="confirm-msg">Thanks, driver. 10-4.</div>
+        <div class="confirm-sub">Your feedback helps us build better.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ALPHA FEEDBACK BUTTON -->
+<button class="alpha-feedback-btn" onclick="openFeedbackModal()"><i class="fas fa-comment"></i> Alpha Feedback</button>
+</body>
+</html>
