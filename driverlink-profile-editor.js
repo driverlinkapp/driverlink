@@ -1,11 +1,13 @@
 /**
- * DriverLink Profile Editor - Self-Injecting Module
+ * DriverLink Profile Editor v3 — Self-Injecting Module
  *
- * Adds an "Edit Profile" button to the profile page and a slide-up edit form.
- * Loads real profile data from Supabase when available, falls back to demo data.
- * Supports both driver and company profiles.
+ * Fixes:
+ * - Uses dlProfiles + dlAuth directly (bypasses broken dlProfileEngine)
+ * - Replaces ALL hardcoded fake profile data with real Supabase data
+ * - Shows empty states when no data exists (no fake companies, views, etc.)
+ * - Loads real profile on page navigation
  *
- * Load AFTER driverlink-backend-wiring.js and driverlink-auth-ui.js
+ * Load AFTER supabase-client.js, driverlink-backend-wiring.js, driverlink-auth-ui.js
  */
 
 (function() {
@@ -163,6 +165,20 @@
   80% { opacity: 1; }
   100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
 }
+
+/* Empty state for profile sections */
+.profile-empty-state {
+  text-align: center; padding: 2rem 1rem; color: var(--txt3);
+  font-size: 0.85rem;
+}
+.profile-empty-state i { font-size: 1.5rem; margin-bottom: 0.5rem; display: block; opacity: 0.4; }
+
+/* Not logged in state */
+.profile-login-prompt {
+  text-align: center; padding: 3rem 1rem; color: var(--txt2);
+}
+.profile-login-prompt h3 { color: var(--green); margin-bottom: 0.5rem; }
+.profile-login-prompt p { font-size: 0.9rem; margin-bottom: 1.5rem; }
 `;
 
   const styleEl = document.createElement('style');
@@ -181,8 +197,6 @@
     'Flatbed', 'Refrigerated', 'Propane', 'Fuel', 'Chemical',
     'LPG', 'Dry Van', 'Intermodal', 'Heavy Haul', 'Other'
   ];
-
-  const ENDORSEMENTS = ['HAZMAT', 'Tanker', 'Doubles/Triples', 'X (HazMat+Tanker)', 'Passenger', 'School Bus'];
 
   // =========================================================================
   // 3. BUILD EDIT MODAL HTML
@@ -315,7 +329,6 @@
           <button class="pe-close" onclick="profileEditor.close()"><i class="fas fa-times"></i></button>
         </div>
         <div class="pe-body" id="pe-form-body">
-          <!-- Populated dynamically based on role -->
         </div>
         <div class="pe-footer">
           <button class="pe-btn-cancel" onclick="profileEditor.close()">Cancel</button>
@@ -326,6 +339,10 @@
       </div>
     </div>
   `;
+
+  // Remove old overlay if present
+  const oldOverlay = document.getElementById('profile-edit-overlay');
+  if (oldOverlay) oldOverlay.remove();
 
   const overlayContainer = document.createElement('div');
   overlayContainer.innerHTML = overlayHTML;
@@ -339,51 +356,227 @@
     const profileHead = document.querySelector('#profile .profile-head');
     if (!profileHead) return;
 
-    // Remove existing button if present
     const existing = profileHead.querySelector('.profile-edit-btn');
-    if (existing) return; // Already injected
+    if (existing) return;
+
+    // Find or create the button container (the div with status pill)
+    let btnContainer = profileHead.querySelector('.status-pill');
+    if (btnContainer) btnContainer = btnContainer.parentElement;
+    else btnContainer = profileHead;
 
     const btn = document.createElement('button');
     btn.className = 'profile-edit-btn';
     btn.innerHTML = '<i class="fas fa-pen"></i> Edit Profile';
     btn.onclick = function() { profileEditor.open(); };
+    btnContainer.appendChild(btn);
+  }
 
-    // Insert after the status pill or at the end of profile-head
-    const statusPill = profileHead.querySelector('.status-pill');
-    if (statusPill && statusPill.parentElement) {
-      statusPill.parentElement.appendChild(btn);
+  // =========================================================================
+  // 6. REPLACE HARDCODED PROFILE DATA WITH REAL DATA
+  // =========================================================================
+
+  async function loadRealProfileData() {
+    // Check if user is logged in
+    let user = null;
+    try {
+      if (typeof dlAuth !== 'undefined' && dlAuth.getUser) {
+        user = await dlAuth.getUser();
+      }
+    } catch(e) {
+      console.warn('[ProfileEditor] Could not get user:', e);
+    }
+
+    if (!user || !user.id) {
+      showNotLoggedInState();
+      return null;
+    }
+
+    // Determine role
+    const role = (user.user_metadata && user.user_metadata.role) || 'driver';
+    const isCompany = role === 'fleet_owner';
+
+    // Load profile from Supabase directly via dlProfiles
+    let profile = null;
+    try {
+      if (isCompany && typeof dlProfiles !== 'undefined') {
+        profile = await dlProfiles.getCompanyProfile(user.id);
+      } else if (typeof dlProfiles !== 'undefined') {
+        profile = await dlProfiles.getDriverProfile(user.id);
+      }
+    } catch(e) {
+      console.warn('[ProfileEditor] Could not load profile:', e);
+    }
+
+    // Update the profile page with real data
+    updateProfilePageWithRealData(profile, isCompany, user);
+    return profile;
+  }
+
+  function showNotLoggedInState() {
+    const profileContainer = document.querySelector('#profile .profile');
+    if (!profileContainer) return;
+
+    profileContainer.innerHTML = `
+      <div class="profile-login-prompt">
+        <h3><i class="fas fa-user-circle"></i> Your Profile</h3>
+        <p>Sign in or create an account to build your professional profile.</p>
+        <button class="btn btn-g" onclick="if(window.authUI) authUI.show('signup'); else document.querySelector('.auth-signup-btn')?.click();">
+          <i class="fas fa-user-plus"></i> Create Your Profile
+        </button>
+      </div>
+    `;
+  }
+
+  function updateProfilePageWithRealData(profile, isCompany, user) {
+    const data = profile || {};
+
+    // --- Profile Head ---
+    const nameEl = document.querySelector('#profile .profile-name');
+    const titleEl = document.querySelector('#profile .profile-title');
+    const avatarEl = document.querySelector('#profile .avatar-lg');
+
+    if (isCompany) {
+      if (nameEl) nameEl.textContent = data.company_name || 'My Company';
+      if (titleEl) titleEl.textContent = data.bio ? data.bio.substring(0, 60) : 'Fleet Owner';
     } else {
-      profileHead.appendChild(btn);
+      const name = data.full_name || (user.user_metadata && user.user_metadata.full_name) || 'Driver';
+      if (nameEl) nameEl.textContent = name;
+
+      const parts = [];
+      if (data.specialty) parts.push(data.specialty + ' Driver');
+      if (data.address) parts.push(data.address);
+      if (titleEl) titleEl.textContent = parts.length > 0 ? parts.join(' \u00b7 ') : 'Complete your profile to get started';
+
+      // Update avatar initials
+      if (avatarEl) {
+        const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        avatarEl.textContent = initials;
+      }
+    }
+
+    // --- Badges: only show earned ones ---
+    const badgesEl = document.querySelector('#profile .profile-badges');
+    if (badgesEl) {
+      const badges = [];
+      if (data.license_number) badges.push('<span class="badge badge-green"><i class="fas fa-shield-alt"></i> CDL Verified</span>');
+      if (data.years_experience && data.years_experience >= 5) badges.push('<span class="badge badge-blue"><i class="fas fa-clock"></i> ' + data.years_experience + 'yr Veteran</span>');
+      if (data.specialty && data.specialty.toLowerCase().includes('hazmat')) badges.push('<span class="badge badge-purple"><i class="fas fa-biohazard"></i> HAZMAT</span>');
+
+      if (badges.length === 0) {
+        badgesEl.innerHTML = '<span style="color:var(--txt3);font-size:0.78rem;">Complete your profile to earn badges</span>';
+      } else {
+        badgesEl.innerHTML = badges.join(' ');
+      }
+    }
+
+    // --- Stats ---
+    const statsEls = document.querySelectorAll('#profile .ps-n');
+    const statsLabels = document.querySelectorAll('#profile .ps-l');
+    if (statsEls.length >= 3) {
+      statsEls[0].textContent = '-'; // Driver score - not implemented yet
+      statsLabels[0].textContent = 'Score';
+      statsEls[1].textContent = data.years_experience || '0';
+      statsLabels[1].textContent = 'Yrs Exp';
+      statsEls[2].textContent = '0';
+      statsLabels[2].textContent = 'Incidents';
+    }
+
+    // --- Profile Views: REAL data only (empty for now) ---
+    const viewsSection = document.getElementById('profile-views-section');
+    if (viewsSection) {
+      const viewCountBadge = document.getElementById('view-count-badge');
+      const viewsList = document.getElementById('profile-views-list');
+
+      if (viewCountBadge) viewCountBadge.textContent = '0 views';
+      if (viewsList) {
+        viewsList.innerHTML = '<div class="profile-empty-state"><i class="fas fa-eye-slash"></i>No profile views yet. Make your profile public and complete it to get noticed by companies.</div>';
+      }
+
+      // Remove the chart if it exists (it's fake)
+      const chart = document.getElementById('profile-views-chart');
+      if (chart) chart.style.display = 'none';
+    }
+
+    // --- Credentials section: show real or empty ---
+    const credSection = document.querySelectorAll('#profile .profile-section')[1];
+    if (credSection) {
+      if (data.license_number || (data.endorsements && data.endorsements.length > 0)) {
+        // Show real credentials
+        let html = '<div class="ps-title"><i class="fas fa-id-card"></i> Credentials</div>';
+        if (data.license_number) html += '<div class="ps-row"><span class="ps-label">CDL</span><span class="ps-val">' + data.license_number + '</span></div>';
+        if (data.endorsements && data.endorsements.length > 0) html += '<div class="ps-row"><span class="ps-label">Endorsements</span><span class="ps-val">' + data.endorsements.join(', ') + '</span></div>';
+        credSection.innerHTML = html;
+      } else {
+        credSection.innerHTML = '<div class="ps-title"><i class="fas fa-id-card"></i> Credentials</div><div class="profile-empty-state"><i class="fas fa-plus-circle"></i>Add your CDL and endorsements in Edit Profile</div>';
+      }
+    }
+
+    // --- Equipment Experience: empty state ---
+    const equipSection = document.querySelectorAll('#profile .profile-section')[2];
+    if (equipSection) {
+      if (data.specialty) {
+        equipSection.innerHTML = '<div class="ps-title"><i class="fas fa-truck"></i> Specialty</div><div class="ps-row"><span class="ps-label">Primary</span><span class="ps-val">' + data.specialty + '</span></div>';
+      } else {
+        equipSection.innerHTML = '<div class="ps-title"><i class="fas fa-truck"></i> Equipment Experience</div><div class="profile-empty-state"><i class="fas fa-plus-circle"></i>Add your specialty in Edit Profile</div>';
+      }
+    }
+
+    // --- Preferences: show real location or empty ---
+    const prefSection = document.querySelectorAll('#profile .profile-section')[3];
+    if (prefSection) {
+      if (data.address || data.phone) {
+        let html = '<div class="ps-title"><i class="fas fa-sliders-h"></i> Info</div>';
+        if (data.address) html += '<div class="ps-row"><span class="ps-label">Location</span><span class="ps-val">' + data.address + '</span></div>';
+        if (data.phone) html += '<div class="ps-row"><span class="ps-label">Phone</span><span class="ps-val">' + data.phone + '</span></div>';
+        if (data.bio) html += '<div class="ps-row"><span class="ps-label">About</span><span class="ps-val">' + data.bio + '</span></div>';
+        prefSection.innerHTML = html;
+      } else {
+        prefSection.innerHTML = '<div class="ps-title"><i class="fas fa-sliders-h"></i> Preferences</div><div class="profile-empty-state"><i class="fas fa-plus-circle"></i>Add your location and preferences in Edit Profile</div>';
+      }
+    }
+
+    // --- Employment History: empty state ---
+    const empSection = document.querySelectorAll('#profile .profile-section')[4];
+    if (empSection) {
+      empSection.innerHTML = '<div class="ps-title"><i class="fas fa-briefcase"></i> Employment History</div><div class="profile-empty-state"><i class="fas fa-plus-circle"></i>Employment history coming soon</div>';
     }
   }
 
   // =========================================================================
-  // 6. PROFILE EDITOR CONTROLLER
+  // 7. PROFILE EDITOR CONTROLLER
   // =========================================================================
 
   window.profileEditor = {
     isPublic: true,
     currentProfile: null,
     currentRole: 'driver',
+    currentUserId: null,
 
     async open() {
-      // Determine role
-      if (typeof dlUtils !== 'undefined' && dlUtils.getCurrentRole) {
-        this.currentRole = dlUtils.getCurrentRole() || 'driver';
-      } else if (window.authUI && window.authUI.currentUser) {
-        this.currentRole = window.authUI.currentUser.user_metadata?.role || 'driver';
+      // Get current user
+      let user = null;
+      try {
+        user = await dlAuth.getUser();
+      } catch(e) {
+        this.showToast('Please sign in to edit your profile', true);
+        return;
       }
 
-      const isCompany = this.currentRole === 'fleet_owner';
-      const formBody = document.getElementById('pe-form-body');
+      if (!user || !user.id) {
+        this.showToast('Please sign in to edit your profile', true);
+        return;
+      }
 
-      // Build the appropriate form
+      this.currentUserId = user.id;
+      this.currentRole = (user.user_metadata && user.user_metadata.role) || 'driver';
+      const isCompany = this.currentRole === 'fleet_owner';
+
+      const formBody = document.getElementById('pe-form-body');
       formBody.innerHTML = isCompany ? buildCompanyForm() : buildDriverForm();
 
-      // Load existing data
+      // Load existing data DIRECTLY from dlProfiles
       await this.loadProfile(isCompany);
 
-      // Show overlay
       document.getElementById('profile-edit-overlay').classList.add('on');
     },
 
@@ -392,14 +585,15 @@
     },
 
     async loadProfile(isCompany) {
-      // Try to load from backend
       let profile = null;
-      if (typeof dlProfileEngine !== 'undefined' && dlProfileEngine.loadMyProfile) {
-        try {
-          profile = await dlProfileEngine.loadMyProfile();
-        } catch (e) {
-          console.warn('[ProfileEditor] Could not load profile:', e);
+      try {
+        if (isCompany) {
+          profile = await dlProfiles.getCompanyProfile(this.currentUserId);
+        } else {
+          profile = await dlProfiles.getDriverProfile(this.currentUserId);
         }
+      } catch (e) {
+        console.warn('[ProfileEditor] Could not load profile:', e);
       }
 
       this.currentProfile = profile;
@@ -449,9 +643,7 @@
 
     updateToggle() {
       const track = document.getElementById('pe-public-toggle');
-      if (track) {
-        track.classList.toggle('on', this.isPublic);
-      }
+      if (track) track.classList.toggle('on', this.isPublic);
     },
 
     async save() {
@@ -459,7 +651,6 @@
       const saveBtn = document.getElementById('pe-save-btn');
       const el = (id) => document.getElementById(id);
 
-      // Gather data
       let data;
       if (isCompany) {
         data = {
@@ -492,49 +683,36 @@
         }
       }
 
-      // Save
       saveBtn.disabled = true;
       saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
 
       try {
-        if (typeof dlProfileEngine !== 'undefined' && dlProfileEngine.saveProfile) {
-          await dlProfileEngine.saveProfile(data);
+        // SAVE DIRECTLY via dlProfiles (bypasses broken dlProfileEngine)
+        let result;
+        if (isCompany) {
+          result = await dlProfiles.updateCompanyProfile(this.currentUserId, data);
+        } else {
+          result = await dlProfiles.updateDriverProfile(this.currentUserId, data);
         }
 
-        // Update the visible profile page with new data
-        this.updateProfileDisplay(data, isCompany);
+        if (!result) {
+          throw new Error('Save returned empty result');
+        }
+
+        console.log('[ProfileEditor] Saved successfully:', result);
+
+        // Reload the full profile page with the new data
+        const user = await dlAuth.getUser();
+        updateProfilePageWithRealData(result, isCompany, user);
 
         this.close();
-        this.showToast('Profile updated!');
+        this.showToast('Profile saved!');
       } catch (error) {
         console.error('[ProfileEditor] Save error:', error);
-        this.showToast('Failed to save. Please try again.', true);
+        this.showToast('Failed to save: ' + error.message, true);
       } finally {
         saveBtn.disabled = false;
         saveBtn.innerHTML = '<i class="fas fa-check"></i> Save Changes';
-      }
-    },
-
-    updateProfileDisplay(data, isCompany) {
-      // Update the profile page header with new data
-      const nameEl = document.querySelector('#profile .profile-name');
-      const titleEl = document.querySelector('#profile .profile-title');
-
-      if (isCompany) {
-        if (nameEl) nameEl.textContent = data.company_name || 'My Company';
-        if (titleEl) titleEl.textContent = (data.bio || 'Fleet Owner').substring(0, 60);
-      } else {
-        if (nameEl) nameEl.textContent = data.full_name || 'Driver';
-        const parts = [];
-        if (data.specialty) parts.push(data.specialty + ' Driver');
-        if (data.address) parts.push(data.address);
-        if (titleEl) titleEl.textContent = parts.join(' · ') || 'Driver';
-      }
-
-      // Update stats
-      const statsEls = document.querySelectorAll('#profile .ps-n');
-      if (!isCompany && statsEls.length >= 2) {
-        statsEls[1].textContent = data.years_experience || '0';
       }
     },
 
@@ -555,30 +733,48 @@
   };
 
   // =========================================================================
-  // 7. AUTO-INITIALIZE
+  // 8. AUTO-INITIALIZE
   // =========================================================================
 
   function init() {
     injectEditButton();
-    console.log('[ProfileEditor] Module loaded');
+
+    // Load real profile data when navigating to profile
+    loadRealProfileData();
+
+    console.log('[ProfileEditor] v3 loaded - using dlProfiles directly');
   }
 
-  // Watch for profile screen becoming visible to inject button
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
-    setTimeout(init, 200);
+    setTimeout(init, 300);
   }
 
-  // Also re-inject when navigating to profile (in case of dynamic rendering)
+  // Re-inject + reload data when navigating to profile
   const origGo = window.go;
   if (typeof origGo === 'function') {
     window.go = function(s) {
       origGo(s);
       if (s === 'profile') {
-        setTimeout(injectEditButton, 50);
+        setTimeout(() => {
+          injectEditButton();
+          loadRealProfileData();
+        }, 100);
       }
     };
+  }
+
+  // Also listen for auth state changes to reload profile
+  if (typeof dlAuth !== 'undefined' && dlAuth.onAuthChange) {
+    dlAuth.onAuthChange(function(event, session) {
+      if (event === 'SIGNED_IN') {
+        setTimeout(() => {
+          loadRealProfileData();
+          injectEditButton();
+        }, 500);
+      }
+    });
   }
 
   // Close on Escape
