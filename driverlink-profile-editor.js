@@ -166,6 +166,24 @@
   100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
 }
 
+/* Multi-select chip grid */
+.pe-chip-grid {
+  display: flex; flex-wrap: wrap; gap: 0.4rem;
+}
+.pe-chip {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.35rem 0.7rem; border-radius: 20px;
+  background: rgba(255,255,255,0.04); border: 1.5px solid var(--brd);
+  color: var(--txt2); font-size: 0.78rem; font-weight: 600;
+  cursor: pointer; transition: all 0.15s; user-select: none;
+}
+.pe-chip:hover { border-color: var(--green); color: var(--txt); background: rgba(0,255,136,0.04); }
+.pe-chip.selected {
+  background: rgba(0,255,136,0.12); border-color: var(--green);
+  color: var(--green); box-shadow: 0 0 8px rgba(0,255,136,0.1);
+}
+.pe-chip.selected::before { content: '\\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 0.65rem; }
+
 /* Empty state for profile sections */
 .profile-empty-state {
   text-align: center; padding: 2rem 1rem; color: var(--txt3);
@@ -198,6 +216,15 @@
     'LPG', 'Dry Van', 'Intermodal', 'Heavy Haul', 'Other'
   ];
 
+  const CERTIFICATIONS = [
+    'CDL Class A', 'CDL Class B', 'CDL Class C',
+    'Hazmat (H)', 'Tanker (N)', 'Doubles/Triples (T)',
+    'Passenger (P)', 'School Bus (S)', 'TWIC Card',
+    'TSA Background', 'OSHA 10', 'OSHA 30',
+    'First Aid/CPR', 'Forklift Certified', 'Smith System',
+    'Defensive Driving', 'ELD Certified', 'Air Brake'
+  ];
+
   // =========================================================================
   // 3. BUILD EDIT MODAL HTML
   // =========================================================================
@@ -210,13 +237,6 @@
           <label for="pe-fullname">Full Name</label>
           <input type="text" id="pe-fullname" class="pe-input" placeholder="Your full name">
         </div>
-        <div class="pe-field">
-          <label for="pe-specialty">Specialty</label>
-          <select id="pe-specialty" class="pe-select">
-            <option value="">Select your specialty...</option>
-            ${SPECIALTIES.map(s => '<option value="' + s + '">' + s + '</option>').join('')}
-          </select>
-        </div>
         <div class="pe-row">
           <div class="pe-field">
             <label for="pe-experience">Years Experience</label>
@@ -226,6 +246,18 @@
             <label for="pe-license">CDL Number <span class="pe-hint">(optional)</span></label>
             <input type="text" id="pe-license" class="pe-input" placeholder="License #">
           </div>
+        </div>
+      </div>
+      <div class="pe-section">
+        <div class="pe-section-title">Experience <span class="pe-hint">(select all that apply)</span></div>
+        <div class="pe-chip-grid" id="pe-specialties-grid">
+          ${SPECIALTIES.map(s => '<div class="pe-chip" data-val="' + s + '" onclick="this.classList.toggle(\'selected\')">' + s + '</div>').join('')}
+        </div>
+      </div>
+      <div class="pe-section">
+        <div class="pe-section-title">Certifications <span class="pe-hint">(select all that apply)</span></div>
+        <div class="pe-chip-grid" id="pe-certs-grid">
+          ${CERTIFICATIONS.map(c => '<div class="pe-chip" data-val="' + c + '" onclick="this.classList.toggle(\'selected\')">' + c + '</div>').join('')}
         </div>
       </div>
       <div class="pe-section">
@@ -443,7 +475,8 @@
       if (nameEl) nameEl.textContent = name;
 
       const parts = [];
-      if (data.specialty) parts.push(data.specialty + ' Driver');
+      const allSpecs = Array.isArray(data.specialties) && data.specialties.length > 0 ? data.specialties : (data.specialty ? [data.specialty] : []);
+      if (allSpecs.length > 0) parts.push(allSpecs.slice(0, 3).join(', ') + ' Driver');
       if (data.address) parts.push(data.address);
       if (titleEl) titleEl.textContent = parts.length > 0 ? parts.join(' \u00b7 ') : 'Complete your profile to get started';
 
@@ -460,7 +493,9 @@
       const badges = [];
       if (data.license_number) badges.push('<span class="badge badge-green"><i class="fas fa-shield-alt"></i> CDL Verified</span>');
       if (data.years_experience && data.years_experience >= 5) badges.push('<span class="badge badge-blue"><i class="fas fa-clock"></i> ' + data.years_experience + 'yr Veteran</span>');
-      if (data.specialty && data.specialty.toLowerCase().includes('hazmat')) badges.push('<span class="badge badge-purple"><i class="fas fa-biohazard"></i> HAZMAT</span>');
+      const allSpecsForBadge = Array.isArray(data.specialties) ? data.specialties : (data.specialty ? [data.specialty] : []);
+      if (allSpecsForBadge.some(s => s.toLowerCase().includes('hazmat'))) badges.push('<span class="badge badge-purple"><i class="fas fa-biohazard"></i> HAZMAT</span>');
+      if (allSpecsForBadge.some(s => s.toLowerCase().includes('tanker'))) badges.push('<span class="badge badge-blue"><i class="fas fa-gas-pump"></i> TANKER</span>');
 
       if (badges.length === 0) {
         badgesEl.innerHTML = '<span style="color:var(--txt3);font-size:0.78rem;">Complete your profile to earn badges</span>';
@@ -514,27 +549,40 @@
       setTimeout(clearFakeViewers, 2000);
     }
 
-    // --- Credentials section: show real or empty ---
+    // --- Credentials & Certifications section ---
     const credSection = document.querySelectorAll('#profile .profile-section')[1];
     if (credSection) {
-      if (data.license_number || (data.endorsements && data.endorsements.length > 0)) {
-        // Show real credentials
-        let html = '<div class="ps-title"><i class="fas fa-id-card"></i> Credentials</div>';
+      const certs = Array.isArray(data.endorsements) ? data.endorsements : [];
+      if (data.license_number || certs.length > 0) {
+        let html = '<div class="ps-title"><i class="fas fa-id-card"></i> Credentials & Certifications</div>';
         if (data.license_number) html += '<div class="ps-row"><span class="ps-label">CDL</span><span class="ps-val">' + data.license_number + '</span></div>';
-        if (data.endorsements && data.endorsements.length > 0) html += '<div class="ps-row"><span class="ps-label">Endorsements</span><span class="ps-val">' + data.endorsements.join(', ') + '</span></div>';
+        if (certs.length > 0) {
+          html += '<div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.5rem;">';
+          certs.forEach(function(c) {
+            html += '<span style="display:inline-block;padding:0.25rem 0.6rem;border-radius:16px;background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.25);color:var(--green);font-size:0.75rem;font-weight:600;"><i class="fas fa-certificate" style="margin-right:0.2rem;"></i>' + c + '</span>';
+          });
+          html += '</div>';
+        }
         credSection.innerHTML = html;
       } else {
-        credSection.innerHTML = '<div class="ps-title"><i class="fas fa-id-card"></i> Credentials</div><div class="profile-empty-state"><i class="fas fa-plus-circle"></i>Add your CDL and endorsements in Edit Profile</div>';
+        credSection.innerHTML = '<div class="ps-title"><i class="fas fa-id-card"></i> Credentials & Certifications</div><div class="profile-empty-state"><i class="fas fa-plus-circle"></i>Add your certifications in Edit Profile</div>';
       }
     }
 
-    // --- Equipment Experience: empty state ---
+    // --- Experience / Specialties: show multiple ---
     const equipSection = document.querySelectorAll('#profile .profile-section')[2];
     if (equipSection) {
-      if (data.specialty) {
-        equipSection.innerHTML = '<div class="ps-title"><i class="fas fa-truck"></i> Specialty</div><div class="ps-row"><span class="ps-label">Primary</span><span class="ps-val">' + data.specialty + '</span></div>';
+      const specs = Array.isArray(data.specialties) && data.specialties.length > 0 ? data.specialties : (data.specialty ? [data.specialty] : []);
+      if (specs.length > 0) {
+        let html = '<div class="ps-title"><i class="fas fa-truck"></i> Experience</div>';
+        html += '<div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.5rem;">';
+        specs.forEach(function(s) {
+          html += '<span style="display:inline-block;padding:0.25rem 0.6rem;border-radius:16px;background:rgba(100,149,237,0.12);border:1px solid rgba(100,149,237,0.3);color:#6495ed;font-size:0.75rem;font-weight:600;"><i class="fas fa-truck-moving" style="margin-right:0.2rem;"></i>' + s + '</span>';
+        });
+        html += '</div>';
+        equipSection.innerHTML = html;
       } else {
-        equipSection.innerHTML = '<div class="ps-title"><i class="fas fa-truck"></i> Equipment Experience</div><div class="profile-empty-state"><i class="fas fa-plus-circle"></i>Add your specialty in Edit Profile</div>';
+        equipSection.innerHTML = '<div class="ps-title"><i class="fas fa-truck"></i> Experience</div><div class="profile-empty-state"><i class="fas fa-plus-circle"></i>Add your experience areas in Edit Profile</div>';
       }
     }
 
@@ -627,12 +675,29 @@
       const el = (id) => document.getElementById(id);
 
       if (el('pe-fullname')) el('pe-fullname').value = data.full_name || '';
-      if (el('pe-specialty')) el('pe-specialty').value = data.specialty || '';
       if (el('pe-experience')) el('pe-experience').value = data.years_experience || '';
       if (el('pe-license')) el('pe-license').value = data.license_number || '';
       if (el('pe-phone')) el('pe-phone').value = data.phone || '';
       if (el('pe-address')) el('pe-address').value = data.address || '';
       if (el('pe-bio')) el('pe-bio').value = data.bio || '';
+
+      // Multi-select specialties
+      const specGrid = el('pe-specialties-grid');
+      if (specGrid) {
+        const selected = Array.isArray(data.specialties) ? data.specialties : (data.specialty ? [data.specialty] : []);
+        specGrid.querySelectorAll('.pe-chip').forEach(chip => {
+          chip.classList.toggle('selected', selected.includes(chip.dataset.val));
+        });
+      }
+
+      // Multi-select certifications
+      const certGrid = el('pe-certs-grid');
+      if (certGrid) {
+        const selected = Array.isArray(data.endorsements) ? data.endorsements : [];
+        certGrid.querySelectorAll('.pe-chip').forEach(chip => {
+          chip.classList.toggle('selected', selected.includes(chip.dataset.val));
+        });
+      }
 
       this.isPublic = data.is_public !== false;
       this.updateToggle();
@@ -684,9 +749,21 @@
           return;
         }
       } else {
+        // Collect selected specialties
+        const selectedSpecs = [];
+        const specGrid = el('pe-specialties-grid');
+        if (specGrid) specGrid.querySelectorAll('.pe-chip.selected').forEach(c => selectedSpecs.push(c.dataset.val));
+
+        // Collect selected certifications
+        const selectedCerts = [];
+        const certGrid = el('pe-certs-grid');
+        if (certGrid) certGrid.querySelectorAll('.pe-chip.selected').forEach(c => selectedCerts.push(c.dataset.val));
+
         data = {
           full_name: (el('pe-fullname')?.value || '').trim(),
-          specialty: el('pe-specialty')?.value || '',
+          specialty: selectedSpecs[0] || '',
+          specialties: selectedSpecs,
+          endorsements: selectedCerts,
           years_experience: parseInt(el('pe-experience')?.value) || 0,
           license_number: (el('pe-license')?.value || '').trim(),
           phone: (el('pe-phone')?.value || '').trim(),
