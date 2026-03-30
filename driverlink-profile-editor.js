@@ -482,19 +482,36 @@
     }
 
     // --- Profile Views: REAL data only (empty for now) ---
+    // Use aggressive clearing + MutationObserver to defeat backend wiring that injects fake data
+    function clearFakeViewers() {
+      const viewsSection = document.getElementById('profile-views-section');
+      if (!viewsSection) return;
+
+      // Replace the entire section content with clean empty state
+      viewsSection.innerHTML = '<h4 style="display:flex;align-items:center;gap:8px;margin:0 0 12px 0;"><i class="fas fa-eye" style="color:var(--green);"></i> WHO\'S VIEWED YOUR PROFILE <span style="margin-left:auto;color:var(--txt3);font-size:0.78rem;">0 views</span></h4><div style="text-align:center;padding:24px 16px;color:var(--txt3);"><i class="fas fa-eye-slash" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>No profile views yet. Make your profile public and complete it to get noticed by companies.</div>';
+    }
+
+    clearFakeViewers();
+
+    // Watch for the backend wiring script re-injecting fake viewer data
     const viewsSection = document.getElementById('profile-views-section');
-    if (viewsSection) {
-      const viewCountBadge = document.getElementById('view-count-badge');
-      const viewsList = document.getElementById('profile-views-list');
+    if (viewsSection && !viewsSection._peObserver) {
+      const observer = new MutationObserver(function(mutations) {
+        // If content changed and now contains fake company names, clear it again
+        const text = viewsSection.textContent;
+        if (text.includes('Ruan Transport') || text.includes('NGL Energy') || text.includes('Gulf Coast') ||
+            text.includes('TransAm') || text.includes('Brenntag') || text.includes('views this month')) {
+          clearFakeViewers();
+        }
+      });
+      observer.observe(viewsSection, { childList: true, subtree: true, characterData: true });
+      viewsSection._peObserver = observer;
 
-      if (viewCountBadge) viewCountBadge.textContent = '0 views';
-      if (viewsList) {
-        viewsList.innerHTML = '<div class="profile-empty-state"><i class="fas fa-eye-slash"></i>No profile views yet. Make your profile public and complete it to get noticed by companies.</div>';
-      }
-
-      // Remove the chart if it exists (it's fake)
-      const chart = document.getElementById('profile-views-chart');
-      if (chart) chart.style.display = 'none';
+      // Also do delayed clears to catch any stragglers
+      setTimeout(clearFakeViewers, 200);
+      setTimeout(clearFakeViewers, 500);
+      setTimeout(clearFakeViewers, 1000);
+      setTimeout(clearFakeViewers, 2000);
     }
 
     // --- Credentials section: show real or empty ---
@@ -757,10 +774,10 @@
     window.go = function(s) {
       origGo(s);
       if (s === 'profile') {
-        setTimeout(() => {
-          injectEditButton();
-          loadRealProfileData();
-        }, 100);
+        // Run at multiple intervals to beat the backend wiring timing race
+        setTimeout(() => { injectEditButton(); loadRealProfileData(); }, 100);
+        setTimeout(() => { loadRealProfileData(); }, 500);
+        setTimeout(() => { loadRealProfileData(); }, 1500);
       }
     };
   }
