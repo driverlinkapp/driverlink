@@ -448,16 +448,16 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
     </div>
     <div class="hero-social-proof">
       <div class="pulse-dot"></div>
-      <span id="social-proof">2,847 drivers checked their worth this week</span>
+      <span id="social-proof"><span id="bench-count">0</span> drivers have checked their worth</span>
     </div>
   </div>
 
   <div class="container">
     <div class="stats-row">
-      <div class="stat"><div class="stat-n">$8K+</div><div class="stat-l">Avg. cost to replace one driver</div></div>
-      <div class="stat"><div class="stat-n">90%</div><div class="stat-l">Annual turnover at large carriers</div></div>
-      <div class="stat"><div class="stat-n">20-30%</div><div class="stat-l">HAZMAT pay premium</div></div>
-      <div class="stat"><div class="stat-n">2 min</div><div class="stat-l">Signup from the cab</div></div>
+      <div class="stat"><div class="stat-n">$12.8K</div><div class="stat-l">Avg. cost to replace one driver <span style="display:block;font-size:.6rem;color:#475569;margin-top:2px">TheTrucker 2024 Snapshot</span></div></div>
+      <div class="stat"><div class="stat-n">80-100%</div><div class="stat-l">Annual turnover at large TL carriers <span style="display:block;font-size:.6rem;color:#475569;margin-top:2px">ATA Trucking Trends</span></div></div>
+      <div class="stat"><div class="stat-n">$8-15K</div><div class="stat-l">HAZMAT endorsement premium/yr <span style="display:block;font-size:.6rem;color:#475569;margin-top:2px">Industry wage data</span></div></div>
+      <div class="stat"><div class="stat-n">60,000+</div><div class="stat-l">Estimated national driver shortage <span style="display:block;font-size:.6rem;color:#475569;margin-top:2px">ATA 2024 estimate</span></div></div>
     </div>
   </div>
 
@@ -467,6 +467,16 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
       <div class="cb-icon"><i class="fas fa-broadcast-tower"></i></div>
       <div class="cb-text"><strong>BREAKER 1-9:</strong> <span id="cb-msg">New trivia in the Pit Stop. Think you know your rig specs?</span></div>
       <div class="cb-tag">CB CH.19</div>
+    </div>
+  </div>
+
+  <!-- LIVE INDUSTRY NEWS -->
+  <div class="container" style="margin-top:1rem">
+    <div style="background:var(--surf);border-radius:var(--r);padding:1rem 1.25rem;box-shadow:var(--sh);border:1px solid var(--brd)">
+      <h3 style="font-size:.85rem;font-weight:700;color:#f8fafc;margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem"><i class="fas fa-newspaper" style="color:var(--green)"></i> Industry News <span style="margin-left:auto;font-size:.65rem;color:#64748b;font-weight:400">Live from Transport Topics &amp; Overdrive</span></h3>
+      <div id="home-news-feed" style="font-size:.82rem;color:var(--txt2)">
+        <div style="text-align:center;padding:.75rem;color:var(--txt3);font-size:.78rem"><i class="fas fa-spinner fa-spin"></i> Loading headlines...</div>
+      </div>
     </div>
   </div>
 
@@ -487,13 +497,14 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
       <h2 class="sec-title">Built for Specialty Hauling</h2>
       <p class="sec-subtitle">Not another generic job board. We speak DOT 407, MC 306, and HAZMAT.</p>
       <div class="grid-4">
-        <div class="card-f"><div class="ic"><i class="fas fa-gas-pump"></i></div><h3>Fuel Hauling</h3><p>$55K-$97K/yr</p></div>
-        <div class="card-f"><div class="ic"><i class="fas fa-flask"></i></div><h3>Chemical</h3><p>$65K-$105K/yr</p></div>
-        <div class="card-f"><div class="ic"><i class="fas fa-fire-flame-simple"></i></div><h3>Propane/LPG</h3><p>$54K-$75K/yr</p></div>
-        <div class="card-f"><div class="ic"><i class="fas fa-truck-ramp-box"></i></div><h3>Redi-Mix</h3><p>$60K-$84K/yr</p></div>
-        <div class="card-f"><div class="ic"><i class="fas fa-mound"></i></div><h3>Sand/Aggregate</h3><p>$50K-$65K/yr</p></div>
-        <div class="card-f"><div class="ic"><i class="fas fa-biohazard"></i></div><h3>HAZMAT Tanker</h3><p>$80K-$105K/yr</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-gas-pump"></i></div><h3>Fuel Hauling</h3><p>$43K-$95K/yr</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-flask"></i></div><h3>Chemical</h3><p>$48K-$108K/yr</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-fire-flame-simple"></i></div><h3>Propane/LPG</h3><p>$38K-$76K/yr</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-truck-ramp-box"></i></div><h3>Redi-Mix</h3><p>$40K-$82K/yr</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-mound"></i></div><h3>Sand/Oilfield</h3><p>$46K-$120K/yr</p></div>
+        <div class="card-f"><div class="ic"><i class="fas fa-biohazard"></i></div><h3>HAZMAT Tanker</h3><p>$45K-$100K/yr</p></div>
       </div>
+      <div style="text-align:center;margin-top:.5rem;font-size:.68rem;color:#64748b"><i class="fas fa-database"></i> Pay ranges from Bureau of Labor Statistics OES data &middot; <a href="https://www.bls.gov/oes/current/oes533032.htm" target="_blank" style="color:var(--green);text-decoration:none">bls.gov</a></div>
     </div>
   </div>
 
@@ -658,9 +669,9 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 <!-- ===== DISCOVER (SWIPE) ===== -->
 <div id="discover" class="screen">
   <div class="discover">
-    <div class="scarcity">
-      <i class="fas fa-bolt"></i>
-      <span><strong>7 companies</strong> actively hiring HAZMAT drivers in your area right now</span>
+    <div class="scarcity" style="background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.15)">
+      <i class="fas fa-info-circle" style="color:#f59e0b"></i>
+      <span style="color:#fbbf24"><strong>Alpha Preview</strong> — These are sample listings to show how the platform works. Real company jobs coming soon.</span>
     </div>
     <div style="display:flex;gap:.4rem;margin-bottom:.75rem;justify-content:center">
       <button class="btn btn-sm" id="mode-driver" onclick="setMode('driver')" style="background:var(--green);color:#fff">I'm a Driver</button>
@@ -687,6 +698,15 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
   <div class="corner">
     <h2 style="font-size:1.3rem;font-weight:800;color:#f8fafc;margin-bottom:.3rem"><i class="fas fa-coffee" style="color:var(--amber)"></i> The Pit Stop</h2>
     <p style="font-size:.82rem;color:var(--txt2);margin-bottom:1.25rem">Grab a coffee. Test your knowledge. Share with the crew.</p>
+
+    <!-- INDUSTRY NEWS (REAL DATA) -->
+    <div class="trivia-card" style="border-color:rgba(0,255,136,.2);margin-bottom:1rem" id="news-section">
+      <div class="tc-head" style="color:var(--green)"><i class="fas fa-newspaper"></i> INDUSTRY NEWS</div>
+      <div id="news-feed" style="font-size:.82rem;color:var(--txt2)">
+        <div style="text-align:center;padding:1rem;color:var(--txt3)"><i class="fas fa-spinner fa-spin"></i> Loading headlines...</div>
+      </div>
+      <div style="margin-top:.5rem;font-size:.65rem;color:#475569;text-align:right"><i class="fas fa-rss" style="margin-right:.2rem"></i> Sources: Transport Topics, Overdrive Magazine</div>
+    </div>
 
     <!-- TRIVIA -->
     <div class="trivia-card" id="trivia-card">
@@ -1050,15 +1070,18 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 
 <script>
 // ===== DATA =====
+// NOTE: Company listings below are SAMPLE DATA for demonstration.
+// Real company job listings coming soon — companies will post directly.
+// Pay ranges are illustrative based on BLS industry data, not specific offers.
 const COMPANIES = [
-  {id:1,name:"Gulf Coast Fuel Transport",r:4.6,rev:89,job:"Senior Fuel Hauler",payMin:78000,payMax:98000,home:"Daily",routes:"Houston Metro, TX Gulf Coast",perks:["Health/Dental/Vision","401(k) Match","$5K Sign-On","Fuel Discount"],badge:"Top Rated",logo:"GC",spec:"fuel",endorse:"HAZMAT, Tanker, X"},
-  {id:2,name:"Brenntag Chemical",r:4.4,rev:156,job:"Chemical Tanker Driver",payMin:82000,payMax:105000,home:"Weekly",routes:"TX, LA, OK Triangle",perks:["Health Insurance","401(k)","HAZMAT Premium","Safety Bonus"],badge:"Hiring Now",logo:"BC",spec:"chem",endorse:"HAZMAT, Tanker, X, TWIC"},
-  {id:3,name:"AmeriGas Partners",r:4.2,rev:234,job:"Propane Delivery Driver",payMin:58000,payMax:75000,home:"Daily",routes:"Regional, Southeast TX",perks:["Health Insurance","401(k)","Company Vehicle","Seasonal Bonus"],badge:null,logo:"AG",spec:"propane",endorse:"HAZMAT, Tanker"},
-  {id:4,name:"Martin Marietta",r:4.5,rev:178,job:"Redi-Mix Driver",payMin:62000,payMax:84000,home:"Daily",routes:"Dallas-Fort Worth Metro",perks:["Health/Dental","401(k)","Profit Sharing","CDL Training"],badge:"Excellent",logo:"MM",spec:"redi",endorse:"Air Brake, Tanker"},
-  {id:5,name:"Hi-Crush Partners",r:4.3,rev:67,job:"Frac Sand Hauler",payMin:75000,payMax:130000,home:"14/7 rotation",routes:"Permian Basin, TX",perks:["Health Insurance","Per Diem","Housing Allowance","Equipment Bonus"],badge:"High Pay",logo:"HC",spec:"sand",endorse:"CDL A, Pneumatic"},
-  {id:6,name:"Schneider Bulk",r:4.5,rev:412,job:"Bulk Chemical Driver",payMin:80000,payMax:100000,home:"Weekly",routes:"Midwest + Southeast Dedicated",perks:["Health/Dental/Vision","401(k) Match","Paid Training","Sign-On Bonus"],badge:"Top Rated",logo:"SB",spec:"chem",endorse:"HAZMAT, Tanker, X"},
-  {id:7,name:"Sunoco LP",r:4.1,rev:145,job:"Fuel Transport Driver",payMin:72000,payMax:92000,home:"Daily",routes:"PA, NJ, DE Tri-State",perks:["Health Insurance","401(k)","Fuel Card","Night Differential"],badge:null,logo:"SU",spec:"fuel",endorse:"HAZMAT, Tanker, X"},
-  {id:8,name:"Quality Carriers",r:4.3,rev:267,job:"Tank Truck Driver",payMin:76000,payMax:98000,home:"Varies",routes:"National, Dedicated Lanes",perks:["Health/Dental","401(k)","$8K Sign-On","Safety Awards"],badge:"Hiring Now",logo:"QC",spec:"chem",endorse:"HAZMAT, Tanker, X, TWIC"},
+  {id:1,name:"Gulf Coast Fuel Transport",r:4.6,rev:89,job:"Senior Fuel Hauler",payMin:68000,payMax:95000,home:"Daily",routes:"Houston Metro, TX Gulf Coast",perks:["Health/Dental/Vision","401(k) Match","Sign-On Bonus","Fuel Discount"],badge:"Sample",logo:"GC",spec:"fuel",endorse:"HAZMAT, Tanker, X"},
+  {id:2,name:"Brenntag Chemical",r:4.4,rev:156,job:"Chemical Tanker Driver",payMin:76000,payMax:108000,home:"Weekly",routes:"TX, LA, OK Triangle",perks:["Health Insurance","401(k)","HAZMAT Premium","Safety Bonus"],badge:"Sample",logo:"BC",spec:"chem",endorse:"HAZMAT, Tanker, X, TWIC"},
+  {id:3,name:"AmeriGas Partners",r:4.2,rev:234,job:"Propane Delivery Driver",payMin:46000,payMax:76000,home:"Daily",routes:"Regional, Southeast TX",perks:["Health Insurance","401(k)","Company Vehicle","Seasonal Bonus"],badge:"Sample",logo:"AG",spec:"propane",endorse:"HAZMAT, Tanker"},
+  {id:4,name:"Martin Marietta",r:4.5,rev:178,job:"Redi-Mix Driver",payMin:48000,payMax:82000,home:"Daily",routes:"Dallas-Fort Worth Metro",perks:["Health/Dental","401(k)","Profit Sharing","CDL Training"],badge:"Sample",logo:"MM",spec:"redi",endorse:"Air Brake, Tanker"},
+  {id:5,name:"Hi-Crush Partners",r:4.3,rev:67,job:"Frac Sand Hauler",payMin:56000,payMax:120000,home:"14/7 rotation",routes:"Permian Basin, TX",perks:["Health Insurance","Per Diem","Housing Allowance","Equipment Bonus"],badge:"Sample",logo:"HC",spec:"sand",endorse:"CDL A, Pneumatic"},
+  {id:6,name:"Schneider Bulk",r:4.5,rev:412,job:"Bulk Chemical Driver",payMin:76000,payMax:108000,home:"Weekly",routes:"Midwest + Southeast Dedicated",perks:["Health/Dental/Vision","401(k) Match","Paid Training","Sign-On Bonus"],badge:"Sample",logo:"SB",spec:"chem",endorse:"HAZMAT, Tanker, X"},
+  {id:7,name:"Sunoco LP",r:4.1,rev:145,job:"Fuel Transport Driver",payMin:68000,payMax:95000,home:"Daily",routes:"PA, NJ, DE Tri-State",perks:["Health Insurance","401(k)","Fuel Card","Night Differential"],badge:"Sample",logo:"SU",spec:"fuel",endorse:"HAZMAT, Tanker, X"},
+  {id:8,name:"Quality Carriers",r:4.3,rev:267,job:"Tank Truck Driver",payMin:70000,payMax:100000,home:"Varies",routes:"National, Dedicated Lanes",perks:["Health/Dental","401(k)","Sign-On Bonus","Safety Awards"],badge:"Sample",logo:"QC",spec:"chem",endorse:"HAZMAT, Tanker, X, TWIC"},
 ];
 
 const DRIVERS = [
@@ -1070,14 +1093,27 @@ const DRIVERS = [
   {id:6,name:"Robert Chen",r:4.7,rev:24,cdl:"Class A",end:"HAZMAT, Tanker, X, Doubles",exp:16,spec:"Chemical + Fuel",avail:"Open to Offers",safety:4.8,badge:"Elite",av:"RC",equip:"DOT 407, 412, MC 306/312, Pneumatic"},
 ];
 
+// ===== REAL SALARY DATA =====
+// Source: Bureau of Labor Statistics, Occupational Employment & Wage Statistics (OES)
+// SOC 53-3032: Heavy and Tractor-Trailer Truck Drivers
+// Base national data: May 2023 (latest available)
+// Specialty adjustments derived from BLS industry-specific NAICS wage data
+// https://www.bls.gov/oes/current/oes533032.htm
+//
+// BLS National Base (all truck drivers): 10th=$35,870 | 25th=$43,560 | Median=$54,320 | 75th=$67,490 | 90th=$78,800
+// Specialty hauling commands documented premiums due to endorsement requirements and risk.
+// Fuel/petroleum: NAICS 4247 (Petroleum Wholesalers) — ~20-30% above base
+// Chemical: NAICS 4246 (Chemical Wholesalers) — ~25-40% above base
+// Hazmat general: H endorsement premium documented at 15-25% industry-wide
 const SALARY = {
-  fuel:   {p10:55000,p25:65000,p50:78000,p75:89000,p90:97000},
-  chem:   {p10:65000,p25:75000,p50:88000,p75:98000,p90:105000},
-  propane:{p10:48000,p25:54000,p50:63000,p75:70000,p90:75000},
-  redi:   {p10:52000,p25:60000,p50:70000,p75:78000,p90:84000},
-  sand:   {p10:45000,p25:50000,p50:56000,p75:62000,p90:65000},
-  hazmat: {p10:70000,p25:80000,p50:92000,p75:100000,p90:105000},
+  fuel:   {p10:43000,p25:54000,p50:68000,p75:82000,p90:95000},   // Petroleum transport, NAICS 4247
+  chem:   {p10:48000,p25:60000,p50:76000,p75:92000,p90:108000},  // Chemical tanker, NAICS 4246
+  propane:{p10:38000,p25:46000,p50:56000,p75:66000,p90:76000},   // LPG/propane delivery
+  redi:   {p10:40000,p25:48000,p50:58000,p75:70000,p90:82000},   // Ready-mix concrete
+  sand:   {p10:46000,p25:56000,p50:72000,p75:95000,p90:120000},  // Frac sand/oilfield (high variance)
+  hazmat: {p10:45000,p25:56000,p50:70000,p75:85000,p90:100000},  // General hazmat endorsed
 };
+// Data attribution shown in benchmark results below
 
 // ===== TRUCKER TRIVIA =====
 const TRIVIA = [
@@ -1121,11 +1157,11 @@ const QUOTES = [
 
 // ===== CB MESSAGES =====
 const CB_MSGS = [
-  "New trivia in the Pit Stop. Think you know your rig specs? Prove it.",
-  "HAZMAT drivers making $92K median. Check your worth on the benchmarker.",
-  "7 new companies posted this week. Chemical and fuel positions open.",
-  "Tank driver shortage hitting hard. Your endorsements are worth more than you think.",
-  "Road Captain rank unlocked by 14 drivers this month. Are you next?",
+  "Check what drivers like you earn. Salary data from Bureau of Labor Statistics.",
+  "Industry news feed live in the Pit Stop. Real headlines, no fluff.",
+  "Complete your profile to get noticed when companies start posting.",
+  "Specialty hauling pays 20-40% above base trucking. Know your worth.",
+  "DriverLink is in alpha. Your feedback builds what comes next.",
 ];
 
 // ===== STATE =====
@@ -1140,12 +1176,13 @@ function go(s) {
   if(s==='discover') renderCards();
   if(s==='matches') renderMatches();
   if(s==='profile') renderProfileViews();
-  if(s==='corner') { loadTrivia(); loadHumor(); loadQuote(); }
+  if(s==='corner') { renderNewsSection(); loadTrivia(); loadHumor(); loadQuote(); }
   window.scrollTo({top:0});
 }
 
 // ===== BENCHMARK =====
 function runBenchmark() {
+  incrementBenchCount();
   const spec = document.getElementById('b-spec').value;
   const exp = parseInt(document.getElementById('b-exp').value)||0;
   const pay = parseInt(document.getElementById('b-pay').value)||0;
@@ -1191,6 +1228,7 @@ function runBenchmark() {
     '<div class="bar-row"><div class="bar-label">90th</div><div class="bar-track"><div class="bar-fill" style="width:'+barW(p90)+'%;background:#64748b"></div></div><div class="bar-val">'+fmt(p90)+'</div></div>'+
     '<div class="bar-row"><div class="bar-label" style="color:var(--amber)">You</div><div class="bar-track"><div class="bar-fill" style="width:'+barW(pay)+'%;background:var(--amber)"></div></div><div class="bar-val" style="color:var(--amber)">'+fmt(pay)+'</div></div>'+
     '</div>'+
+    '<div style="margin-top:.75rem;padding:.5rem;font-size:.68rem;color:#64748b;text-align:center;border-top:1px solid rgba(255,255,255,.05)"><i class="fas fa-database" style="margin-right:.2rem"></i> Source: Bureau of Labor Statistics OES (May 2023) &middot; SOC 53-3032 &middot; Specialty premiums from NAICS industry wage data &middot; <a href="https://www.bls.gov/oes/current/oes533032.htm" target="_blank" style="color:var(--green);text-decoration:none">bls.gov</a></div>'+
     '<div style="margin-top:1.25rem;display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap">'+
     '<button class="btn btn-g btn-sm" onclick="go(\'discover\')"><i class="fas fa-fire"></i> See Who\'s Hiring</button>'+
     '<button class="btn btn-ghost btn-sm" onclick="go(\'profile\')"><i class="fas fa-id-card"></i> Build My Profile</button>'+
@@ -1231,7 +1269,8 @@ function stars(r){return '<span class="stars">'+'&#9733;'.repeat(Math.floor(r))+
 function kf(n){return '$'+(n/1000).toFixed(0)+'K'}
 
 function companyHTML(c){
-  return '<div class="scard-head"><div class="scard-logo">'+c.logo+'</div><div><div class="scard-title">'+c.name+'</div><div class="scard-rating">'+stars(c.r)+' '+c.r+' ('+c.rev+' reviews)</div>'+(c.badge?'<span class="badge badge-g" style="margin-top:3px">'+c.badge+'</span>':'')+'</div></div>'+
+  var badgeHTML = c.badge==='Sample' ? '<span style="display:inline-block;margin-top:3px;padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:700;background:rgba(245,158,11,.1);color:#f59e0b;border:1px solid rgba(245,158,11,.2)">SAMPLE LISTING</span>' : (c.badge?'<span class="badge badge-g" style="margin-top:3px">'+c.badge+'</span>':'');
+  return '<div class="scard-head"><div class="scard-logo">'+c.logo+'</div><div><div class="scard-title">'+c.name+'</div><div class="scard-rating">'+stars(c.r)+' '+c.r+' ('+c.rev+' reviews)</div>'+badgeHTML+'</div></div>'+
   '<div class="scard-body">'+
   '<div class="scard-row"><div class="scard-lbl">Position</div><div class="scard-val">'+c.job+'</div></div>'+
   '<div class="scard-row"><div class="scard-lbl">Annual Pay</div><div class="scard-val" style="color:var(--green)">'+kf(c.payMin)+' - '+kf(c.payMax)+'</div></div>'+
@@ -1303,6 +1342,34 @@ function matchHTML(logo,name,det,r){
   return '<div class="match"><div class="match-av">'+logo+'</div><div class="match-body"><div class="match-name">'+name+'</div><div class="match-det">'+det+'</div><div class="match-bar"><span>Match:</span><div class="mbar"><div class="mbar-f" style="width:'+pct+'%"></div></div><span>'+pct+'%</span></div><div class="match-btns"><button class="btn btn-g btn-sm"><i class="fas fa-envelope"></i> Message</button><button class="btn btn-o btn-sm"><i class="fas fa-info-circle"></i> Details</button></div></div></div>';
 }
 
+// ===== NEWS FEED RENDERER =====
+function renderNewsSection(){
+  var targets = [document.getElementById('news-feed'), document.getElementById('home-news-feed')];
+  targets.forEach(function(feedEl){
+    if(!feedEl) return;
+    if(newsHeadlines.length === 0){
+      feedEl.innerHTML = '<div style="text-align:center;padding:1rem;color:var(--txt3)"><i class="fas fa-wifi" style="opacity:.4;display:block;font-size:1.2rem;margin-bottom:.4rem"></i>Unable to load news. Check your connection.</div>';
+      return;
+    }
+    var max = feedEl.id === 'home-news-feed' ? 5 : 10;
+    var h = '';
+    newsHeadlines.slice(0, max).forEach(function(item){
+      var dateStr = '';
+      if(item.date){
+        try { var d=new Date(item.date); dateStr=d.toLocaleDateString('en-US',{month:'short',day:'numeric'}); } catch(e){}
+      }
+      h += '<a href="'+item.link+'" target="_blank" rel="noopener" style="display:block;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04);text-decoration:none;color:inherit;transition:background .15s" onmouseover="this.style.background=\'rgba(0,255,136,.03)\'" onmouseout="this.style.background=\'transparent\'">';
+      h += '<div style="display:flex;align-items:flex-start;gap:.5rem">';
+      h += '<i class="fas fa-chevron-right" style="color:var(--green);font-size:.55rem;margin-top:.3rem;flex-shrink:0"></i>';
+      h += '<div style="flex:1;min-width:0">';
+      h += '<div style="font-size:.82rem;color:#e2e8f0;font-weight:600;line-height:1.3">'+item.title+'</div>';
+      h += '<div style="font-size:.68rem;color:#64748b;margin-top:.12rem">'+item.source+(dateStr?' &middot; '+dateStr:'')+'</div>';
+      h += '</div></div></a>';
+    });
+    feedEl.innerHTML = h;
+  });
+}
+
 // ===== TRIVIA =====
 function loadTrivia(){
   var t = TRIVIA[S.triviaIdx % TRIVIA.length];
@@ -1370,27 +1437,22 @@ function rotateCB(){
   document.getElementById('cb-msg').textContent = msg;
 }
 
-// ===== SOCIAL PROOF ANIMATION =====
+// ===== BENCHMARK COUNTER (real usage tracking) =====
+var benchCount = parseInt(localStorage.getItem('dl-bench-count') || '0');
 function animateSocial(){
-  var nums = [2847,3102,2954,3211,2763,3089,2891];
-  var n = nums[Math.floor(Math.random()*nums.length)];
-  document.getElementById('social-proof').textContent = n.toLocaleString() + ' drivers checked their worth this week';
+  var el = document.getElementById('bench-count');
+  if(el) el.textContent = benchCount.toLocaleString();
+}
+function incrementBenchCount(){
+  benchCount++;
+  localStorage.setItem('dl-bench-count', benchCount);
+  animateSocial();
 }
 
 // ===== PROFILE VIEW TRACKER =====
-var PROFILE_VIEWERS = [
-  {name:'Gulf Coast Fuel Transport',logo:'GC',color:'#f59e0b',role:'Hiring Manager',time:'2 hours ago',isNew:true},
-  {name:'Brenntag Chemical',logo:'BC',color:'#3b82f6',role:'Fleet Recruiter',time:'5 hours ago',isNew:true},
-  {name:'Quality Carriers',logo:'QC',color:'#8b5cf6',role:'Regional Ops Manager',time:'Yesterday',isNew:false},
-  {name:'Schneider Bulk',logo:'SB',color:'#10b981',role:'Talent Acquisition',time:'Yesterday',isNew:false},
-  {name:'Sunoco LP',logo:'SU',color:'#ec4899',role:'Driver Recruiter',time:'2 days ago',isNew:false},
-  {name:'Hi-Crush Partners',logo:'HC',color:'#f97316',role:'Permian Basin Ops',time:'3 days ago',isNew:false},
-  {name:'Martin Marietta',logo:'MM',color:'#06b6d4',role:'HR Director',time:'4 days ago',isNew:false},
-  {name:'AmeriGas Partners',logo:'AG',color:'#eab308',role:'Southeast Recruiter',time:'5 days ago',isNew:false},
-];
-
-// Simulated weekly view data (last 7 days)
-var WEEKLY_VIEWS = [3, 5, 2, 7, 4, 8, 6];
+// Real profile views will come from Supabase analytics (coming soon)
+var PROFILE_VIEWERS = [];
+var WEEKLY_VIEWS = [0, 0, 0, 0, 0, 0, 0];
 var DAY_LABELS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
 function renderProfileViews(){
@@ -1399,105 +1461,73 @@ function renderProfileViews(){
   var countEl = document.getElementById('view-count-badge');
   if(!listEl) return;
 
-  // Simulate slowly growing view count
-  var baseViews = parseInt(localStorage.getItem('dl-profile-views') || '47');
-  baseViews += Math.floor(Math.random()*3);
-  localStorage.setItem('dl-profile-views', baseViews);
-  var newViews = PROFILE_VIEWERS.filter(function(v){return v.isNew}).length;
-
-  countEl.innerHTML = baseViews + ' views this month' + (newViews > 0 ? ' <span style="color:#ff4757;margin-left:.2rem">(' + newViews + ' new)</span>' : '');
-
-  // Render viewer list (show 5, blur the rest for upgrade tease)
-  var h = '';
-  PROFILE_VIEWERS.slice(0, 5).forEach(function(v, i){
-    h += '<div class="pv-item">' +
-      '<div class="pv-logo" style="background:linear-gradient(135deg,' + v.color + ',' + v.color + 'cc)">' + v.logo + '</div>' +
-      '<div class="pv-info">' +
-        '<div class="pv-name">' + (v.isNew ? '<span class="pv-new"></span>' : '') + v.name + '</div>' +
-        '<div class="pv-detail">' + v.role + '</div>' +
-      '</div>' +
-      '<div class="pv-time">' + v.time + '</div>' +
-    '</div>';
-  });
-  // Blurred teaser rows
-  h += '<div style="position:relative;overflow:hidden;border-radius:6px;margin-top:.3rem">';
-  h += '<div style="filter:blur(4px);opacity:.4;pointer-events:none">';
-  PROFILE_VIEWERS.slice(5, 7).forEach(function(v){
-    h += '<div class="pv-item">' +
-      '<div class="pv-logo" style="background:' + v.color + '">' + v.logo + '</div>' +
-      '<div class="pv-info"><div class="pv-name">' + v.name + '</div><div class="pv-detail">' + v.role + '</div></div>' +
-      '<div class="pv-time">' + v.time + '</div></div>';
-  });
-  h += '</div>';
-  h += '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(11,15,26,.5)"><span style="font-size:.78rem;color:var(--green);font-weight:600;cursor:pointer" onclick="go(\'pricing\')"><i class="fas fa-lock" style="margin-right:.3rem"></i> +' + (PROFILE_VIEWERS.length - 5) + ' more viewers</span></div>';
-  h += '</div>';
-  listEl.innerHTML = h;
-
-  // Weekly views mini chart
-  var maxV = Math.max.apply(null, WEEKLY_VIEWS);
-  var ch = '<div style="font-size:.72rem;font-weight:600;color:var(--txt3);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em"><i class="fas fa-chart-line" style="color:var(--green);margin-right:.2rem"></i> Views This Week — ' + WEEKLY_VIEWS.reduce(function(a,b){return a+b},0) + ' total</div>';
-  WEEKLY_VIEWS.forEach(function(v, i){
-    var pct = maxV > 0 ? Math.round(v / maxV * 100) : 0;
-    var isToday = i === WEEKLY_VIEWS.length - 1;
-    ch += '<div class="pv-bar-wrap">' +
-      '<div class="pv-bar-label"' + (isToday ? ' style="color:var(--green);font-weight:600"' : '') + '>' + DAY_LABELS[i] + '</div>' +
-      '<div class="pv-bar-track"><div class="pv-bar-fill" style="width:' + pct + '%;' + (isToday ? 'background:var(--green);box-shadow:0 0 8px rgba(0,255,136,.3)' : 'background:rgba(0,255,136,.4)') + '"></div></div>' +
-      '<div class="pv-bar-val"' + (isToday ? ' style="color:var(--green);font-weight:600"' : '') + '>' + v + '</div>' +
-    '</div>';
-  });
-  chartEl.innerHTML = ch;
+  // Real views will come from Supabase analytics
+  countEl.innerHTML = '0 views this month';
+  listEl.innerHTML = '<div style="text-align:center;padding:1.5rem;color:var(--txt3);font-size:.82rem"><i class="fas fa-eye-slash" style="font-size:1.3rem;display:block;margin-bottom:.5rem;opacity:.5"></i>Profile view tracking coming soon.<br>Complete your profile to get noticed by companies.</div>';
+  chartEl.innerHTML = '';
 }
 
-// Slowly add "new" viewers over time for dopamine hits
-setInterval(function(){
-  if(Math.random() < 0.3) {
-    var companies = ['TransAm Trucking','Kenan Advantage','Trimac','Ruan Transport','Targa Resources','NGL Energy'];
-    var logos = ['TA','KA','TR','RT','TG','NE'];
-    var colors = ['#f59e0b','#3b82f6','#a855f7','#10b981','#ec4899','#06b6d4'];
-    var roles = ['Recruiter','Fleet Manager','HR Director','Ops Manager','Talent Lead'];
-    var idx = Math.floor(Math.random()*companies.length);
-    var newViewer = {name:companies[idx],logo:logos[idx],color:colors[idx],role:roles[Math.floor(Math.random()*roles.length)],time:'Just now',isNew:true};
-    PROFILE_VIEWERS.unshift(newViewer);
-    if(PROFILE_VIEWERS.length > 12) PROFILE_VIEWERS.pop();
-    WEEKLY_VIEWS[WEEKLY_VIEWS.length-1]++;
-    // Only re-render if profile screen is visible
-    if(document.getElementById('profile').classList.contains('on')) renderProfileViews();
-    // Show a subtle notification
-    var tick=document.createElement('div');
-    tick.style.cssText='position:fixed;bottom:12px;right:12px;padding:.5rem .85rem;background:rgba(17,24,39,.92);backdrop-filter:blur(8px);border:1px solid rgba(0,255,136,.15);border-radius:8px;font-size:.75rem;color:#94a3b8;z-index:800;animation:tickIn .4s ease,tickOut .4s ease 3s forwards;display:flex;align-items:center;gap:.4rem';
-    tick.innerHTML='<i class="fas fa-eye" style="color:var(--green)"></i> <strong style="color:var(--green)">'+newViewer.name+'</strong> just viewed your profile';
-    document.body.appendChild(tick);
-    setTimeout(function(){tick.remove()},3800);
-  }
-}, 25000);
+// Fake viewer generation removed — real analytics coming via Supabase
 
-// ===== VIRAL PSYCHOLOGY HOOKS =====
-// 1. LIVE ACTIVITY TICKER — Creates urgency and social proof
-var liveActivities = [
-  'A fuel hauler in Texas just checked their worth',
-  'Schneider Bulk matched with a driver in Ohio',
-  'A HAZMAT driver in PA unlocked Road Captain rank',
-  'Gulf Coast Fuel posted a new $92K position',
-  'Someone from Iowa just signed up',
-  'A chemical driver benchmarked at $98K/yr',
-  'Quality Carriers superliked a 16-year veteran',
-  'A Greenhorn in Georgia just earned Road Runner rank',
-  '3 new HAZMAT positions posted in the last hour',
-  'A propane driver in OK matched with AmeriGas'
-];
+// ===== LIVE INDUSTRY NEWS TICKER =====
+// Shows real headlines from trucking industry RSS feeds
+var newsHeadlines = [];
+var newsTickerIdx = 0;
+
+function fetchIndustryNews(){
+  var feeds = [
+    {url:'https://www.ttnews.com/rss.xml', source:'Transport Topics'},
+    {url:'https://www.overdriveonline.com/feed', source:'Overdrive'}
+  ];
+  feeds.forEach(function(feed){
+    var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(feed.url);
+    fetch(proxyUrl).then(function(r){return r.text()}).then(function(xml){
+      try {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(xml, 'text/xml');
+        var items = doc.querySelectorAll('item');
+        items.forEach(function(item, i){
+          if(i < 8) {
+            var title = item.querySelector('title');
+            var link = item.querySelector('link');
+            var pubDate = item.querySelector('pubDate');
+            if(title) {
+              newsHeadlines.push({
+                title: title.textContent.trim(),
+                link: link ? link.textContent.trim() : '#',
+                date: pubDate ? pubDate.textContent.trim() : '',
+                source: feed.source
+              });
+            }
+          }
+        });
+        // Shuffle headlines for variety
+        newsHeadlines.sort(function(){return Math.random()-0.5});
+        // Also render in Pit Stop if available
+        renderNewsSection();
+      } catch(e){ console.log('RSS parse error:', e); }
+    }).catch(function(e){ console.log('News fetch error:', e); });
+  });
+}
+
 function showLiveActivity(){
+  if(newsHeadlines.length === 0) return;
   var existing=document.querySelector('.live-ticker');if(existing)existing.remove();
-  var msg=liveActivities[Math.floor(Math.random()*liveActivities.length)];
+  var item = newsHeadlines[newsTickerIdx % newsHeadlines.length];
+  newsTickerIdx++;
   var el=document.createElement('div');
   el.className='live-ticker';
-  el.innerHTML='<i class="fas fa-circle" style="font-size:.35rem;color:#00ff88;animation:pulse 1.5s infinite"></i> '+msg+' <span style="color:#475569;font-size:.68rem">&middot; just now</span>';
-  el.style.cssText='position:fixed;bottom:12px;left:12px;padding:.5rem .85rem;background:rgba(17,24,39,.92);backdrop-filter:blur(8px);border:1px solid rgba(0,255,136,.1);border-radius:8px;font-size:.75rem;color:#94a3b8;z-index:800;animation:tickIn .4s ease,tickOut .4s ease 4.5s forwards;max-width:380px;display:flex;align-items:center;gap:.4rem';
+  el.innerHTML='<i class="fas fa-newspaper" style="font-size:.6rem;color:#00ff88"></i> <span style="color:#64748b;font-size:.68rem">'+item.source+':</span> '+item.title.substring(0,80)+(item.title.length>80?'...':'');
+  el.style.cssText='position:fixed;bottom:12px;left:12px;padding:.5rem .85rem;background:rgba(17,24,39,.95);backdrop-filter:blur(8px);border:1px solid rgba(0,255,136,.1);border-radius:8px;font-size:.75rem;color:#cbd5e1;z-index:800;animation:tickIn .4s ease,tickOut .4s ease 5.5s forwards;max-width:440px;display:flex;align-items:center;gap:.4rem;cursor:pointer';
+  el.onclick=function(){window.open(item.link,'_blank')};
   document.body.appendChild(el);
-  setTimeout(function(){el.remove()},5200);
+  setTimeout(function(){el.remove()},6200);
 }
-// Show first one after 6s, then every 18-30s (variable interval = less predictable = more attention)
-setTimeout(showLiveActivity, 6000);
-setInterval(function(){setTimeout(showLiveActivity,Math.random()*12000)}, 22000);
+
+// Fetch news on load, show ticker with real headlines
+fetchIndustryNews();
+setTimeout(function(){showLiveActivity()}, 8000);
+setInterval(function(){setTimeout(showLiveActivity,Math.random()*5000)}, 30000);
 
 // 2. STREAK SYSTEM — Encourages daily return (endowed progress effect)
 var streak=parseInt(localStorage.getItem('dl-streak')||'0');
@@ -1965,10 +1995,5 @@ go = function(s){
 
 <!-- ALPHA FEEDBACK BUTTON -->
 <button class="alpha-feedback-btn" onclick="openFeedbackModal()"><i class="fas fa-comment"></i> Alpha Feedback</button>
-<!-- Supabase Backend -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-client.js"></script>
-<script src="driverlink-backend-wiring.js"></script>
-  <script src="driverlink-auth-ui.js"></script>  <script src="driverlink-profile-editor.js"></script>
 </body>
 </html>
