@@ -1479,34 +1479,34 @@ function fetchIndustryNews(){
     {url:'https://www.ttnews.com/rss.xml', source:'Transport Topics'},
     {url:'https://www.overdriveonline.com/feed', source:'Overdrive'}
   ];
+  var completed = 0;
   feeds.forEach(function(feed){
-    var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(feed.url);
-    fetch(proxyUrl).then(function(r){return r.text()}).then(function(xml){
-      try {
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(xml, 'text/xml');
-        var items = doc.querySelectorAll('item');
-        items.forEach(function(item, i){
-          if(i < 8) {
-            var title = item.querySelector('title');
-            var link = item.querySelector('link');
-            var pubDate = item.querySelector('pubDate');
-            if(title) {
-              newsHeadlines.push({
-                title: title.textContent.trim(),
-                link: link ? link.textContent.trim() : '#',
-                date: pubDate ? pubDate.textContent.trim() : '',
-                source: feed.source
-              });
-            }
-          }
+    // rss2json.com converts RSS to JSON with CORS support (free: 10K req/day)
+    var apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feed.url);
+    fetch(apiUrl).then(function(r){return r.json()}).then(function(data){
+      if(data.status === 'ok' && data.items){
+        data.items.slice(0, 8).forEach(function(item){
+          newsHeadlines.push({
+            title: item.title || '',
+            link: item.link || '#',
+            date: item.pubDate || '',
+            source: feed.source
+          });
         });
-        // Shuffle headlines for variety
-        newsHeadlines.sort(function(){return Math.random()-0.5});
-        // Also render in Pit Stop if available
+      }
+      completed++;
+      if(completed >= feeds.length){
+        // Interleave sources for variety
+        newsHeadlines.sort(function(a,b){
+          return new Date(b.date) - new Date(a.date);
+        });
         renderNewsSection();
-      } catch(e){ console.log('RSS parse error:', e); }
-    }).catch(function(e){ console.log('News fetch error:', e); });
+      }
+    }).catch(function(e){
+      console.log('News fetch error for ' + feed.source + ':', e);
+      completed++;
+      if(completed >= feeds.length) renderNewsSection();
+    });
   });
 }
 
