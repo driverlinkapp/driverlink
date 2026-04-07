@@ -125,7 +125,8 @@ h1 .glow{color:var(--green);text-shadow:0 0 30px rgba(0,255,136,.3)}
     <div class="success" id="success-msg">
       <div class="check"><i class="fas fa-check"></i></div>
       <h3>You're in, driver. 10-4.</h3>
-      <p>We'll send you access within 24 hours. Watch your inbox.</p>
+      <p>Your alpha access is ready right now. Jump straight in.</p>
+      <a href="driverlink-app.html" class="btn btn-g" style="margin-top:1rem;text-decoration:none;display:inline-flex"><i class="fas fa-arrow-right"></i> Launch DriverLink App</a>
     </div>
   </div>
 
@@ -142,11 +143,27 @@ h1 .glow{color:var(--green);text-shadow:0 0 30px rgba(0,255,136,.3)}
 </div>
 
 <script>
-// Spots counter animation
+var SUPABASE_URL = 'https://xnjbjfjvrosrowbhsyrl.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhuamJqZmp2cm9zcm93YmhzeXJsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NDE5MDIsImV4cCI6MjA5MDIxNzkwMn0.thEqj6Kd4UXmxMFyGRRz0lqu6cZhVBTff0jkan9GdAs';
+
 var spotsEl = document.getElementById('spots-left');
-var saved = JSON.parse(localStorage.getItem('dl-alpha-signups') || '[]');
-var spotsUsed = saved.length;
-spotsEl.textContent = Math.max(0, 50 - spotsUsed);
+
+// Load real spots count from Supabase
+function loadSpotsCount() {
+  fetch(SUPABASE_URL + '/rest/v1/alpha_signups?select=id', {
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (Array.isArray(data)) {
+      spotsEl.textContent = Math.max(0, 50 - data.length);
+    }
+  })
+  .catch(function() {
+    spotsEl.textContent = '50';
+  });
+}
+loadSpotsCount();
 
 function handleSubmit(e) {
   e.preventDefault();
@@ -158,24 +175,68 @@ function handleSubmit(e) {
 
   if (!name || !email || !role) return;
 
-  var entry = {
-    name: name,
+  var btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+  // Supabase payload — all columns now confirmed in schema
+  var dbEntry = {
+    full_name: name,
     email: email,
-    phone: phone,
+    phone: phone || null,
     role: role,
-    specialty: spec,
-    timestamp: new Date().toISOString()
+    specialty: spec || null
   };
 
-  var existing = JSON.parse(localStorage.getItem('dl-alpha-signups') || '[]');
-  existing.push(entry);
-  localStorage.setItem('dl-alpha-signups', JSON.stringify(existing));
+  // Full entry for localStorage backup
+  var fullEntry = {
+    full_name: name,
+    email: email,
+    phone: phone || null,
+    role: role,
+    specialty: spec || null,
+    signed_up_at: new Date().toISOString()
+  };
 
-  // Show success
-  document.getElementById('alpha-form').style.display = 'none';
-  document.getElementById('success-msg').style.display = 'block';
-  spotsEl.textContent = Math.max(0, 50 - existing.length);
+  // Save to Supabase
+  fetch(SUPABASE_URL + '/rest/v1/alpha_signups', {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify(dbEntry)
+  })
+  .then(function(res) {
+    if (res.ok || res.status === 201) {
+      document.getElementById('alpha-form').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+      loadSpotsCount();
+    } else {
+      return res.json().then(function(err) {
+        if (err.message && err.message.indexOf('duplicate') !== -1) {
+          document.getElementById('alpha-form').style.display = 'none';
+          document.getElementById('success-msg').style.display = 'block';
+          document.querySelector('#success-msg h3').textContent = "You're already on the list!";
+        } else {
+          throw new Error(err.message || 'Signup failed');
+        }
+      });
+    }
+  })
+  .catch(function(err) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-rocket"></i> Request Alpha Access';
+    alert('Something went wrong. Please try again. (' + err.message + ')');
+  });
+
+  // Also keep localStorage as backup (full entry with name/phone)
+  var existing = JSON.parse(localStorage.getItem('dl-alpha-signups') || '[]');
+  existing.push(fullEntry);
+  localStorage.setItem('dl-alpha-signups', JSON.stringify(existing));
 }
 </script>
 </body>
-</html>
+            </html>
